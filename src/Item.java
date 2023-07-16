@@ -8,7 +8,6 @@ public class Item {
     private String name;
     private int price;
     private float calories;
-    private int quantity = 0;
 
     /*
      * creates an Item object given the name of the item, its price, amount of calories, and quantity. 
@@ -22,7 +21,6 @@ public class Item {
         this.name = name;
         this.price = price;
         this.calories = calories;
-        this.quantity = quantity;
     }
 
     /*
@@ -33,23 +31,6 @@ public class Item {
     public void setPrice(int price) {
         this.price = price;
     } 
-
-    /*
-     * sets the quantity of the item
-     * @param quantity the quantity of the item
-     */
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    /*
-     * sells item from the vending machine by decrementing the quantity of items
-     * @param quantity the quantity of the chosen item 
-     */
-
-    public void sellItem (int quantity) {
-        this.quantity -= quantity;
-    }
 
     /* 
      * returns the name of the chosen item 
@@ -78,12 +59,4 @@ public class Item {
         return calories;
     }
 
-    /* 
-     * returns the quantity of the chosen item 
-     * @return the quantity of the chosen item 
-     */
-
-    public int getQuantity() {
-        return quantity;
-    }
 }

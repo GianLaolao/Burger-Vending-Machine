@@ -7,22 +7,10 @@ import java.util.*;
 
 public class VendingMachine {
     
-    private RegularVendo regular = null;
+    private ArrayList<ArrayList<Item>> items = new ArrayList<>();
     private ArrayList<Record> records = new ArrayList<>();
     private MoneyBox vendoMoney = new MoneyBox();
     private MoneyBox userMoney = new MoneyBox();
-
-/*
- * creates a regular vending machine 
- */
-    public boolean createRegularVendo() {
-        this.regular = new RegularVendo();
-
-        if(this.regular != null)
-            return true;
-        
-        return false;
-    }
 
 /* 
  * takes payment from the user 
@@ -52,43 +40,13 @@ public class VendingMachine {
         }
     }
 
-/* 
- * dispenses item to the user 
- * @param slot the slot of the selected item 
- * @param quantity the quantity of the selected item 
- */
 
-    public Item dispenseItem(int slot, int quantity) {
-
-        Item bought = regular.dispenseItem(slot, quantity);
-        Record record = getItemRecord(bought);
-        
-        if (bought != null && record != null) {
-
-            record.setSold(record.getSold() + quantity);
-            record.setSoldAmount(quantity);
-            return bought;
-            
-        }
-
-        return null;
-    }
-    
-/* 
- * adds item to the vending machine 
- * @param name the name of the item 
- * @param price the price of the item 
- * @param calories the amount of calories of the item 
- * @param quantity the quantity of the item 
- */
 
     public boolean addItem(String name, int price, float calories, int quantity) { 
         
-        Item item = new Item(name, price, calories, quantity);
-        Record record = new Record(item);
-        records.add(record);
+        //TODO
 
-        return regular.addItem(item);
+        return false;
     }
 
 /* 
@@ -98,11 +56,7 @@ public class VendingMachine {
 
     public boolean removeItem(int slot) { 
 
-        if (regular.getItem(slot) != null) {
-            regular.removeItem(slot);
-            records.remove(slot);
-            return true;
-        }   
+        //TODO
         
         return false;
     }
@@ -114,19 +68,9 @@ public class VendingMachine {
  */
 
     public boolean restockItem(int quantity, int slot) {
-        
-        Item item = regular.getItem(slot);
-        Record itemRecord = getItemRecord(item);
-
-        if (10 - item.getQuantity() >= quantity) {
-            regular.restockItem(quantity, item);
-            itemRecord.setStartingInventory();
-            itemRecord.setSold(0);
-            itemRecord.resetSoldAmount();
-
-            return true;
-        }
-            
+    
+        //TODO
+    
         return false;
     }
 
@@ -138,12 +82,7 @@ public class VendingMachine {
 
     public boolean setItemPrice(int price, int slot){
 
-        Item item = regular.getItem(slot);
-
-        if(item != null) {
-            regular.setItemPrice(price, slot);
-            return true;
-        }
+       //TODO
            
         return false;
     }
@@ -156,6 +95,7 @@ public class VendingMachine {
 
     public void addMoney(int quantity, int type) {
         
+    //TODO modify
          switch(type){
             case 1:
                 vendoMoney.setOnePeso(vendoMoney.getOnePeso().getQuantity() + quantity);
@@ -186,12 +126,13 @@ public class VendingMachine {
 
     public boolean checkUserMoney(int slot, int quantity) {
 
-        Item item = regular.getItem(slot);
-        int price = item.getPrice() * quantity;
+        //TODO
+        // Item item = regular.getItem(slot);
+        // int price = item.getPrice() * quantity;
 
-        if (price > userMoney.getTotal()){
-            return false;
-        }
+        // if (price > userMoney.getTotal()){
+        //     return false;
+        // }
 
         return true;
     }
@@ -204,8 +145,10 @@ public class VendingMachine {
 
     public MoneyBox produceChange(int slot, int quantity) {
 
+        //TODO modify
+
         MoneyBox changeBox = new MoneyBox(); 
-        Item item = regular.getItem(slot);
+        // Item item = regular.getItem(slot);
         int change = userMoney.getTotal() - (item.getPrice() * quantity);
 
         if(change > vendoMoney.getTotal()) {
@@ -346,9 +289,6 @@ public class VendingMachine {
         return profit;
     }
    
-    public RegularVendo getRegular() { 
-        return regular; //returns the regular vending machine created by the user
-    }
     public MoneyBox getVendoMoney() {
         return vendoMoney; //returns the available vending machine money
     }
