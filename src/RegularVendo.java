@@ -5,8 +5,10 @@
 import java.util.*;
 
 public class RegularVendo extends VendingMachine{
+
     //can hold item instances
-      protected ArrayList<Record> records = new ArrayList<>();
+    protected Item itemStock[] = new Item[8]; //accepts ArrayList of Item
+    protected ArrayList<Record> records = new ArrayList<>();
 
 
 

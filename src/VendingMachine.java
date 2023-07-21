@@ -7,7 +7,7 @@ import java.util.*;
 
 public class VendingMachine {
     
-    protected ArrayList<Item> itemInfos = new ArrayList<>(); //can be changed to Items 
+    protected Item itemInfos[] = new Item[8]; //can be changed to Items 
   
     protected MoneyCalc moneyCalc = new MoneyCalc();
 
