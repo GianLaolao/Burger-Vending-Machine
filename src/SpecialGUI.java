@@ -4,5 +4,5 @@ import java.awt.*;
 
 public class SpecialGUI {
 
-    
+    //can hold item instances
 }
