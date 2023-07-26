@@ -7,42 +7,37 @@ import java.util.*;
 public class RegularVendo extends VendingMachine{
 
     //can hold item instances
-    protected Item itemStock[] = new Item[8]; //accepts ArrayList of Item
-    protected ArrayList<Record> records = new ArrayList<>();
-
-
+    protected static Item itemStock[] = new Item[8]; //accepts ArrayList of Item
+    protected static Record records[] = new Record[8];
 
     //TODO
+    public Item dispenseItem(int slot) {
 
 
-
-
-       /* 
-     * returns the records of an item 
-     * @param item the item selected by the user for its records
-     */
-
-     
-
-
-    public Record getItemRecord(Item item) {
-
-        for (int i = 0; i < records.size(); i++){
-            if (records.get(i).getItem().getName().contains(item.getName()))
-                return records.get(i);
-        }
-        return null;
+        return itemStock[0].get(0);
     }
 
-    public ArrayList<Record> getRecords() {
+    
+
+
+    public Record[] getRecords() {
         return records; //returns the vending machine records
     }
-    
+
+    /* 
+     * returns the records of an item 
+     * @param 
+     */
+    public Record getItemRecord(int slot) {
+
+        return records[slot];
+    }
+
     public int getTotalSales() {
 
         int totalSales = 0;
-        for(int i = 0; i < records.size(); i++) {
-            totalSales += (records.get(i).getSoldAmount());
+        for(int i = 0; i < records.length; i++) {
+            totalSales += (records[i].getSoldAmount());
         }
 
         return totalSales;
