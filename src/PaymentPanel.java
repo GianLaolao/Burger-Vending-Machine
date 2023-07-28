@@ -7,7 +7,7 @@ public class PaymentPanel extends JPanel implements ActionListener {
     JButton one, five, ten, twenty, fifty, hundred, twoHun, fiveHun, thou;
     JButton moneyButton[] = new JButton[9];
     JTextField payment;
-
+    
     JButton cancel;
 
     Font font1 = new Font("Monospaced Bold", Font.BOLD, 20);
@@ -34,9 +34,9 @@ public class PaymentPanel extends JPanel implements ActionListener {
         moneyButton[7] = fiveHun = new JButton("500");
         moneyButton[8] = thou = new JButton("1000");
 
-        this.setLayout(new GridLayout(3, 3, 2, 2));
-        this.setBounds(475, 420, 220, 220);
-        this.setBackground(Color.LIGHT_GRAY);
+        setLayout(new GridLayout(3, 3, 2, 2));
+        setBounds(35, 380, 220, 220);
+        setBackground(Color.LIGHT_GRAY);
 
         for(int i = 0; i < 9; i++) {
             moneyButton[i].setBounds(0, 0, 50, 50);
@@ -50,8 +50,7 @@ public class PaymentPanel extends JPanel implements ActionListener {
         }
     }
 
-
-
+    
     public void actionPerformed(ActionEvent e) {
     
         if (e.getSource() == one){

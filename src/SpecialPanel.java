@@ -226,9 +226,10 @@ public class SpecialPanel extends JPanel implements ActionListener, ItemListener
         tomato.setFocusable(false);
         tomato.setBackground(Color.white);
 
-        setBounds(30, 10, 400, 720);
+        setBounds(20, 10, 400, 720);
         setBackground(Color.WHITE);
         setLayout(null);
+        setBorder(BorderFactory.createLoweredBevelBorder());
         add(b);
         add(m);
         add(c);

@@ -61,7 +61,13 @@ public abstract class VendingMachine {
         return false;
     }
 
+    public static Item[] getSellableInfos() {
+        return sellableInfos;
+    }
 
+    public static Item[] getNonSellable() {
+        return nonSellable;
+    }
 
 
 

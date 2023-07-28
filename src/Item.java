@@ -17,7 +17,7 @@ public class Item {
      * @param quantity the quantity of the item
      */
 
-    public Item (String name, int price, float calories, int quantity) {
+    public Item (String name, int price, float calories) {
         this.name = name;
         this.price = price;
         this.calories = calories;

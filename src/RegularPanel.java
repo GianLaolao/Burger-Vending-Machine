@@ -38,8 +38,10 @@ public class RegularPanel extends JPanel implements ActionListener{
         itemPanel[7] = pSlot8 = new JPanel();
 
         setLayout(new GridLayout(4, 2,10,10));
-        setBounds(30, 30, 400, 700);
+        setBounds(20, 30, 400, 700);
         setBackground(Color.LIGHT_GRAY);
+        setBorder(BorderFactory.createLoweredBevelBorder());
+
 
         for(int i = 0; i < 8; i++) {
             itemPanel[i].setLayout(null);
