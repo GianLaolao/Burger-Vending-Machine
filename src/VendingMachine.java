@@ -8,7 +8,7 @@ import java.util.*;
 public abstract class VendingMachine {
     
     protected static Item sellableInfos[] = new Item[10]; //can be changed to Items 
-    protected static Item nonSellable[] = new Item[8];
+    protected static Item nonSellableInfos[] = new Item[8];
     protected static MoneyCalc moneyCalc = new MoneyCalc();
 
 
@@ -66,7 +66,7 @@ public abstract class VendingMachine {
     }
 
     public static Item[] getNonSellable() {
-        return nonSellable;
+        return nonSellableInfos;
     }
 
 

@@ -1,10 +1,31 @@
-3
-Test1
 10
-6.90
-Test2
+Sesamee Seed Bun
+0
+1
+Wheat Bun
+0
+2
+Brioche Bun
+0
+3
+Beef Patty
+0
+4
+Vegan Patty
+0
 5
-8.0
-Test3
-5
-1.0
+Chicken Fillet
+0
+6
+Bacon Strips
+0
+7
+Ham
+0
+8
+Egg
+0
+9
+Sausage
+0
+10

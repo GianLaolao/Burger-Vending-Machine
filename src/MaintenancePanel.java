@@ -54,7 +54,6 @@ public class MaintenancePanel extends JPanel implements ActionListener, ChangeLi
      * use CardLayout
      */
 
-
     public MaintenancePanel(VendingMachine reg, VendingMachine spec) {
 
         this.reg = reg;
@@ -86,14 +85,14 @@ public class MaintenancePanel extends JPanel implements ActionListener, ChangeLi
 
         for (int i = 0; i < 10; i++) {
                 
-            JLabel name = new JLabel("Item " + (i+1));
-            name.setBounds(20, 60+(50*i), 100, 30);
+            JLabel name = new JLabel(VendingMachine.sellableInfos[i].getName());
+            name.setBounds(20, 60+(50*i), 200, 30);
             name.setBackground(Color.LIGHT_GRAY);
             name.setFont(font2);
 
             SpinnerModel value = new SpinnerNumberModel(0, 0, 10, 1);
             JSpinner spinner = new JSpinner(value);       
-            spinner.setBounds(170, 60+(50*i), 60, 30);
+            spinner.setBounds(190, 60+(50*i), 60, 30);
             spinner.setFocusable(false);
             spinner.addChangeListener(this);
             spinner.setEditor(new JSpinner.DefaultEditor(spinner)); 
@@ -104,7 +103,7 @@ public class MaintenancePanel extends JPanel implements ActionListener, ChangeLi
             sellSpinners[i] = spinner;
             
             JButton restock = new JButton("Restock");
-            restock.setBounds(250, 60+(50*i), 100 , 30);
+            restock.setBounds(270, 60+(50*i), 100 , 30);
             restock.setFocusable(false);
             restock.setBorder(BorderFactory.createRaisedBevelBorder());
             restock.setBackground(Color.DARK_GRAY);
@@ -120,6 +119,7 @@ public class MaintenancePanel extends JPanel implements ActionListener, ChangeLi
             php.setFont(font2);
 
             JTextField newPr = new JTextField();
+            newPr.setText(Integer.toString(VendingMachine.sellableInfos[i].getPrice()));
             newPr.setBounds(460, 60+(50*i), 100, 30);
             newPr.setBackground(Color.LIGHT_GRAY);
             newPr.setHorizontalAlignment(JTextField.CENTER);
@@ -162,7 +162,7 @@ public class MaintenancePanel extends JPanel implements ActionListener, ChangeLi
 
         for (int i = 0; i < 8; i++) {
 
-            JLabel name = new JLabel("Slot " + (i+1));
+            JLabel name = new JLabel(VendingMachine.nonSellableInfos[i].getName());
             name.setBounds(20, 50+(40*i), 100, 30);
             name.setBackground(Color.LIGHT_GRAY);
             name.setFont(font2);
@@ -196,6 +196,7 @@ public class MaintenancePanel extends JPanel implements ActionListener, ChangeLi
             php.setFont(font2);
 
             JTextField newPr = new JTextField();
+            newPr.setText(Integer.toString(VendingMachine.nonSellableInfos[i].getPrice()));
             newPr.setBounds(460, 50+(40*i), 100, 30);
             newPr.setBackground(Color.LIGHT_GRAY);
             newPr.setHorizontalAlignment(JTextField.CENTER);
@@ -401,7 +402,12 @@ public class MaintenancePanel extends JPanel implements ActionListener, ChangeLi
 
         slotPanel.add(lSlot);
 
-        String[] sellableItems = {"Item 1","Item 2", "Item 3", "Item 4"};
+        String[] sellableItems = new String[11];
+        sellableItems[0] = "Empty";
+
+        for(int i = 1; i <= 10; i++) {
+            sellableItems[i] = VendingMachine.sellableInfos[i-1].getName();
+        }
 
         for (int i = 0; i < 8; i++) {
 
@@ -411,7 +417,7 @@ public class MaintenancePanel extends JPanel implements ActionListener, ChangeLi
             slot.setFont(font2);
 
             JComboBox items = new JComboBox(sellableItems);
-            items.setBounds(140, 80+(50*i), 150, 30);
+            items.setBounds(120, 80+(50*i), 200, 30);
             items.setFont(font2);
             items.setEditable(false);
             items.setFocusable(false);
@@ -518,6 +524,9 @@ public class MaintenancePanel extends JPanel implements ActionListener, ChangeLi
         }
         if (e.getSource() == monSlo){
              mainteCardLayout.show(mainteCard, "MonSlo");
+        }
+        if (e.getSource() == regularB || e.getSource() == specB) {
+            mainteCardLayout.show(mainteCard, "MonSlo");
         }
       
     }
