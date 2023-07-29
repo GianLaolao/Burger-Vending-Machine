@@ -528,6 +528,12 @@ public class MaintenancePanel extends JPanel implements ActionListener, ChangeLi
         if (e.getSource() == regularB || e.getSource() == specB) {
             mainteCardLayout.show(mainteCard, "MonSlo");
         }
+        if (e.getSource() == collectB) {
+
+        }
+        if (e.getSource() == recordB) {
+            
+        }
       
     }
 

@@ -5,7 +5,8 @@ import java.awt.*;
 public class VendoGUI extends JFrame implements ActionListener{
     
     JFrame frame;
-    ImageIcon iconReg = new ImageIcon("../ImageFolder/vendo.png");
+    ImageIcon iconReg = new ImageIcon("../");
+    // ImageIcon iconReg = new ImageIcon("D:\\Gian\\DLSU\\Codes\\CCProg3\\MCO2\\ImageFolder\\vendo.png");
     ImageIcon iconBurg = new ImageIcon("../ImageFolder/burger.png");
     ImageIcon iconWrench =  new ImageIcon("../ImageFolder/mainte.png");
 
@@ -170,11 +171,11 @@ public class VendoGUI extends JFrame implements ActionListener{
             frame.remove(regular);
             cardLayout.show(card, "Regular");
             frame.add(special);
-            frame.setIconImage(iconReg.getImage());
 
             frame.revalidate();
             frame.repaint();
 
+            frame.setIconImage(iconReg.getImage());
         }
         if (e.getSource() == special) {
             
@@ -185,11 +186,11 @@ public class VendoGUI extends JFrame implements ActionListener{
             frame.remove(special);
             cardLayout.show(card, "Special");
             frame.add(regular);
-            frame.setIconImage(iconBurg.getImage());
 
             frame.revalidate();
             frame.repaint();
 
+            frame.setIconImage(iconBurg.getImage());
         }
         if (e.getSource() == maintePanel.regularB){
            
@@ -206,6 +207,8 @@ public class VendoGUI extends JFrame implements ActionListener{
 
             frame.revalidate();
             frame.repaint();
+
+            frame.setIconImage(iconReg.getImage());
         }
         if (e.getSource() == maintePanel.specB) {
     
@@ -223,11 +226,12 @@ public class VendoGUI extends JFrame implements ActionListener{
             
             frame.revalidate();
             frame.repaint();
+
+            frame.setIconImage(iconBurg.getImage());
         }
         if (e.getSource() == mainte){
 
             frame.setTitle("Vending Machine Maintenance");
-            frame.setIconImage(iconWrench.getImage());
             frame.remove(paymentHolder);
 
             if(frame.isAncestorOf(regPanel)) {
@@ -249,11 +253,12 @@ public class VendoGUI extends JFrame implements ActionListener{
             frame.revalidate();
             frame.repaint();
     
+            frame.setIconImage(iconWrench.getImage());
         } 
 
     }
     
     public static void main(String[] args) {
-        new VendoGUI(2);
+        new VendoGUI(1);
     }
 }
