@@ -5,10 +5,9 @@ import java.awt.*;
 public class VendoGUI extends JFrame implements ActionListener{
     
     JFrame frame;
-    ImageIcon iconReg = new ImageIcon("../");
-    // ImageIcon iconReg = new ImageIcon("D:\\Gian\\DLSU\\Codes\\CCProg3\\MCO2\\ImageFolder\\vendo.png");
-    ImageIcon iconBurg = new ImageIcon("../ImageFolder/burger.png");
-    ImageIcon iconWrench =  new ImageIcon("../ImageFolder/mainte.png");
+    ImageIcon iconReg = new ImageIcon("Images/vendo.png");
+    ImageIcon iconBurg = new ImageIcon("Images/burger.png");
+    ImageIcon iconWrench =  new ImageIcon("Images/mainte.png");
 
     JButton mainte, regular, special, cancel, dispense; 
 
@@ -34,8 +33,8 @@ public class VendoGUI extends JFrame implements ActionListener{
 
     public VendoGUI (int choice){ 
         
-        VendingMachine.sellableInfos = initialize.initialize("CCProg3_MCO2\\src\\ItemSellable.txt");
-        VendingMachine.nonSellableInfos = initialize.initialize("CCProg3_MCO2\\src\\ItemNonSell.txt");
+        VendingMachine.sellableInfos = initialize.initialize("src/ItemSellable.txt");
+        VendingMachine.nonSellableInfos = initialize.initialize("src/ItemNonSell.txt");
 
         frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
