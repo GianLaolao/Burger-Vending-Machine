@@ -1,67 +1,60 @@
 public class MoneyBox {
     //declaration of denominations
-    private Cash onePeso = new Cash(1);
-    private Cash fivePeso = new Cash(5);
-    private Cash tenPeso = new Cash(10);
-    private Cash twentyPeso = new Cash(20);
-    private Cash fiftyPeso = new Cash(50);
-    private Cash hundredPeso = new Cash(100);
+     
+    private Cash[] denominations = new Cash[9];
+     
+    public MoneyBox() {
 
+        Cash onePeso = new Cash(1);
+        Cash fivePeso = new Cash(5);
+        Cash tenPeso = new Cash(10);
+        Cash twentyPeso = new Cash(20);
+        Cash fiftyPeso = new Cash(50);
+        Cash hundredPeso = new Cash(100);
+        Cash twoHundredPeso = new Cash(200);
+        Cash fiveHundredPeso = new Cash(500);
+        Cash thousandPeso = new Cash(1000);
+
+        denominations[0] = onePeso;
+        denominations[1] = fivePeso;
+        denominations[2] = tenPeso;
+        denominations[3] = twentyPeso;
+        denominations[4] = fiftyPeso;
+        denominations[5] = hundredPeso;
+        denominations[6] = twoHundredPeso;
+        denominations[7] = fiveHundredPeso;
+        denominations[8] = thousandPeso;
+    }   
 /*
  * sets the quantity on a specific denomination
  * @param quantity the quantity to be added
  */
-    public void setOnePeso(int quantity) {
-        this.onePeso.setQuantity(quantity);
-    }
-    public void setFivePeso(int quantity) {
-        this.fivePeso.setQuantity(quantity);
-    }
-    public void setTenPeso(int quantity) {
-        this.tenPeso.setQuantity(quantity);
-    }
-    public void setTwentyPeso(int quantity) {
-        this.twentyPeso.setQuantity(quantity);
-    }
-    public void setFiftyPeso(int quantity) {
-        this.fiftyPeso.setQuantity(quantity);
-    }
-    public void setHundredPeso(int quantity) {
-        this.hundredPeso.setQuantity(quantity);
-    }
 
+    public void setDenom(int slot, int quantity) {
+        
+        denominations[slot].setQuantity(quantity +  denominations[slot].getQuantity());
+    }
 /*
  * returns the object of a specific denomination
  */
-    public Cash getOnePeso() {
-        return onePeso;
+    public Cash[] getDenominations() {
+        return denominations;
     }
-    public Cash getFivePeso() {
-        return fivePeso;
+
+    public Cash getCash(int denom) {
+        return denominations[denom];
     }
-    public Cash getTenPeso() {
-        return tenPeso;
-    }
-    public Cash getTwentyPeso() {
-        return twentyPeso;
-    }
-    public Cash getFiftyPeso() {
-        return fiftyPeso;
-    }
-    public Cash getHundredPeso() {
-        return hundredPeso;
-    }
-    
 
 /*
  * returns the total amount of money in the money box
  */
     public int getTotal(){
 
-        int total;
+        int total = 0;
 
-        total = getOnePeso().getTotal() + getFivePeso().getTotal() + getTenPeso().getTotal() 
-                + getTwentyPeso().getTotal() + getFiftyPeso().getTotal() + getHundredPeso().getTotal();
+        for (int i = 0; i < 9; i++) {
+            total += denominations[i].getTotal();
+        }
 
         return total;
     }

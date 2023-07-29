@@ -1,21 +1,67 @@
 
 
 
-
 public class Controller {
     
-    VendingMachine regular = new RegularVendo();
-    VendingMachine special = new SpecialVendo();
+    RegularVendo regular = new RegularVendo();
+    SpecialVendo special = new SpecialVendo();
+    int[] slots = new int[8];
     
+    public void addItem(int slot, int index) { 
+        
+        if (index != -1)
+            RegularVendo.slotsItem[slot] = VendingMachine.sellableItems[index];
+
+    }
+
+/* 
+ * removes item from the vending machine 
+ * @param slot the slot occupied by the item being removed 
+ */
+    public boolean removeItem(int slot) { 
+
+        
+
+        return false;
+    }
+
+/* 
+ * restocks or replaces item of the inventory or vending machine 
+ * @param quantity the quantity of item to be restocked  
+ * @param slot the slot to be occupied for restocking 
+ */
+    public boolean restockItem(int quantity, int slot) {
+    
+        //TODO
+    
+        return false;
+    }
+
+/* 
+ * sets item price  
+ * @param price the set price for the selected item 
+ * @param slot the slot of the item selected 
+ */
+    public void setSellabeItemPrice(int price, int slot){
+
+        VendingMachine.sellableItems[slot].setPrice(price);
+    
+    }
+
+    public void setNonSellabeItemPrice(int price, int slot){
+
+        VendingMachine.nonSellableItems[slot].setPrice(price);
+    }
+
     public Item dispenseItem(int slot) {
 
-        Item bought; 
+        // Item bought; 
 
-        bought = RegularVendo.itemStock.get(slot).get(0);
+        // bought = RegularVendo.itemStock[slot].get(0);
       
-        RegularVendo.itemStock.get(slot).remove(0);
+        // RegularVendo.itemStock[slot].remove(0);
 
-        return bought;
+        return null;
     }
 
     public int getTotalSales() {
@@ -26,5 +72,24 @@ public class Controller {
         }
         
         return totalSales;
+    }
+
+    public Item[] getOrder(int[] order) {
+
+        //TODO
+
+        return null;
+    }
+
+    public void restockNonSellable (int quantity) {
+
+        //TODO
+
+    }
+
+    public void restockSpecialItems (int quantity) {
+
+        //TODO
+
     }
 }

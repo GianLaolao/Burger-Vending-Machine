@@ -7,10 +7,14 @@ import java.util.*;
 public class RegularVendo extends VendingMachine{
 
     //can hold item instances
-    protected static ArrayList<ArrayList<Item>> itemStock = new ArrayList<>(); //accepts ArrayList of Item
+    protected static Item[] slotsItem = new Item[8]; //accepts ArrayList of Item
     protected static Record records[] = new Record[10];
 
     //TODO    
+
+    public static void setRecords(Record[] records) {
+        RegularVendo.records = records;
+    }
 
     public Record[] getRecords() {
         return records; //returns the vending machine records
@@ -24,7 +28,11 @@ public class RegularVendo extends VendingMachine{
         return records[slot];
     }
 
-    public static ArrayList<ArrayList<Item>> getItemStock() {
-        return itemStock;
+    public void setSlot(int slot, Item item) {
+        slotsItem[slot] = item;
+    }
+
+    public static Item[] getSlotsItem() {
+        return slotsItem;
     }
 }

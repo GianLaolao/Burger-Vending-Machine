@@ -21,20 +21,21 @@ public class VendoGUI extends JFrame implements ActionListener{
     JPanel paymentHolder;
     PaymentPanel paymentPanel;
     JTextField payment;
-    JTextField screen;
+    JTextArea screen;
 
-    Font s = new Font("Dialog Plain", Font.PLAIN, 15);
+    Font s = new Font("Dialog Plain", Font.PLAIN, 13);
     Font font1 = new Font("Monospaced Bold", Font.BOLD, 20);
     Font font2 = new Font("Monospaced Bold", Font.BOLD, 15);
  
-    VendingMachine reg = new RegularVendo();
-    VendingMachine spec = new SpecialVendo();
+    // VendingMachine reg = new RegularVendo();
+    // VendingMachine spec = new SpecialVendo();
     Initialize initialize = new Initialize();
+    Controller controller = new Controller();
 
     public VendoGUI (int choice){ 
         
-        VendingMachine.sellableInfos = initialize.initialize("src/ItemSellable.txt");
-        VendingMachine.nonSellableInfos = initialize.initialize("src/ItemNonSell.txt");
+        VendingMachine.sellableItems = initialize.initialize("src/ItemSellable.txt");
+        VendingMachine.nonSellableItems = initialize.initialize("src/ItemNonSell.txt");
 
         frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -48,12 +49,15 @@ public class VendoGUI extends JFrame implements ActionListener{
         paymentHolder.setLayout(null);
         paymentHolder.setBackground(Color.LIGHT_GRAY);
         
-        screen = new JTextField();
+        screen = new JTextArea();
         screen.setBounds(20, 0, 250, 300);
         screen.setEditable(false);
         screen.setFont(s);
         screen.setFocusable(false);
         screen.setBackground(Color.DARK_GRAY);
+        screen.setForeground(Color.WHITE);
+        screen.setText("\t        Order: \n\n");
+        screen.append("  Item\t\t            Price \n");
 
         payment = new JTextField("Php 0.00");
         payment.setBounds(20, 330, 250, 40);
@@ -104,9 +108,9 @@ public class VendoGUI extends JFrame implements ActionListener{
         regular.setBorder(BorderFactory.createRaisedBevelBorder());
         regular.addActionListener(this);
 
-        regPanel = new RegularPanel(cancel, dispense);
-        specPanel = new SpecialPanel(cancel, dispense);
-        maintePanel = new MaintenancePanel(reg, spec);
+        regPanel = new RegularPanel(cancel, dispense, screen);
+        specPanel = new SpecialPanel(cancel, dispense, screen);
+        maintePanel = new MaintenancePanel(controller);
         paymentPanel = new PaymentPanel(payment, cancel);
 
         card = new JPanel(new CardLayout());
@@ -192,7 +196,9 @@ public class VendoGUI extends JFrame implements ActionListener{
             frame.setIconImage(iconBurg.getImage());
         }
         if (e.getSource() == maintePanel.regularB){
-           
+            
+            regPanel.updateSlots();
+
             frame.remove(maintePanel);
 
             frame.revalidate();
@@ -210,7 +216,7 @@ public class VendoGUI extends JFrame implements ActionListener{
             frame.setIconImage(iconReg.getImage());
         }
         if (e.getSource() == maintePanel.specB) {
-    
+            
             frame.remove(maintePanel);
 
             frame.revalidate();
@@ -258,6 +264,11 @@ public class VendoGUI extends JFrame implements ActionListener{
     }
     
     public static void main(String[] args) {
-        new VendoGUI(1);
+        new VendoGUI(2);
     }
 }
+
+//TODO 
+/*
+ * Add Order total Price
+ */

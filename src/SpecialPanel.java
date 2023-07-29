@@ -17,18 +17,21 @@ public class SpecialPanel extends JPanel implements ActionListener, ItemListener
     JRadioButton bacon, egg,  ham, sausage, tomato, lettuce, pickle, onion;
 
     JButton cancel, dispense;
+    JTextArea screen;
 
     Font font1 = new Font("Monospaced Bold", Font.BOLD, 20);
     Font font2 = new Font("Monospaced Bold", Font.BOLD, 15);
  
 
-    SpecialPanel(JButton cancel, JButton dispense) {  
+    SpecialPanel(JButton cancel, JButton dispense, JTextArea screen) {  
 
         this.cancel = cancel;
         cancel.addActionListener(this);
 
         this.dispense = dispense;
         dispense.addActionListener(this);
+
+        this.screen = screen;
 
         b = new JLabel("Choose Bun:");
         b.setBounds(0,0, 400, 20);

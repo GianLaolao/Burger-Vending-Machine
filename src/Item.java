@@ -3,11 +3,14 @@
  * the name of the item, its price, amount of calories, and quantity. 
  */
 
+import java.util.ArrayList;
+
 public class Item {
     //initialize variables 
     private String name;
     private int price;
     private float calories;
+    private ArrayList<Item> stock = new ArrayList<>();
 
     /*
      * creates an Item object given the name of the item, its price, amount of calories, and quantity. 
@@ -31,6 +34,15 @@ public class Item {
     public void setPrice(int price) {
         this.price = price;
     } 
+
+
+    public void addStock (int quantity, Item item) {
+        for (int i = 0; i < quantity; i++) {
+            Item newStock = item;
+            stock.add(newStock);
+        }
+    }
+
 
     /* 
      * returns the name of the chosen item 
@@ -57,6 +69,10 @@ public class Item {
 
     public float getCalories() {
         return calories;
+    }
+
+    public ArrayList<Item> getStock() {
+        return stock;
     }
 
 }

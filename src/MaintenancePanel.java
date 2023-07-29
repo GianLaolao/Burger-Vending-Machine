@@ -18,28 +18,35 @@ public class MaintenancePanel extends JPanel implements ActionListener, ChangeLi
     JLabel one, five, ten, twenty, fifty, hundred, twoHun, fiveHun, thou; 
     JButton[] bAddMoney = new JButton[9];
     JSpinner[] moneySpinner = new JSpinner[9];
+    SpinnerModel[] moneyModel = new SpinnerModel[9];
 
     String[] sellableItems;
     JComboBox[] itemSell = new JComboBox[8];
 
     JSpinner[] sellSpinners = new JSpinner[10];
+    SpinnerModel[] sellModel = new SpinnerModel[10];
     JButton[] restockSell = new JButton[10];
     JButton[] priceSell = new JButton[10];
+    JTextField[] sellTextF = new JTextField[10];
 
     JSpinner[] nonSellSpinners = new JSpinner[8];
+    SpinnerModel[] nonSellModel = new SpinnerModel[8];
     JButton[] restockNonSell = new JButton[8];
     JButton[] priceNonSell = new JButton[8];
+    JTextField[] nonSellTextF = new JTextField[8];
 
     JSpinner[] createdSpinners = new JSpinner[3];
+    SpinnerModel[] createdModel = new SpinnerModel[3];
     JButton[] restockCreated = new JButton[3];
     JButton[] priceCreated = new JButton[3];
+    JTextField[] createdTextF = new JTextField[3];
 
     JButton sell, nonCre, monSlo;
     JButton regularB, specB, collectB, recordB;
 
-    VendingMachine reg;
-    VendingMachine spec;
+    Controller controller;
 
+    JComboBox[] slots = new JComboBox[8];
     Item[] slotItems = new Item[8];
     int[] slotQuantity = new int[8];
 
@@ -54,10 +61,9 @@ public class MaintenancePanel extends JPanel implements ActionListener, ChangeLi
      * use CardLayout
      */
 
-    public MaintenancePanel(VendingMachine reg, VendingMachine spec) {
+    public MaintenancePanel(Controller controller) {
 
-        this.reg = reg;
-        this.spec = spec;
+        this.controller = controller;
 
         setLayout(null);
         setBounds(10,10,715,820);
@@ -85,7 +91,7 @@ public class MaintenancePanel extends JPanel implements ActionListener, ChangeLi
 
         for (int i = 0; i < 10; i++) {
                 
-            JLabel name = new JLabel(VendingMachine.sellableInfos[i].getName());
+            JLabel name = new JLabel(VendingMachine.sellableItems[i].getName());
             name.setBounds(20, 60+(50*i), 200, 30);
             name.setBackground(Color.LIGHT_GRAY);
             name.setFont(font2);
@@ -119,11 +125,13 @@ public class MaintenancePanel extends JPanel implements ActionListener, ChangeLi
             php.setFont(font2);
 
             JTextField newPr = new JTextField();
-            newPr.setText(Integer.toString(VendingMachine.sellableInfos[i].getPrice()));
+            newPr.setText(Integer.toString(VendingMachine.sellableItems[i].getPrice()));
             newPr.setBounds(460, 60+(50*i), 100, 30);
             newPr.setBackground(Color.LIGHT_GRAY);
             newPr.setHorizontalAlignment(JTextField.CENTER);
             newPr.setFont(font2);
+
+            sellTextF[i] = newPr;
 
             JButton price = new JButton("Set Price");
             price.setBounds(585, 60+(50*i), 100, 30);
@@ -162,14 +170,14 @@ public class MaintenancePanel extends JPanel implements ActionListener, ChangeLi
 
         for (int i = 0; i < 8; i++) {
 
-            JLabel name = new JLabel(VendingMachine.nonSellableInfos[i].getName());
-            name.setBounds(20, 50+(40*i), 100, 30);
+            JLabel name = new JLabel(VendingMachine.nonSellableItems[i].getName());
+            name.setBounds(20, 50+(40*i), 200, 30);
             name.setBackground(Color.LIGHT_GRAY);
             name.setFont(font2);
 
             SpinnerModel value = new SpinnerNumberModel(0, 0, 10, 1);
             JSpinner spinner = new JSpinner(value);       
-            spinner.setBounds(170, 50+(40*i), 60, 30);
+            spinner.setBounds(190, 50+(40*i), 60, 30);
             spinner.setFocusable(false);
             spinner.addChangeListener(this);
 
@@ -180,7 +188,7 @@ public class MaintenancePanel extends JPanel implements ActionListener, ChangeLi
             nonSellSpinners[i] = spinner;
 
             JButton restock = new JButton("Restock");
-            restock.setBounds(250, 50+(40*i), 100 , 30);
+            restock.setBounds(270, 50+(40*i), 100 , 30);
             restock.setFocusable(false);
             restock.setBorder(BorderFactory.createRaisedBevelBorder());
             restock.setBackground(Color.DARK_GRAY);
@@ -196,11 +204,13 @@ public class MaintenancePanel extends JPanel implements ActionListener, ChangeLi
             php.setFont(font2);
 
             JTextField newPr = new JTextField();
-            newPr.setText(Integer.toString(VendingMachine.nonSellableInfos[i].getPrice()));
+            newPr.setText(Integer.toString(VendingMachine.nonSellableItems[i].getPrice()));
             newPr.setBounds(460, 50+(40*i), 100, 30);
             newPr.setBackground(Color.LIGHT_GRAY);
             newPr.setHorizontalAlignment(JTextField.CENTER);
             newPr.setFont(font2);
+
+            nonSellTextF[i] = newPr;
 
             JButton price = new JButton("Set Price");
             price.setBounds(585, 50+(40*i), 100, 30);
@@ -269,6 +279,8 @@ public class MaintenancePanel extends JPanel implements ActionListener, ChangeLi
             newPr.setBackground(Color.LIGHT_GRAY);
             newPr.setHorizontalAlignment(JTextField.CENTER);
             newPr.setFont(font2);
+
+            createdTextF[i] = newPr;
 
             JButton price = new JButton("Set Price");
             price.setBounds(585, 440+(40*i), 100, 30);
@@ -365,6 +377,8 @@ public class MaintenancePanel extends JPanel implements ActionListener, ChangeLi
             spinner.setFocusable(false);
             spinner.addChangeListener(this);
 
+            moneyModel[i] = value;
+
             spinner.setEditor(new JSpinner.DefaultEditor(spinner)); 
             JComponent editor = spinner.getEditor();
             ((JSpinner.DefaultEditor)editor).getTextField().setFocusable(false);
@@ -406,7 +420,7 @@ public class MaintenancePanel extends JPanel implements ActionListener, ChangeLi
         sellableItems[0] = "Empty";
 
         for(int i = 1; i <= 10; i++) {
-            sellableItems[i] = VendingMachine.sellableInfos[i-1].getName();
+            sellableItems[i] = VendingMachine.sellableItems[i-1].getName();
         }
 
         for (int i = 0; i < 8; i++) {
@@ -422,6 +436,8 @@ public class MaintenancePanel extends JPanel implements ActionListener, ChangeLi
             items.setEditable(false);
             items.setFocusable(false);
             items.addActionListener(this);
+
+            slots[i] = items;
 
             slotPanel.add(slot);
             slotPanel.add(items);
@@ -534,12 +550,82 @@ public class MaintenancePanel extends JPanel implements ActionListener, ChangeLi
         if (e.getSource() == recordB) {
             
         }
-      
+        
+        for (int i = 0; i < 10; i++) {
+            if (e.getSource() == restockSell[i]) {
+
+            }
+            if (e.getSource() == priceSell[i]) {
+                if(priceVerify(sellTextF[i].getText())) {
+                    controller.setSellabeItemPrice(Integer.parseInt(sellTextF[i].getText()), i);
+                    JOptionPane.showMessageDialog(null, "Price Updated!", "Notice", JOptionPane.INFORMATION_MESSAGE, null);
+                }
+                else {
+                    sellTextF[i].setText(Integer.toString(VendingMachine.sellableItems[i].getPrice()));
+                    JOptionPane.showMessageDialog(null, "Invalid Price Input!", "Error", JOptionPane.INFORMATION_MESSAGE, null);
+                }
+            }
+        }
+        
+        for (int i = 0; i < 8; i++) {
+            if (e.getSource() == restockNonSell[i]) {
+
+            }
+            if (e.getSource() == priceNonSell[i]) {
+                if(priceVerify(nonSellTextF[i].getText())) {
+                    controller.setNonSellabeItemPrice(Integer.parseInt(nonSellTextF[i].getText()), i);
+                    JOptionPane.showMessageDialog(null, "Price Updated!", "Notice", JOptionPane.INFORMATION_MESSAGE, null);
+                }
+                else {
+                    nonSellTextF[i].setText(Integer.toString(VendingMachine.nonSellableItems[i].getPrice()));
+                    JOptionPane.showMessageDialog(null, "Invalid Price Input!", "Error", JOptionPane.INFORMATION_MESSAGE, null);
+                }
+            }
+        }
+
+        for (int i = 0; i < 3; i++) {
+            if (e.getSource() == restockCreated[i]) {
+
+            }
+            if (e.getSource() == priceCreated[i]) {
+                
+            }
+        }
+
+        for (int i = 0; i < 9; i++) {
+            if (e.getSource() == bAddMoney[i]) {
+                VendingMachine.moneyCalc.getVendoMoney().getDenominations()[i].setQuantity((int)moneySpinner[i].getValue());
+                ((SpinnerNumberModel)moneyModel[i]).setMinimum(VendingMachine.moneyCalc.getVendoMoney().getDenominations()[i].getQuantity());
+            }
+        }
+        
+        for (int i = 0; i < 8; i++) {
+            if (e.getSource() == slots[i]) {
+                controller.addItem(i, slots[i].getSelectedIndex() - 1);
+            }
+        }
     }
 
     public void stateChanged(ChangeEvent e) {
         // TODO Auto-generated method stub
         
+        for (int i = 0; i < 10; i++) {
+            if (e.getSource() == sellSpinners[i]){
+                
+            } 
+        }
+
+        for (int i = 0; i < 8; i++) {
+            if (e.getSource() == nonSellSpinners[i]){
+
+            }
+        }
+
+        for (int i = 0; i < 3; i++) {
+            if (e.getSource() == createdSpinners) {
+
+            }
+        }
     }
 
 
