@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Initialize",
+            "request": "launch",
+            "mainClass": "Initialize",
+            "projectName": "CCProg3_MCO2_bc584358"
+        },
+        {
+            "type": "java",
             "name": "VendoGUI",
             "request": "launch",
             "mainClass": "VendoGUI",

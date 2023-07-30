@@ -206,12 +206,10 @@ public class MoneyCalc {
 * resets userMoney quantity for each denomination to 0
 */
     public void resetUserMoney() {
-        // userMoney.setOnePeso(0);
-        // userMoney.setFivePeso(0);
-        // userMoney.setTenPeso(0);
-        // userMoney.setTwentyPeso(0);
-        // userMoney.setFiftyPeso(0);
-        // userMoney.setHundredPeso(0);
+
+        for (int i = 0; i < 9; i++) {
+            userMoney.getDenominations()[i].setQuantity(0);
+        }
     }
 
     
@@ -222,14 +220,11 @@ public class MoneyCalc {
 
         int profit;
 
-        // profit = vendoMoney.getTotal();
+        profit = vendoMoney.getTotal();
 
-        // vendoMoney.getOnePeso().setQuantity(0);
-        // vendoMoney.getFivePeso().setQuantity(0);
-        // vendoMoney.getTenPeso().setQuantity(0);
-        // vendoMoney.getTwentyPeso().setQuantity(0);
-        // vendoMoney.getFiftyPeso().setQuantity(0);
-        // vendoMoney.getHundredPeso().setQuantity(0);
+        for (int i = 0; i < 9; i++) {
+            vendoMoney.getDenominations()[i].setQuantity(0);
+        }
 
         return profit;
     }

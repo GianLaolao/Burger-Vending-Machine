@@ -13,9 +13,7 @@ public class PaymentPanel extends JPanel implements ActionListener {
     Font font1 = new Font("Monospaced Bold", Font.BOLD, 20);
     Font font2 = new Font("Monospaced Bold", Font.BOLD, 15);
 
-    VendingMachine vending;
-
-    double total = 0.00;
+    private static String indent = "                  ";
 
     public PaymentPanel(JTextField payment, JButton cancel) {
 
@@ -54,43 +52,63 @@ public class PaymentPanel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
     
         if (e.getSource() == one){
-            total += 1;
-            payment.setText("Php " + String.format("%.2f", total));
+            VendingMachine.moneyCalc.getUserMoney().setDenom(0, 1);
+            payment.setText("Php " + String.format("%.2f", Float.valueOf(VendingMachine.moneyCalc.getUserMoney().getTotal())));
         }
         if (e.getSource() == five){
-            total += 5;
-            payment.setText("Php " + String.format("%.2f", total));
+            VendingMachine.moneyCalc.getUserMoney().setDenom(1, 1);
+            payment.setText("Php " + String.format("%.2f", Float.valueOf(VendingMachine.moneyCalc.getUserMoney().getTotal())));
         }
         if (e.getSource() == ten){
-            total += 10;
-            payment.setText("Php " + String.format("%.2f", total));
+            VendingMachine.moneyCalc.getUserMoney().setDenom(2, 1);
+            payment.setText("Php " + String.format("%.2f", Float.valueOf(VendingMachine.moneyCalc.getUserMoney().getTotal())));
         }
         if (e.getSource() == twenty){
-            total += 20;
-            payment.setText("Php " + String.format("%.2f", total));
+            VendingMachine.moneyCalc.getUserMoney().setDenom(3, 1);
+            payment.setText("Php " + String.format("%.2f", Float.valueOf(VendingMachine.moneyCalc.getUserMoney().getTotal())));
         }
         if (e.getSource() == fifty){
-            total += 50;
-            payment.setText("Php " + String.format("%.2f", total));
+            VendingMachine.moneyCalc.getUserMoney().setDenom(4, 1);
+            payment.setText("Php " + String.format("%.2f", Float.valueOf(VendingMachine.moneyCalc.getUserMoney().getTotal())));
         }
         if (e.getSource() == hundred){
-            total += 100;
-            payment.setText("Php " + String.format("%.2f", total));
+            VendingMachine.moneyCalc.getUserMoney().setDenom(5, 1);
+            payment.setText("Php " + String.format("%.2f", Float.valueOf(VendingMachine.moneyCalc.getUserMoney().getTotal())));
         }
         if (e.getSource() == twoHun){
-            total += 200;
-            payment.setText("Php " + String.format("%.2f", total));
+            VendingMachine.moneyCalc.getUserMoney().setDenom(6, 1);
+            payment.setText("Php " + String.format("%.2f", Float.valueOf(VendingMachine.moneyCalc.getUserMoney().getTotal())));
         }
         if (e.getSource() == fiveHun){
-            total += 500;
-            payment.setText("Php " + String.format("%.2f", total));
+            VendingMachine.moneyCalc.getUserMoney().setDenom(7, 1);
+            payment.setText("Php " + String.format("%.2f", Float.valueOf(VendingMachine.moneyCalc.getUserMoney().getTotal())));
         }
         if (e.getSource() == thou){
-            total += 1000;
-            payment.setText("Php " + String.format("%.2f", total));
+            VendingMachine.moneyCalc.getUserMoney().setDenom(8, 1);
+            payment.setText("Php " + String.format("%.2f", Float.valueOf(VendingMachine.moneyCalc.getUserMoney().getTotal())));
         }
         if (e.getSource() ==  cancel) {
-            total = 0.00;        
+            MoneyBox x = VendingMachine.moneyCalc.getUserMoney();
+            String message = "         Payment Returned \n\n" +
+                            "Value:\t\tQuantity: \n";
+
+            JTextArea text = new JTextArea();
+            text.setEditable(false);
+            text.setFont(font2);
+            text.setBackground(new Color(0xEEEEEE));
+           
+            for (int i = 0; i < 9; i++) {
+                if (x.getDenominations()[i].getQuantity() != 0) {
+                    String a = Integer.toString(x.getDenominations()[i].getValue());
+                    a += indent.substring(0, indent.length() - a.length());
+                    message += " " + a + "\t\t " + x.getDenominations()[i].getQuantity() + "\n"; 
+                }
+            }
+
+            text.setText(message);
+
+            VendingMachine.moneyCalc.resetUserMoney();
+            JOptionPane.showMessageDialog(null, text, "Payment Return", JOptionPane.INFORMATION_MESSAGE);
         }
         
     }

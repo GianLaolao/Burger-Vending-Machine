@@ -264,11 +264,8 @@ public class VendoGUI extends JFrame implements ActionListener{
     }
     
     public static void main(String[] args) {
-        new VendoGUI(2);
+        new VendoGUI(1);
+
     }
 }
 
-//TODO 
-/*
- * Add Order total Price
- */

@@ -6,7 +6,7 @@ import javax.swing.event.ChangeListener;
 import java.awt.event.*;
 import java.awt.*;
 
-public class MaintenancePanel extends JPanel implements ActionListener, ChangeListener {
+public class MaintenancePanel extends JPanel implements ActionListener {
 
     JLabel lSell, lNonSell, lCreate, lMoney, lSlot;
     
@@ -54,12 +54,7 @@ public class MaintenancePanel extends JPanel implements ActionListener, ChangeLi
     Font font2 = new Font("Monospaced Bold", Font.BOLD, 15);
     Font font3 = new Font("Monospaced Bold", Font.BOLD, 21);
 
-
-    //TODO
-    /*
-     * Implement Set Price
-     * use CardLayout
-     */
+    private static String indent = "                 ";
 
     public MaintenancePanel(Controller controller) {
 
@@ -100,7 +95,6 @@ public class MaintenancePanel extends JPanel implements ActionListener, ChangeLi
             JSpinner spinner = new JSpinner(value);       
             spinner.setBounds(190, 60+(50*i), 60, 30);
             spinner.setFocusable(false);
-            spinner.addChangeListener(this);
             spinner.setEditor(new JSpinner.DefaultEditor(spinner)); 
 
             JComponent editor = spinner.getEditor();
@@ -179,7 +173,6 @@ public class MaintenancePanel extends JPanel implements ActionListener, ChangeLi
             JSpinner spinner = new JSpinner(value);       
             spinner.setBounds(190, 50+(40*i), 60, 30);
             spinner.setFocusable(false);
-            spinner.addChangeListener(this);
 
             spinner.setEditor(new JSpinner.DefaultEditor(spinner)); 
             JComponent editor = spinner.getEditor();
@@ -250,7 +243,6 @@ public class MaintenancePanel extends JPanel implements ActionListener, ChangeLi
             JSpinner spinner = new JSpinner(value);       
             spinner.setBounds(170, 440+(40*i), 60, 30);
             spinner.setFocusable(false);
-            spinner.addChangeListener(this);
 
             spinner.setEditor(new JSpinner.DefaultEditor(spinner)); 
             JComponent editor = spinner.getEditor();
@@ -371,11 +363,10 @@ public class MaintenancePanel extends JPanel implements ActionListener, ChangeLi
 
         for (int i = 0; i < 9; i++) {
 
-            SpinnerModel value = new SpinnerNumberModel(0, 0, 99, 1);
+            SpinnerModel value = new SpinnerNumberModel(0, VendingMachine.moneyCalc.getVendoMoney().getDenominations()[i].getQuantity(), 99, 1);
             JSpinner spinner = new JSpinner(value);       
             spinner.setBounds(120, 60+(50*i), 80, 30);
             spinner.setFocusable(false);
-            spinner.addChangeListener(this);
 
             moneyModel[i] = value;
 
@@ -529,9 +520,6 @@ public class MaintenancePanel extends JPanel implements ActionListener, ChangeLi
 
     public void actionPerformed(ActionEvent e) {
         // TODO Auto-generated method stub
-        if (e.getSource() == collectB) {
-
-        }
         if (e.getSource() == sell) {
             mainteCardLayout.show(mainteCard, "Sellable");
         }
@@ -545,7 +533,29 @@ public class MaintenancePanel extends JPanel implements ActionListener, ChangeLi
             mainteCardLayout.show(mainteCard, "MonSlo");
         }
         if (e.getSource() == collectB) {
+            MoneyBox profit = VendingMachine.moneyCalc.getVendoMoney();
+            String message = "\tProfit: \n\n" +
+                            " Value:    \tQuantity:     \tTotal:\n\n";
+            JTextArea text = new JTextArea();
+            text.setEditable(false);
+            text.setFont(font2);
+            text.setBackground(new Color(0xEEEEEE));
 
+            for (int i = 0; i < 9; i++) {
+                if (profit.getDenominations()[i].getQuantity() != 0) {
+                    String a = Integer.toString(profit.getDenominations()[i].getValue());
+                    a += indent.substring(0, indent.length() - a.length());
+                    String b = Integer.toString(profit.getDenominations()[i].getQuantity());
+                    b += indent.substring(0, indent.length() - b.length());
+                    message += " " + a + "\t" + b + "\t" + profit.getDenominations()[i].getTotal() + "\n";
+                }
+            }
+            
+            String total = Integer.toString(VendingMachine.moneyCalc.retrieveProfit());
+            message += "\n\tTotal:          Php: " + total;
+            text.setText(message);
+
+            JOptionPane.showMessageDialog(null, text, "Payment Return", JOptionPane.PLAIN_MESSAGE);
         }
         if (e.getSource() == recordB) {
             
@@ -596,6 +606,7 @@ public class MaintenancePanel extends JPanel implements ActionListener, ChangeLi
             if (e.getSource() == bAddMoney[i]) {
                 VendingMachine.moneyCalc.getVendoMoney().getDenominations()[i].setQuantity((int)moneySpinner[i].getValue());
                 ((SpinnerNumberModel)moneyModel[i]).setMinimum(VendingMachine.moneyCalc.getVendoMoney().getDenominations()[i].getQuantity());
+                JOptionPane.showMessageDialog(null, "Money Quantity Updated!", "Notice", JOptionPane.INFORMATION_MESSAGE, null);
             }
         }
         
@@ -605,28 +616,4 @@ public class MaintenancePanel extends JPanel implements ActionListener, ChangeLi
             }
         }
     }
-
-    public void stateChanged(ChangeEvent e) {
-        // TODO Auto-generated method stub
-        
-        for (int i = 0; i < 10; i++) {
-            if (e.getSource() == sellSpinners[i]){
-                
-            } 
-        }
-
-        for (int i = 0; i < 8; i++) {
-            if (e.getSource() == nonSellSpinners[i]){
-
-            }
-        }
-
-        for (int i = 0; i < 3; i++) {
-            if (e.getSource() == createdSpinners) {
-
-            }
-        }
-    }
-
-
 }   
