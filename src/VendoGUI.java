@@ -35,7 +35,7 @@ public class VendoGUI extends JFrame implements ActionListener{
     public VendoGUI (int choice){ 
         
         VendingMachine.sellableItems = initialize.initialize("src/ItemSellable.txt");
-        VendingMachine.nonSellableItems = initialize.initialize("src/ItemNonSell.txt");
+        SpecialVendo.nonSellableItems = initialize.initialize("src/ItemNonSell.txt");
 
         frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -43,6 +43,7 @@ public class VendoGUI extends JFrame implements ActionListener{
         frame.setResizable(false);
         frame.setLayout(null);
         frame.getContentPane().setBackground(Color.LIGHT_GRAY);
+        frame.setLocationRelativeTo(null);
         
         paymentHolder = new JPanel();
         paymentHolder.setBounds(440,30, 280, 700);
@@ -158,7 +159,6 @@ public class VendoGUI extends JFrame implements ActionListener{
     }
 
     public void cancel() {
-
         screen.setText("\t        Order: \n\n");
         screen.append("  Item\t\t            Price \n");
 
@@ -171,6 +171,7 @@ public class VendoGUI extends JFrame implements ActionListener{
         }
         if (e.getSource() == cancel) {
             payment.setText("Php 0.00");
+            cancel();
         }   
         if (e.getSource() == regular) {
 
@@ -277,7 +278,7 @@ public class VendoGUI extends JFrame implements ActionListener{
     }
     
     public static void main(String[] args) {
-        new VendoGUI(0);
+        new VendoGUI(2);
 
     }
 }

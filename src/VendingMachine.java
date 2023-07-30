@@ -1,4 +1,3 @@
-import java.util.*;
 
 /*
  * A VendingMachine represents the vending machine. It contains the regular vending machine, 
@@ -8,7 +7,6 @@ import java.util.*;
 public abstract class VendingMachine {
     
     protected static Item sellableItems[] = new Item[10]; //can be changed to Items 
-    protected static Item nonSellableItems[] = new Item[8];
     protected static MoneyCalc moneyCalc = new MoneyCalc();
 
 
@@ -20,9 +18,7 @@ public abstract class VendingMachine {
         return sellableItems;
     }
 
-    public static Item[] getNonSellables() {
-        return nonSellableItems;
-    }
+    
 
 
 

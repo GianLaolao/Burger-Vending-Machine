@@ -39,10 +39,14 @@ public class Item {
 
 
     public void addStock (int quantity, Item item) {
+
+        ArrayList<Item> newStock = new ArrayList<>();
         for (int i = 0; i < quantity; i++) {
-            Item newStock = item;
-            stock.add(newStock);
+            Item newItem = item;
+            newStock.add(newItem);
         }
+        
+        stock = newStock;
     }
 
 

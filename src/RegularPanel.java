@@ -144,8 +144,8 @@ public class RegularPanel extends JPanel implements ActionListener{
                     itemButton[i].setEnabled(true);   
                 }
                 else {
-                    itemButton[i].setBackground(Color.WHITE);
-                    itemButton[i].setEnabled(true);   
+                    itemButton[i].setBackground(Color.DARK_GRAY);
+                    itemButton[i].setEnabled(false);   
                 }
             }   
             else {

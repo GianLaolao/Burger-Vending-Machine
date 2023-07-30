@@ -1,8 +1,5 @@
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
 import java.awt.event.*;
 import java.awt.*;
 
@@ -96,6 +93,8 @@ public class MaintenancePanel extends JPanel implements ActionListener {
             spinner.setBounds(190, 60+(50*i), 60, 30);
             spinner.setFocusable(false);
             spinner.setEditor(new JSpinner.DefaultEditor(spinner)); 
+            
+            sellModel[i] = value;
 
             JComponent editor = spinner.getEditor();
             ((JSpinner.DefaultEditor)editor).getTextField().setFocusable(false);
@@ -164,7 +163,7 @@ public class MaintenancePanel extends JPanel implements ActionListener {
 
         for (int i = 0; i < 8; i++) {
 
-            JLabel name = new JLabel(VendingMachine.nonSellableItems[i].getName());
+            JLabel name = new JLabel(SpecialVendo.nonSellableItems[i].getName());
             name.setBounds(20, 50+(40*i), 200, 30);
             name.setBackground(Color.LIGHT_GRAY);
             name.setFont(font2);
@@ -173,6 +172,8 @@ public class MaintenancePanel extends JPanel implements ActionListener {
             JSpinner spinner = new JSpinner(value);       
             spinner.setBounds(190, 50+(40*i), 60, 30);
             spinner.setFocusable(false);
+
+            nonSellModel[i] = value;
 
             spinner.setEditor(new JSpinner.DefaultEditor(spinner)); 
             JComponent editor = spinner.getEditor();
@@ -197,7 +198,7 @@ public class MaintenancePanel extends JPanel implements ActionListener {
             php.setFont(font2);
 
             JTextField newPr = new JTextField();
-            newPr.setText(Integer.toString(VendingMachine.nonSellableItems[i].getPrice()));
+            newPr.setText(Integer.toString(SpecialVendo.nonSellableItems[i].getPrice()));
             newPr.setBounds(460, 50+(40*i), 100, 30);
             newPr.setBackground(Color.LIGHT_GRAY);
             newPr.setHorizontalAlignment(JTextField.CENTER);
@@ -243,6 +244,8 @@ public class MaintenancePanel extends JPanel implements ActionListener {
             JSpinner spinner = new JSpinner(value);       
             spinner.setBounds(170, 440+(40*i), 60, 30);
             spinner.setFocusable(false);
+
+            createdModel[i] = value;
 
             spinner.setEditor(new JSpinner.DefaultEditor(spinner)); 
             JComponent editor = spinner.getEditor();
@@ -535,11 +538,14 @@ public class MaintenancePanel extends JPanel implements ActionListener {
         if (e.getSource() == collectB) {
             MoneyBox profit = VendingMachine.moneyCalc.getVendoMoney();
             String message = "\tProfit: \n\n" +
-                            " Value:    \tQuantity:     \tTotal:\n\n";
+                            " Value:   \tQuantity:   \tTotal:  \n\n";
+
             JTextArea text = new JTextArea();
             text.setEditable(false);
+            text.setFocusable(false);
             text.setFont(font2);
             text.setBackground(new Color(0xEEEEEE));
+            text.setSize(new Dimension(300, 300));
 
             for (int i = 0; i < 9; i++) {
                 if (profit.getDenominations()[i].getQuantity() != 0) {
@@ -548,6 +554,9 @@ public class MaintenancePanel extends JPanel implements ActionListener {
                     String b = Integer.toString(profit.getDenominations()[i].getQuantity());
                     b += indent.substring(0, indent.length() - b.length());
                     message += " " + a + "\t" + b + "\t" + profit.getDenominations()[i].getTotal() + "\n";
+
+                    ((SpinnerNumberModel)moneyModel[i]).setMinimum(0);
+                    moneySpinner[i].setValue(0);
                 }
             }
             
@@ -563,7 +572,30 @@ public class MaintenancePanel extends JPanel implements ActionListener {
         
         for (int i = 0; i < 10; i++) {
             if (e.getSource() == restockSell[i]) {
+                controller.restockSellable((Integer)sellSpinners[i].getValue(), i);
 
+                ((SpinnerNumberModel)sellModel[i]).setMinimum(VendingMachine.sellableItems[i].getStock().size());
+
+                JDialog message = new JDialog();
+                message.setTitle("Notice: ");
+                message.setSize(new Dimension(200, 80));
+                message.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+                message.setLocationRelativeTo(null);
+
+                JLabel label = new JLabel("Stock Updated!");
+                label.setBackground(new Color(0xEEEEEE));
+                label.setHorizontalAlignment(JLabel.CENTER);
+
+                message.addWindowFocusListener(new WindowFocusListener() {
+                    public void windowGainedFocus(WindowEvent e) {
+                    }
+                    public void windowLostFocus(WindowEvent e) {
+                        message.dispose();
+                    }
+                });
+
+                message.add(label);
+                message.setVisible(true);
             }
             if (e.getSource() == priceSell[i]) {
                 if(priceVerify(sellTextF[i].getText())) {
@@ -587,7 +619,7 @@ public class MaintenancePanel extends JPanel implements ActionListener {
                     JOptionPane.showMessageDialog(null, "Price Updated!", "Notice", JOptionPane.INFORMATION_MESSAGE, null);
                 }
                 else {
-                    nonSellTextF[i].setText(Integer.toString(VendingMachine.nonSellableItems[i].getPrice()));
+                    nonSellTextF[i].setText(Integer.toString(SpecialVendo.nonSellableItems[i].getPrice()));
                     JOptionPane.showMessageDialog(null, "Invalid Price Input!", "Error", JOptionPane.INFORMATION_MESSAGE, null);
                 }
             }
@@ -606,7 +638,27 @@ public class MaintenancePanel extends JPanel implements ActionListener {
             if (e.getSource() == bAddMoney[i]) {
                 VendingMachine.moneyCalc.getVendoMoney().getDenominations()[i].setQuantity((int)moneySpinner[i].getValue());
                 ((SpinnerNumberModel)moneyModel[i]).setMinimum(VendingMachine.moneyCalc.getVendoMoney().getDenominations()[i].getQuantity());
-                JOptionPane.showMessageDialog(null, "Money Quantity Updated!", "Notice", JOptionPane.INFORMATION_MESSAGE, null);
+                
+                JDialog message = new JDialog();
+                message.setTitle("Notice: ");
+                message.setSize(new Dimension(200, 80));
+                message.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+                message.setLocationRelativeTo(null);
+
+                JLabel label = new JLabel("Money Quantity Updated!");
+                label.setBackground(new Color(0xEEEEEE));
+                label.setHorizontalAlignment(JLabel.CENTER);
+
+                message.addWindowFocusListener(new WindowFocusListener() {
+                    public void windowGainedFocus(WindowEvent e) {
+                    }
+                    public void windowLostFocus(WindowEvent e) {
+                        message.dispose();
+                    }
+                });
+
+                message.add(label);
+                message.setVisible(true);
             }
         }
         

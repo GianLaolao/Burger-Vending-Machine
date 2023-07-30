@@ -2,22 +2,21 @@
  * A RegularVendo holds the eight (8) item slots available for purchase. 
  */
 
-import java.util.*;
 
 public class RegularVendo extends VendingMachine{
 
     //can hold item instances
     protected static Item[] slotsItem = new Item[8]; //accepts ArrayList of Item
-    protected static Record records[] = new Record[10];
+    protected static Record sellableRecords[] = new Record[10];
 
     //TODO    
 
     public static void setRecords(Record[] records) {
-        RegularVendo.records = records;
+        RegularVendo.sellableRecords = records;
     }
 
     public Record[] getRecords() {
-        return records; //returns the vending machine records
+        return sellableRecords; //returns the vending machine records
     }
 
     /* 
@@ -25,7 +24,7 @@ public class RegularVendo extends VendingMachine{
      * @param 
      */
     public Record getItemRecord(int slot) {
-        return records[slot];
+        return sellableRecords[slot];
     }
 
     public void setSlot(int slot, Item item) {

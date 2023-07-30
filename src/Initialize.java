@@ -41,17 +41,4 @@ public class Initialize {
 
         return items;
     }
-
-    public static void main(String[] args) {
-        Initialize x = new Initialize();
-
-        Item[] item = x.initialize("src\\ItemSellable.txt");
-
-        for (int i = 0; i < item.length; i++) {
-            System.out.println(item[i].getName());
-            System.out.println(item[i].getPrice());
-            System.out.println(item[i].getCalories());
-            System.out.print("\n");
-        }
-    }
 }

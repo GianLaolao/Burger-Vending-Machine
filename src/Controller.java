@@ -14,27 +14,25 @@ public class Controller {
 
     }
 
-/* 
- * removes item from the vending machine 
- * @param slot the slot occupied by the item being removed 
- */
-    public boolean removeItem(int slot) { 
+// /* 
+//  * removes item from the vending machine 
+//  * @param slot the slot occupied by the item being removed 
+//  */
+//     public boolean removeItem(int slot) { 
 
-        
+        //not need i think
 
-        return false;
-    }
+//         return false;
+//     }
 
 /* 
  * restocks or replaces item of the inventory or vending machine 
  * @param quantity the quantity of item to be restocked  
  * @param slot the slot to be occupied for restocking 
  */
-    public boolean restockItem(int quantity, int slot) {
+    public void restockSellable(int quantity, int slot) {
     
-        //TODO
-    
-        return false;
+        VendingMachine.sellableItems[slot].addStock(quantity, VendingMachine.sellableItems[slot]);
     }
 
 /* 
@@ -50,7 +48,7 @@ public class Controller {
 
     public void setNonSellabeItemPrice(int price, int slot){
 
-        VendingMachine.nonSellableItems[slot].setPrice(price);
+        SpecialVendo.nonSellableItems[slot].setPrice(price);
     }
 
     public Item dispenseItem(int slot) {
@@ -67,8 +65,8 @@ public class Controller {
     public int getTotalSales() {
 
         int totalSales = 0;
-        for(int i = 0; i < RegularVendo.records.length; i++) {
-            totalSales += RegularVendo.records[i].getSoldAmount();
+        for(int i = 0; i < RegularVendo.sellableRecords.length; i++) {
+            totalSales += RegularVendo.sellableRecords[i].getSoldAmount();
         }
         
         return totalSales;
