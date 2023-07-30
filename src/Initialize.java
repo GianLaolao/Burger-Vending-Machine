@@ -10,6 +10,7 @@ public class Initialize {
         String name;
         int price;
         float calories;
+        String icon;
         Scanner sc;
         File file = new File(path);
         try {
@@ -19,17 +20,19 @@ public class Initialize {
         }
 
         int n = sc.nextInt();
+        sc.nextLine();
         items = new Item[n];
 
         for (int i = 0; i < n; i++) {
 
-            sc.nextLine();
             name = sc.nextLine();
             price = sc.nextInt();
             calories = sc.nextFloat();
+            sc.nextLine();
+            icon = sc.nextLine();
             
 
-            Item a = new Item(name, price, calories);
+            Item a = new Item(name, price, calories,icon);
 
             items[i] = a;
         }

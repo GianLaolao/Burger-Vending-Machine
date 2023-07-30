@@ -1,7 +1,11 @@
 
 import javax.swing.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
 import java.awt.*;
+
+import java.io.*;
+import javax.imageio.*;
 
 public class RegularPanel extends JPanel implements ActionListener{
 
@@ -49,16 +53,19 @@ public class RegularPanel extends JPanel implements ActionListener{
         setBackground(Color.LIGHT_GRAY);
         setBorder(BorderFactory.createLoweredBevelBorder());
 
-
         for(int i = 0; i < 8; i++) {
             itemPanel[i].setLayout(null);
-            itemPanel[i].setBackground(Color.WHITE);
+            itemPanel[i].setBackground(Color.LIGHT_GRAY);
 
-            itemButton[i].setBounds(20, 20, 150,80);
+            itemButton[i].setBounds(20, 10, 150,90);
             itemButton[i].addActionListener(this);
             itemButton[i].setFocusable(false);
-            itemButton[i].setBackground(Color.LIGHT_GRAY);
+            itemButton[i].setHorizontalTextPosition(JButton.CENTER);
+            itemButton[i].setVerticalTextPosition(JButton.BOTTOM);
             itemButton[i].setBorder(BorderFactory.createRaisedBevelBorder());
+
+            itemButton[i].setBackground(Color.DARK_GRAY);
+            itemButton[i].setEnabled(false);
             
             JLabel price = new JLabel("Price:");
             price.setBounds(35, 110, 50, 20);
@@ -80,15 +87,16 @@ public class RegularPanel extends JPanel implements ActionListener{
 
             numTF[i] = num;
 
-            if (RegularVendo.slotsItem[i] != null) {
-                itemButton[i].setText(RegularVendo.slotsItem[i].getName());
-                amount.setText(Integer.toString(RegularVendo.slotsItem[i].getPrice()));
-                num.setText(Integer.toString(RegularVendo.slotsItem[i].getStock().size()));
-            }
-            else {
-                itemButton[i].setEnabled(false);
-                itemButton[i].setBackground(Color.DARK_GRAY);
-            }
+            // if (RegularVendo.slotsItem[i] != null) {
+            //     itemButton[i].setText(RegularVendo.slotsItem[i].getName());
+            //     itemButton[i].setBackground(Color.WHITE);
+            //     amount.setText(Integer.toString(RegularVendo.slotsItem[i].getPrice()));
+            //     num.setText(Integer.toString(RegularVendo.slotsItem[i].getStock().size()));
+            // }
+            // else {
+            //     itemButton[i].setEnabled(false);
+            //     itemButton[i].setBackground(Color.DARK_GRAY);
+            // }
 
             itemPanel[i].add(price);
             itemPanel[i].add(amount);
@@ -101,16 +109,45 @@ public class RegularPanel extends JPanel implements ActionListener{
 
     }
 
+    private ImageIcon buttonIcon (String path) {
+
+        File image = new File(path);   
+        
+        try {
+            BufferedImage origImage = ImageIO.read(image);
+            Image o = origImage.getScaledInstance(80, 60, Image.SCALE_SMOOTH);
+            ImageIcon newImage = new ImageIcon(o);
+            
+            return newImage; 
+        }
+        catch(IOException e) {
+
+        }
+    
+        return null;
+    }
+
     public void updateSlots () {
 
         for (int i = 0; i < 8; i++) {
             if (RegularVendo.slotsItem[i] != null) {
+
                 itemButton[i].setText(RegularVendo.slotsItem[i].getName());
-                itemButton[i].setBackground(Color.LIGHT_GRAY);
-                itemButton[i].setEnabled(true);
+                
+                itemButton[i].setIcon(buttonIcon(RegularVendo.slotsItem[i].getIcon()));
+
                 amountTF[i].setText(Integer.toString(RegularVendo.slotsItem[i].getPrice()));
                 numTF[i].setText(Integer.toString(RegularVendo.slotsItem[i].getStock().size()));
-            }
+
+                if (RegularVendo.slotsItem[i].getStock().size() != 0) {
+                    itemButton[i].setBackground(Color.WHITE);
+                    itemButton[i].setEnabled(true);   
+                }
+                else {
+                    itemButton[i].setBackground(Color.WHITE);
+                    itemButton[i].setEnabled(true);   
+                }
+            }   
             else {
                 itemButton[i].setEnabled(false);
                 itemButton[i].setBackground(Color.DARK_GRAY);

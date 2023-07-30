@@ -10,6 +10,7 @@ public class Item {
     private String name;
     private int price;
     private float calories;
+    private String icon;
     private ArrayList<Item> stock = new ArrayList<>();
 
     /*
@@ -20,10 +21,11 @@ public class Item {
      * @param quantity the quantity of the item
      */
 
-    public Item (String name, int price, float calories) {
+    public Item (String name, int price, float calories, String path) {
         this.name = name;
         this.price = price;
         this.calories = calories;
+        icon = path;
     }
 
     /*
@@ -71,8 +73,13 @@ public class Item {
         return calories;
     }
 
+    public String getIcon() {
+        return icon;
+    }
+
     public ArrayList<Item> getStock() {
         return stock;
     }
+
 
 }

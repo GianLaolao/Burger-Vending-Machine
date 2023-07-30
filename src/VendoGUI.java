@@ -157,6 +157,13 @@ public class VendoGUI extends JFrame implements ActionListener{
         frame.setVisible(true);
     }
 
+    public void cancel() {
+
+        screen.setText("\t        Order: \n\n");
+        screen.append("  Item\t\t            Price \n");
+
+    }
+
     public void actionPerformed(ActionEvent e) {
        
         if (e.getSource() == dispense) {
@@ -166,7 +173,7 @@ public class VendoGUI extends JFrame implements ActionListener{
             payment.setText("Php 0.00");
         }   
         if (e.getSource() == regular) {
-            
+
             frame.revalidate();
             frame.repaint();
 
@@ -177,6 +184,8 @@ public class VendoGUI extends JFrame implements ActionListener{
 
             frame.revalidate();
             frame.repaint();
+
+            cancel();
 
             frame.setIconImage(iconReg.getImage());
         }
@@ -192,6 +201,8 @@ public class VendoGUI extends JFrame implements ActionListener{
 
             frame.revalidate();
             frame.repaint();
+
+            cancel();
 
             frame.setIconImage(iconBurg.getImage());
         }
@@ -257,6 +268,8 @@ public class VendoGUI extends JFrame implements ActionListener{
 
             frame.revalidate();
             frame.repaint();
+
+            cancel();
     
             frame.setIconImage(iconWrench.getImage());
         } 
@@ -264,7 +277,7 @@ public class VendoGUI extends JFrame implements ActionListener{
     }
     
     public static void main(String[] args) {
-        new VendoGUI(1);
+        new VendoGUI(0);
 
     }
 }
