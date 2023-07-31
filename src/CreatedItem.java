@@ -14,4 +14,13 @@ public class CreatedItem extends Item{
     public ArrayList<Item> getIngredients() {
         return ingredients;
     }
+
+    public void addStock(int quantity, CreatedItem item) {
+      
+        for (int i = 0; i < quantity; i++) {
+            for (Item ingredient : item.getIngredients()) {
+                ingredient.getStock().remove(0);
+            }
+        }
+    }
 }

@@ -5,22 +5,28 @@ import java.awt.image.BufferedImage;
 import java.awt.*;
 
 import java.io.*;
+import java.util.ArrayList;
+
 import javax.imageio.*;
 
 public class RegularPanel extends JPanel implements ActionListener{
 
     JPanel pSlot1, pSlot2, pSlot3, pSlot4, pSlot5, pSlot6, pSlot7, pSlot8;
-    JButton bSlot1, bSlot2, bSlot3,bSlot4, bSlot5, bSlot6, bSlot7, bSlot8;
-    JButton cancel, dispense;
-    JTextArea screen; 
+    JButton bSlot1, bSlot2, bSlot3,bSlot4, bSlot5, bSlot6, bSlot7, bSlot8; 
     JButton itemButton[] = new JButton[8];
     JPanel itemPanel[] = new JPanel[8];
     JTextField[] amountTF = new JTextField[8];
     JTextField[] numTF = new JTextField[8];
 
+    JButton cancel, dispense;
+    JTextArea screen;
+    JTextField total;
+
+    ArrayList<Item> order = new ArrayList<>();
+
     private final String indent = "                             ";
 
-    RegularPanel(JButton cancel, JButton dispense, JTextArea screen) {
+    RegularPanel(JButton cancel, JButton dispense, JTextArea screen, JTextField total) {
 
         this.cancel = cancel;
         cancel.addActionListener(this);
@@ -29,6 +35,7 @@ public class RegularPanel extends JPanel implements ActionListener{
         dispense.addActionListener(this);
 
         this.screen = screen;
+        this.total = total;
 
         itemButton[0] = bSlot1 = new JButton();
         itemButton[1] = bSlot2 = new JButton();
@@ -112,8 +119,25 @@ public class RegularPanel extends JPanel implements ActionListener{
         catch(IOException e) {
 
         }
-    
         return null;
+    }
+
+    private void printScreen() {
+
+        String s = "\t        Order: \n\n" + "  Item\t\t            Price \n\n";
+        int t = 0;
+
+        for (Item item : order) {
+            String string = item.getName();
+            string += indent.substring(0, indent.length() - string.length());
+            string = String.format("  %s \t            %d\n", string,item.getPrice());
+            s += string;
+
+            t += item.getPrice();
+        }
+
+        total.setText(" Php: " + Integer.toString(t));
+        screen.setText(s);
     }
 
     public void updateSlots () {
@@ -156,58 +180,74 @@ public class RegularPanel extends JPanel implements ActionListener{
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == bSlot1) {
-            String string = RegularVendo.slotsItem[0].getName();
-            string += indent.substring(0, indent.length() - string.length());
-            string = String.format("  %s \t            %d\n", string,RegularVendo.slotsItem[0].getPrice());
-            screen.append(string); 
+            if (order.size() != 5) {
+                order.add(RegularVendo.slotsItem[0]);
+                printScreen();
+            }
+            else 
+                JOptionPane.showMessageDialog(null, "Order Limit! (Max: 5)", "Limit", JOptionPane.INFORMATION_MESSAGE, null);
         }
         if (e.getSource() == bSlot2) {
-            String string = RegularVendo.slotsItem[1].getName();
-            string += indent.substring(0, indent.length() - string.length());
-            string = String.format("  %s \t            %d\n", string,RegularVendo.slotsItem[1].getPrice());
-            screen.append(string);
+            if (order.size() != 5) {
+                order.add(RegularVendo.slotsItem[1]);
+                printScreen();
+            }
+            else 
+                JOptionPane.showMessageDialog(null, "Order Limit! (Max: 5)", "Limit", JOptionPane.INFORMATION_MESSAGE, null);
         }
         if (e.getSource() == bSlot3) {
-            String string = RegularVendo.slotsItem[2].getName();
-            string += indent.substring(0, indent.length() - string.length());
-            string = String.format("  %s \t            %d\n", string,RegularVendo.slotsItem[2].getPrice());
-            screen.append(string);
+            if (order.size() != 5) {
+                order.add(RegularVendo.slotsItem[2]);
+                printScreen();
+            }
+            else 
+                JOptionPane.showMessageDialog(null, "Order Limit! (Max: 5)", "Limit", JOptionPane.INFORMATION_MESSAGE, null);
         }
         if (e.getSource() == bSlot4) {
-            String string = RegularVendo.slotsItem[3].getName();
-            string += indent.substring(0, indent.length() - string.length());
-            string = String.format("  %s \t            %d\n", string,RegularVendo.slotsItem[3].getPrice());
-            screen.append(string);
+            if (order.size() != 5) {
+                order.add(RegularVendo.slotsItem[3]);
+                printScreen();
+            }
+            else 
+                JOptionPane.showMessageDialog(null, "Order Limit! (Max: 5)", "Limit", JOptionPane.INFORMATION_MESSAGE, null);
         }
         if (e.getSource() == bSlot5) {
-            String string = RegularVendo.slotsItem[4].getName();
-            string += indent.substring(0, indent.length() - string.length());
-            string = String.format("  %s \t            %d\n", string,RegularVendo.slotsItem[4].getPrice());
-            screen.append(string);
+            if (order.size() != 5) {
+                order.add(RegularVendo.slotsItem[4]);
+                printScreen();
+            }
+            else 
+                JOptionPane.showMessageDialog(null, "Order Limit! (Max: 5)", "Limit", JOptionPane.INFORMATION_MESSAGE, null);
         }
         if (e.getSource() == bSlot6) {
-            String string = RegularVendo.slotsItem[5].getName();
-            string += indent.substring(0, indent.length() - string.length());
-            string = String.format("  %s \t            %d\n", string,RegularVendo.slotsItem[5].getPrice());
-            screen.append(string);
+            if (order.size() != 5) {
+                order.add(RegularVendo.slotsItem[5]);
+                printScreen();
+            }
+            else 
+                JOptionPane.showMessageDialog(null, "Order Limit! (Max: 5)", "Limit", JOptionPane.INFORMATION_MESSAGE, null);
         }
         if (e.getSource() == bSlot7) {
-            String string = RegularVendo.slotsItem[6].getName();
-            string += indent.substring(0, indent.length() - string.length());
-            string = String.format("  %s \t            %d\n", string,RegularVendo.slotsItem[6].getPrice());
-            screen.append(string);
+            if (order.size() != 5) {
+                order.add(RegularVendo.slotsItem[6]);
+                printScreen();
+            }
+            else 
+                JOptionPane.showMessageDialog(null, "Order Limit! (Max: 5)", "Limit", JOptionPane.INFORMATION_MESSAGE, null);
         }
         if (e.getSource() == bSlot8) {
-            String string = RegularVendo.slotsItem[7].getName();
-            string += indent.substring(0, indent.length() - string.length());
-            string = String.format("  %s \t            %d\n", string,RegularVendo.slotsItem[7].getPrice());
-            screen.append(string);
+            if (order.size() != 5) {
+                order.add(RegularVendo.slotsItem[7]);
+                printScreen();
+            }
+            else 
+                JOptionPane.showMessageDialog(null, "Order Limit! (Max: 5)", "Limit", JOptionPane.INFORMATION_MESSAGE, null);
         }
         if (e.getSource() == dispense) {
             
         }
         if (e.getSource() == cancel) {
-
+            order.clear();
         } 
     }
     

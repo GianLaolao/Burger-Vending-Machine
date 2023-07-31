@@ -21,15 +21,18 @@ public class SpecialPanel extends JPanel implements ActionListener, ItemListener
 
     JTextField sellField[] = new JTextField[10];
     JTextField nonSellField[] = new JTextField[8];
+    JTextField createdField[] = new JTextField[3];
 
     JRadioButton[] sellable = new JRadioButton[10];
     JRadioButton[] nonSellable = new JRadioButton[8];
 
     JLabel[] sellLabels = new JLabel[10];
     JLabel[] nonSellLabels = new JLabel[8];
+    JLabel[] createdLabels = new JLabel[3];
 
     JButton cancel, dispense;
     JTextArea screen;
+    JTextField total;
 
     Item order[] = new Item[4];
     ArrayList<Item> addOns = new ArrayList<>();
@@ -38,7 +41,7 @@ public class SpecialPanel extends JPanel implements ActionListener, ItemListener
     Font font2 = new Font("Monospaced Bold", Font.BOLD, 15);
  
 
-    SpecialPanel(JButton cancel, JButton dispense, JTextArea screen) {  
+    SpecialPanel(JButton cancel, JButton dispense, JTextArea screen, JTextField total) {  
 
         this.cancel = cancel;
         cancel.addActionListener(this);
@@ -242,9 +245,15 @@ public class SpecialPanel extends JPanel implements ActionListener, ItemListener
         thouIsl.setBounds(20, 510, 200, 20);
         thouIsl.setFocusable(false);
         thouIsl.setBackground(Color.white);
+
+        noS = new JRadioButton("No Sauce");
+        noS.setFont(font2);
+        noS.setBounds(20, 540, 300, 20);
+        noS.setFocusable(false);
+        noS.setBackground(Color.white);
         
         for (int i = 0; i < 4; i++) {
-            JLabel price = new JLabel("Stock: ");
+            JLabel price = new JLabel(Integer.toString(i));
             price.setBounds(240, 420+(30*i), 80, 20);
             price.setFont(font2);
             price.setBackground(Color.WHITE);
@@ -255,18 +264,21 @@ public class SpecialPanel extends JPanel implements ActionListener, ItemListener
             stockTF.setFocusable(false);
 
             if (i == 0) {
+                price.setText("Php: " + Integer.toString(SpecialVendo.nonSellableItems[7].getPrice()));
                 stockTF.setText(Integer.toString(SpecialVendo.nonSellableItems[7].getStock().size()));
                 nonSellField[7] = stockTF;
-            }        
+                nonSellLabels[7] = price;
+            }      
+            else  {
+                price.setText("Php: " + Integer.toString(SpecialVendo.createdItems[i-1].getPrice()));
+                stockTF.setText(Integer.toString(SpecialVendo.createdItems[i-1].getStock().size()));  
+                createdField[i-1] = stockTF;
+                createdLabels[i-1] = price;
+            }
+
             add(price);
             add(stockTF);
         }        
-
-        noS = new JRadioButton("No Sauce");
-        noS.setFont(font2);
-        noS.setBounds(50, 540, 300, 20);
-        noS.setFocusable(false);
-        noS.setBackground(Color.white);
 
         sauce = new ButtonGroup();
         sauce.add(bbq);
@@ -423,7 +435,11 @@ public class SpecialPanel extends JPanel implements ActionListener, ItemListener
             if(i < 7) {
                 nonSellField[i].setText(Integer.toString(SpecialVendo.sellableItems[i].getStock().size()));
                 nonSellLabels[i].setText("Php: " + Integer.toString(SpecialVendo.nonSellableItems[i].getPrice()));
-            }        
+            }  
+            
+            if (i < 3) {
+                createdField[i].setText(Integer.toString(SpecialVendo.createdItems[i].getStock().size()));
+            }
         }
     }
 

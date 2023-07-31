@@ -91,10 +91,9 @@ public class VendingMachine {
 
     }
 
-    public void restockSpecialItems (int quantity) {
+    public void restockCreatedItems (int quantity, int slot) {
 
-        //TODO
-
+        SpecialVendo.createdItems[slot].addStock(quantity, SpecialVendo.createdItems[slot]);
     }
 }
     

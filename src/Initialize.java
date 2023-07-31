@@ -50,12 +50,21 @@ public class Initialize {
         ketIng.add(SpecialVendo.nonSellableItems[0]);
         CreatedItem ketchup = new CreatedItem("Ketchup", 0, 1, null, ketIng);
 
+        SpecialVendo.createdItems[0] = ketchup;
+
         ArrayList<Item> mayoIng = new ArrayList<>();
         mayoIng.add(RegularVendo.sellableItems[8]);
         mayoIng.add(RegularVendo.sellableItems[8]);
         mayoIng.add(RegularVendo.sellableItems[8]);
         CreatedItem mayo = new CreatedItem("Mayonnaise", 0, 2, null, mayoIng);
 
-        
+        SpecialVendo.createdItems[1] = mayo;
+
+        ArrayList<Item> thouIslIng = new ArrayList<>();
+        thouIslIng.add(SpecialVendo.createdItems[0]);
+        thouIslIng.add(SpecialVendo.createdItems[1]);
+        CreatedItem thouIsl = new CreatedItem("Thousand Island", 0, 3, null, thouIslIng);
+
+        SpecialVendo.createdItems[2] = thouIsl;
     }
 }

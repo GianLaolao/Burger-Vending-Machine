@@ -33,7 +33,7 @@ public class PaymentPanel extends JPanel implements ActionListener {
         moneyButton[8] = thou = new JButton("1000");
 
         setLayout(new GridLayout(3, 3, 2, 2));
-        setBounds(35, 380, 220, 220);
+        setBounds(35, 400, 220, 220);
         setBackground(Color.LIGHT_GRAY);
 
         for(int i = 0; i < 9; i++) {

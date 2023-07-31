@@ -233,14 +233,14 @@ public class MaintenancePanel extends JPanel implements ActionListener {
         
         for (int i = 0; i < 3; i++) {
 
-           JLabel name = new JLabel("Created " + (i+1));
-            name.setBounds(20, 440+(40*i), 100, 30);
+           JLabel name = new JLabel(SpecialVendo.createdItems[i].getName());
+            name.setBounds(20, 440+(40*i), 200, 30);
             name.setBackground(Color.LIGHT_GRAY);
             name.setFont(font2);
 
             SpinnerModel value = new SpinnerNumberModel(0, 0, 10, 1);
             JSpinner spinner = new JSpinner(value);       
-            spinner.setBounds(170, 440+(40*i), 60, 30);
+            spinner.setBounds(190, 440+(40*i), 60, 30);
             spinner.setFocusable(false);
 
             createdModel[i] = value;
@@ -252,7 +252,7 @@ public class MaintenancePanel extends JPanel implements ActionListener {
             createdSpinners[i] = spinner;
 
             JButton restock = new JButton("Restock");
-            restock.setBounds(250, 440+(40*i), 100 , 30);
+            restock.setBounds(270, 440+(40*i), 100 , 30);
             restock.setFocusable(false);
             restock.setBorder(BorderFactory.createRaisedBevelBorder());
             restock.setBackground(Color.DARK_GRAY);
@@ -268,6 +268,7 @@ public class MaintenancePanel extends JPanel implements ActionListener {
             php.setFont(font2);
 
             JTextField newPr = new JTextField();
+            newPr.setText(Integer.toString(SpecialVendo.createdItems[i].getPrice()));
             newPr.setBounds(460, 440+(40*i), 100, 30);
             newPr.setBackground(Color.LIGHT_GRAY);
             newPr.setHorizontalAlignment(JTextField.CENTER);
@@ -650,6 +651,12 @@ public class MaintenancePanel extends JPanel implements ActionListener {
 
         for (int i = 0; i < 3; i++) {
             if (e.getSource() == restockCreated[i]) {
+                
+                vendo.restockCreatedItems((Integer)nonSellSpinners[i].getValue(), i);
+
+                ((SpinnerNumberModel)sellModel[i]).setMinimum(SpecialVendo.createdItems[i].getStock().size());
+
+                printDialog();
 
             }
             if (e.getSource() == priceCreated[i]) {
