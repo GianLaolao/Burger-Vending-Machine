@@ -87,17 +87,6 @@ public class RegularPanel extends JPanel implements ActionListener{
 
             numTF[i] = num;
 
-            // if (RegularVendo.slotsItem[i] != null) {
-            //     itemButton[i].setText(RegularVendo.slotsItem[i].getName());
-            //     itemButton[i].setBackground(Color.WHITE);
-            //     amount.setText(Integer.toString(RegularVendo.slotsItem[i].getPrice()));
-            //     num.setText(Integer.toString(RegularVendo.slotsItem[i].getStock().size()));
-            // }
-            // else {
-            //     itemButton[i].setEnabled(false);
-            //     itemButton[i].setBackground(Color.DARK_GRAY);
-            // }
-
             itemPanel[i].add(price);
             itemPanel[i].add(amount);
             itemPanel[i].add(stock);
