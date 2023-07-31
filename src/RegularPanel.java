@@ -134,7 +134,7 @@ public class RegularPanel extends JPanel implements ActionListener{
 
                 itemButton[i].setText(RegularVendo.slotsItem[i].getName());
                 
-                itemButton[i].setIcon(buttonIcon(RegularVendo.slotsItem[i].getIcon()));
+                itemButton[i].setIcon(buttonIcon(RegularVendo.slotsItem[i].getPath()));
 
                 amountTF[i].setText(Integer.toString(RegularVendo.slotsItem[i].getPrice()));
                 numTF[i].setText(Integer.toString(RegularVendo.slotsItem[i].getStock().size()));
