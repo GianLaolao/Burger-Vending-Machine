@@ -30,11 +30,11 @@ public class VendoGUI extends JFrame implements ActionListener{
     // VendingMachine reg = new RegularVendo();
     // VendingMachine spec = new SpecialVendo();
     Initialize initialize = new Initialize();
-    Controller controller = new Controller();
+    VendingMachine vendo = new VendingMachine();
 
     public VendoGUI (int choice){ 
         
-        VendingMachine.sellableItems = initialize.initialize("src\\ItemSellable.txt");
+        RegularVendo.sellableItems = initialize.initialize("src\\ItemSellable.txt");
         SpecialVendo.nonSellableItems = initialize.initialize("src\\ItemNonSell.txt");
 
         frame = new JFrame();
@@ -111,7 +111,7 @@ public class VendoGUI extends JFrame implements ActionListener{
 
         regPanel = new RegularPanel(cancel, dispense, screen);
         specPanel = new SpecialPanel(cancel, dispense, screen);
-        maintePanel = new MaintenancePanel(controller);
+        maintePanel = new MaintenancePanel(vendo);
         paymentPanel = new PaymentPanel(payment, cancel);
 
         card = new JPanel(new CardLayout());

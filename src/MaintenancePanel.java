@@ -41,7 +41,7 @@ public class MaintenancePanel extends JPanel implements ActionListener {
     JButton sell, nonCre, monSlo;
     JButton regularB, specB, collectB, recordB;
 
-    Controller controller;
+    VendingMachine vendo;
 
     JComboBox[] slots = new JComboBox[8];
     Item[] slotItems = new Item[8];
@@ -53,9 +53,9 @@ public class MaintenancePanel extends JPanel implements ActionListener {
 
     private final String indent = "                 ";
 
-    public MaintenancePanel(Controller controller) {
+    public MaintenancePanel(VendingMachine vendo) {
 
-        this.controller = controller;
+        this.vendo = vendo;
 
         setLayout(null);
         setBounds(10,10,715,820);
@@ -81,7 +81,7 @@ public class MaintenancePanel extends JPanel implements ActionListener {
 
         for (int i = 0; i < 10; i++) {
                 
-            JLabel name = new JLabel(VendingMachine.sellableItems[i].getName());
+            JLabel name = new JLabel(RegularVendo.sellableItems[i].getName());
             name.setBounds(20, 60+(50*i), 200, 30);
             name.setBackground(Color.LIGHT_GRAY);
             name.setFont(font2);
@@ -116,7 +116,7 @@ public class MaintenancePanel extends JPanel implements ActionListener {
             php.setFont(font2);
 
             JTextField newPr = new JTextField();
-            newPr.setText(Integer.toString(VendingMachine.sellableItems[i].getPrice()));
+            newPr.setText(Integer.toString(RegularVendo.sellableItems[i].getPrice()));
             newPr.setBounds(460, 60+(50*i), 100, 30);
             newPr.setBackground(Color.LIGHT_GRAY);
             newPr.setHorizontalAlignment(JTextField.CENTER);
@@ -412,7 +412,7 @@ public class MaintenancePanel extends JPanel implements ActionListener {
         sellableItems[0] = "Empty";
 
         for(int i = 1; i <= 10; i++) {
-            sellableItems[i] = VendingMachine.sellableItems[i-1].getName();
+            sellableItems[i] = RegularVendo.sellableItems[i-1].getName();
         }
 
         for (int i = 0; i < 8; i++) {
@@ -514,7 +514,26 @@ public class MaintenancePanel extends JPanel implements ActionListener {
     private boolean priceVerify (String price) {
         
         if(price.matches("^\\d+$")) {
-            JOptionPane.showMessageDialog(null, "Price Updated!", "Notice", JOptionPane.INFORMATION_MESSAGE, null);
+
+            JDialog message = new JDialog();
+            message.setTitle("Notice: ");
+            message.setSize(new Dimension(200, 80));
+            message.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+            message.setLocationRelativeTo(null);
+
+            JLabel label = new JLabel("Price Updated!");
+            label.setBackground(new Color(0xEEEEEE));
+            label.setHorizontalAlignment(JLabel.CENTER);
+            message.addWindowFocusListener(new WindowFocusListener() {
+                public void windowGainedFocus(WindowEvent e) {
+                }
+                public void windowLostFocus(WindowEvent e) {
+                    message.dispose();
+                }
+            });
+
+            message.add(label);
+            message.setVisible(true);
             return true;
         }
         
@@ -595,9 +614,9 @@ public class MaintenancePanel extends JPanel implements ActionListener {
         
         for (int i = 0; i < 10; i++) {
             if (e.getSource() == restockSell[i]) {
-                controller.restockSellable((Integer)sellSpinners[i].getValue(), i);
+                vendo.restockSellable((Integer)sellSpinners[i].getValue(), i);
 
-                ((SpinnerNumberModel)sellModel[i]).setMinimum(VendingMachine.sellableItems[i].getStock().size());
+                ((SpinnerNumberModel)sellModel[i]).setMinimum(RegularVendo.sellableItems[i].getStock().size());
 
                 printDialog();
                
@@ -605,16 +624,16 @@ public class MaintenancePanel extends JPanel implements ActionListener {
             if (e.getSource() == priceSell[i]) {
 
                 if(priceVerify(sellTextF[i].getText())) 
-                    controller.setSellabeItemPrice(Integer.parseInt(sellTextF[i].getText()), i);
+                    vendo.setSellabeItemPrice(Integer.parseInt(sellTextF[i].getText()), i);
                 else
-                    sellTextF[i].setText(Integer.toString(VendingMachine.sellableItems[i].getPrice()));
+                    sellTextF[i].setText(Integer.toString(RegularVendo.sellableItems[i].getPrice()));
             }
         }
         
         for (int i = 0; i < 8; i++) {
             if (e.getSource() == restockNonSell[i]) {
 
-                controller.restockNonSellable((Integer)nonSellSpinners[i].getValue(), i);
+                vendo.restockNonSellable((Integer)nonSellSpinners[i].getValue(), i);
 
                 ((SpinnerNumberModel)sellModel[i]).setMinimum(SpecialVendo.nonSellableItems[i].getStock().size());
 
@@ -623,7 +642,7 @@ public class MaintenancePanel extends JPanel implements ActionListener {
             }
             if (e.getSource() == priceNonSell[i]) {
                 if(priceVerify(nonSellTextF[i].getText())) 
-                    controller.setNonSellabeItemPrice(Integer.parseInt(nonSellTextF[i].getText()), i);
+                    vendo.setNonSellabeItemPrice(Integer.parseInt(nonSellTextF[i].getText()), i);
                 else 
                     nonSellTextF[i].setText(Integer.toString(SpecialVendo.nonSellableItems[i].getPrice()));
             }
@@ -672,7 +691,7 @@ public class MaintenancePanel extends JPanel implements ActionListener {
                     RegularVendo.slotsItem[i] = null;
                 }
                 else
-                    controller.addItem(i, slots[i].getSelectedIndex() - 1);
+                    vendo.addItem(i, slots[i].getSelectedIndex() - 1);
             }
         }
     }

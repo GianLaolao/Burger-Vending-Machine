@@ -2,12 +2,12 @@
  * A RegularVendo holds the eight (8) item slots available for purchase. 
  */
 
-
-public class RegularVendo extends VendingMachine{
+public class RegularVendo{
 
     //can hold item instances
-    protected static Item[] slotsItem = new Item[8]; //accepts ArrayList of Item
+    protected static Item sellableItems[] = new Item[10]; 
     protected static Record sellableRecords[] = new Record[10];
+    protected static Item[] slotsItem = new Item[8]; //accepts ArrayList of Item
 
     //TODO    
 

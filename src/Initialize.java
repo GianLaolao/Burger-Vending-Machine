@@ -41,4 +41,21 @@ public class Initialize {
 
         return items;
     }
+
+    public void initializeCreated () {
+
+        ArrayList<Item> ketIng = new ArrayList<>();
+        ketIng.add(SpecialVendo.nonSellableItems[0]);
+        ketIng.add(SpecialVendo.nonSellableItems[0]);
+        ketIng.add(SpecialVendo.nonSellableItems[0]);
+        CreatedItem ketchup = new CreatedItem("Ketchup", 0, 1, null, ketIng);
+
+        ArrayList<Item> mayoIng = new ArrayList<>();
+        mayoIng.add(RegularVendo.sellableItems[8]);
+        mayoIng.add(RegularVendo.sellableItems[8]);
+        mayoIng.add(RegularVendo.sellableItems[8]);
+        CreatedItem mayo = new CreatedItem("Mayonnaise", 0, 2, null, mayoIng);
+
+        
+    }
 }

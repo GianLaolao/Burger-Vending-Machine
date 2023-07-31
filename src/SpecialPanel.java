@@ -25,7 +25,8 @@ public class SpecialPanel extends JPanel implements ActionListener, ItemListener
     JRadioButton[] sellable = new JRadioButton[10];
     JRadioButton[] nonSellable = new JRadioButton[8];
 
-    JLabel[] labels = new JLabel[8];
+    JLabel[] sellLabels = new JLabel[10];
+    JLabel[] nonSellLabels = new JLabel[8];
 
     JButton cancel, dispense;
     JTextArea screen;
@@ -101,16 +102,18 @@ public class SpecialPanel extends JPanel implements ActionListener, ItemListener
         brioche.setBackground(Color.white);
 
         for (int i = 0; i < 3; i++) {
-            JLabel price = new JLabel("Php: " + Integer.toString(VendingMachine.sellableItems[i].getPrice()));
+            JLabel price = new JLabel("Php: " + Integer.toString(RegularVendo.sellableItems[i].getPrice()));
             price.setBounds(240, 30+(30*i), 80, 20);
             price.setFont(font2);
             price.setBackground(Color.WHITE);
+
+            sellLabels[i] = price;
 
             JTextField stockTF = new JTextField();
             stockTF.setBounds(340, 30+(30*i), 30, 20);
             stockTF.setEditable(false);
             stockTF.setFocusable(false);
-            stockTF.setText(Integer.toString(VendingMachine.sellableItems[i].getStock().size()));
+            stockTF.setText(Integer.toString(RegularVendo.sellableItems[i].getStock().size()));
 
             sellField[i] = stockTF;
 
@@ -142,16 +145,18 @@ public class SpecialPanel extends JPanel implements ActionListener, ItemListener
         chicken.setBackground(Color.white);
 
         for (int i = 0; i < 3; i++) {
-            JLabel price = new JLabel("Php: " + Integer.toString(VendingMachine.sellableItems[i+3].getPrice()));
+            JLabel price = new JLabel("Php: " + Integer.toString(RegularVendo.sellableItems[i+3].getPrice()));
             price.setBounds(240, 150+(30*i), 80, 20);
             price.setFont(font2);
             price.setBackground(Color.WHITE);
+
+            sellLabels[i+3] = price;
 
             JTextField stockTF = new JTextField();
             stockTF.setBounds(340, 150+(30*i), 30, 20);
             stockTF.setEditable(false);
             stockTF.setFocusable(false);
-            stockTF.setText(Integer.toString(VendingMachine.sellableItems[i+3].getStock().size()));
+            stockTF.setText(Integer.toString(RegularVendo.sellableItems[i+3].getStock().size()));
 
             sellField[i+3] = stockTF;
 
@@ -193,6 +198,8 @@ public class SpecialPanel extends JPanel implements ActionListener, ItemListener
             price.setBounds(240, 270+(30*i), 80, 20);
             price.setFont(font2);
             price.setBackground(Color.WHITE);
+
+            nonSellLabels[i+4] = price;
 
             JTextField stockTF = new JTextField();
             stockTF.setBounds(340, 270+(30*i), 30, 20);
@@ -300,15 +307,15 @@ public class SpecialPanel extends JPanel implements ActionListener, ItemListener
             price.setBackground(Color.WHITE);
             price.setHorizontalAlignment(JLabel.CENTER);
 
-            labels[i] = price;
+            sellLabels[i+6] = price;
 
             JTextField stockTF = new JTextField();
             stockTF.setSize(new Dimension(30, 20));
             stockTF.setEditable(false);
             stockTF.setFocusable(false);
-            stockTF.setText(Integer.toString(VendingMachine.sellableItems[i+6].getStock().size()));
+            stockTF.setText(Integer.toString(RegularVendo.sellableItems[i+6].getStock().size()));
 
-            sellField[6+i] = stockTF;
+            sellField[i+6] = stockTF;
         }
 
         tomato = new JRadioButton("Fresh Tomato Slices");
@@ -332,13 +339,13 @@ public class SpecialPanel extends JPanel implements ActionListener, ItemListener
         onion.setBackground(Color.white);
         
         for (int i = 0; i < 4; i++) {
-            JLabel price = new JLabel("Php: " +Integer.toString(SpecialVendo.nonSellableItems[i].getPrice()));
+            JLabel price = new JLabel("Php: " + Integer.toString(SpecialVendo.nonSellableItems[i].getPrice()));
             price.setSize(new Dimension(80, 20));
             price.setFont(font2);
             price.setBackground(Color.WHITE);
             price.setHorizontalAlignment(JLabel.CENTER);
 
-            labels[i+4] = price;
+            nonSellLabels[i] = price;
 
             JTextField stockTF = new JTextField();
             stockTF.setSize(new Dimension(30, 20));
@@ -350,28 +357,28 @@ public class SpecialPanel extends JPanel implements ActionListener, ItemListener
         }
         
         addOnPanel.add(bacon);
-        addOnPanel.add(labels[0]);
+        addOnPanel.add(sellLabels[6]);
         addOnPanel.add(sellField[6]);
         addOnPanel.add(ham);
-        addOnPanel.add(labels[1]);
+        addOnPanel.add(sellLabels[7]);
         addOnPanel.add(sellField[7]);
         addOnPanel.add(egg);
-        addOnPanel.add(labels[2]);
+        addOnPanel.add(sellLabels[8]);
         addOnPanel.add(sellField[8]);
         addOnPanel.add(sausage);
-        addOnPanel.add(labels[3]);
+        addOnPanel.add(sellLabels[9]);
         addOnPanel.add(sellField[9]);
         addOnPanel.add(tomato);
-        addOnPanel.add(labels[4]);
+        addOnPanel.add(nonSellLabels[0]);
         addOnPanel.add(nonSellField[0]);
         addOnPanel.add(lettuce);
-        addOnPanel.add(labels[5]);
+        addOnPanel.add(nonSellLabels[1]);
         addOnPanel.add(nonSellField[1]);
         addOnPanel.add(pickle);
-        addOnPanel.add(labels[6]);
+        addOnPanel.add(nonSellLabels[2]);
         addOnPanel.add(nonSellField[2]);
         addOnPanel.add(onion);
-        addOnPanel.add(labels[7]);
+        addOnPanel.add(nonSellLabels[3]);
         addOnPanel.add(nonSellField[3]);
 
         scrollAddOn = new JScrollPane(addOnPanel);
@@ -409,11 +416,14 @@ public class SpecialPanel extends JPanel implements ActionListener, ItemListener
 
     public void updateStock () {
 
-        for (int i = 0; i < 10; i++) {
-            sellField[i].setText(Integer.toString(VendingMachine.sellableItems[i].getStock().size()));
+        for (int i = 0; i < 10; i++) { 
+            sellField[i].setText(Integer.toString(RegularVendo.sellableItems[i].getStock().size()));
+            sellLabels[i].setText("Php: " + Integer.toString(RegularVendo.sellableItems[i].getPrice()));
             
-            if(i < 7) 
+            if(i < 7) {
                 nonSellField[i].setText(Integer.toString(SpecialVendo.sellableItems[i].getStock().size()));
+                nonSellLabels[i].setText("Php: " + Integer.toString(SpecialVendo.nonSellableItems[i].getPrice()));
+            }        
         }
     }
 
