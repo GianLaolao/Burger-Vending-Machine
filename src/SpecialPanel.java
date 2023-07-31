@@ -1,6 +1,7 @@
 
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import java.awt.*;
 
 public class SpecialPanel extends JPanel implements ActionListener, ItemListener {
@@ -15,9 +16,22 @@ public class SpecialPanel extends JPanel implements ActionListener, ItemListener
     JRadioButton bbq, ket, mayo, thouIsl, noS;
     ButtonGroup sauce;
     JRadioButton bacon, egg,  ham, sausage, tomato, lettuce, pickle, onion;
+    JPanel addOnPanel;
+    JScrollPane scrollAddOn;
+
+    JTextField sellField[] = new JTextField[10];
+    JTextField nonSellField[] = new JTextField[8];
+
+    JRadioButton[] sellable = new JRadioButton[10];
+    JRadioButton[] nonSellable = new JRadioButton[8];
+
+    JLabel[] labels = new JLabel[8];
 
     JButton cancel, dispense;
     JTextArea screen;
+
+    Item order[] = new Item[4];
+    ArrayList<Item> addOns = new ArrayList<>();
 
     Font font1 = new Font("Monospaced Bold", Font.BOLD, 20);
     Font font2 = new Font("Monospaced Bold", Font.BOLD, 15);
@@ -70,21 +84,39 @@ public class SpecialPanel extends JPanel implements ActionListener, ItemListener
         
         sesame = new JRadioButton("Sesame Seed Bun");
         sesame.setFont(font2);
-        sesame.setBounds(50, 30, 300, 20);
+        sesame.setBounds(20, 30, 200, 20);
         sesame.setFocusable(false);
         sesame.setBackground(Color.white);
 
         wheat = new JRadioButton("Whole Wheat Bun");
         wheat.setFont(font2);
-        wheat.setBounds(50, 60, 300, 20);
+        wheat.setBounds(20, 60, 200, 20);
         wheat.setFocusable(false);
         wheat.setBackground(Color.white);
 
         brioche = new JRadioButton("Soft Brioche Bun");
         brioche.setFont(font2);
-        brioche.setBounds(50, 90, 300,20);
+        brioche.setBounds(20, 90, 200,20);
         brioche.setFocusable(false);
         brioche.setBackground(Color.white);
+
+        for (int i = 0; i < 3; i++) {
+            JLabel price = new JLabel("Php: " + Integer.toString(VendingMachine.sellableItems[i].getPrice()));
+            price.setBounds(240, 30+(30*i), 80, 20);
+            price.setFont(font2);
+            price.setBackground(Color.WHITE);
+
+            JTextField stockTF = new JTextField();
+            stockTF.setBounds(340, 30+(30*i), 30, 20);
+            stockTF.setEditable(false);
+            stockTF.setFocusable(false);
+            stockTF.setText(Integer.toString(VendingMachine.sellableItems[i].getStock().size()));
+
+            sellField[i] = stockTF;
+
+            add(price);
+            add(stockTF);
+        }        
 
         bread = new ButtonGroup();
         bread.add(sesame);
@@ -93,21 +125,39 @@ public class SpecialPanel extends JPanel implements ActionListener, ItemListener
 
         beef = new JRadioButton("Beef Patty");
         beef.setFont(font2);
-        beef.setBounds(50, 150, 300, 20);
+        beef.setBounds(20, 150, 200, 20);
         beef.setFocusable(false);
         beef.setBackground(Color.white);
 
         vegan = new JRadioButton("Plant Based Patty");
         vegan.setFont(font2);
-        vegan.setBounds(50, 180, 300, 20);
+        vegan.setBounds(20, 180, 200, 20);
         vegan.setFocusable(false);
         vegan.setBackground(Color.white);
 
         chicken = new JRadioButton("Crispy Chicken");
         chicken.setFont(font2);
-        chicken.setBounds(50, 210, 300, 20);
+        chicken.setBounds(20, 210, 200, 20);
         chicken.setFocusable(false);
         chicken.setBackground(Color.white);
+
+        for (int i = 0; i < 3; i++) {
+            JLabel price = new JLabel("Php: " + Integer.toString(VendingMachine.sellableItems[i+3].getPrice()));
+            price.setBounds(240, 150+(30*i), 80, 20);
+            price.setFont(font2);
+            price.setBackground(Color.WHITE);
+
+            JTextField stockTF = new JTextField();
+            stockTF.setBounds(340, 150+(30*i), 30, 20);
+            stockTF.setEditable(false);
+            stockTF.setFocusable(false);
+            stockTF.setText(Integer.toString(VendingMachine.sellableItems[i+3].getStock().size()));
+
+            sellField[i+3] = stockTF;
+
+            add(price);
+            add(stockTF);
+        }        
 
         meat = new ButtonGroup();
         meat.add(beef);
@@ -116,28 +166,46 @@ public class SpecialPanel extends JPanel implements ActionListener, ItemListener
 
         american = new JRadioButton("American Cheese");
         american.setFont(font2);
-        american.setBounds(50, 270, 300, 20);
+        american.setBounds(20, 270, 200, 20);
         american.setFocusable(false);
         american.setBackground(Color.white);
 
         cheddar = new JRadioButton("Cheddar Cheese");
         cheddar.setFont(font2);
-        cheddar.setBounds(50, 300, 300, 20);
+        cheddar.setBounds(20, 300, 200, 20);
         cheddar.setFocusable(false);
         cheddar.setBackground(Color.white);
         
         swiss = new JRadioButton("Swiss Cheese");
         swiss.setFont(font2);
-        swiss.setBounds(50, 330, 300, 20);
+        swiss.setBounds(20, 330, 200, 20);
         swiss.setFocusable(false);
         swiss.setBackground(Color.white);
-    
+
         noC = new JRadioButton("No Cheese");
         noC.setFont(font2);
-        noC.setBounds(50, 360, 300, 20);
+        noC.setBounds(20, 360, 300, 20);
         noC.setFocusable(false);
         noC.setBackground(Color.white);
 
+        for (int i = 0; i < 3; i++) {
+            JLabel price = new JLabel("Php: " + Integer.toString(SpecialVendo.nonSellableItems[i+4].getPrice()));
+            price.setBounds(240, 270+(30*i), 80, 20);
+            price.setFont(font2);
+            price.setBackground(Color.WHITE);
+
+            JTextField stockTF = new JTextField();
+            stockTF.setBounds(340, 270+(30*i), 30, 20);
+            stockTF.setEditable(false);
+            stockTF.setFocusable(false);
+            stockTF.setText(Integer.toString(SpecialVendo.nonSellableItems[i+4].getStock().size()));
+
+            nonSellField[i+4] = stockTF;
+
+            add(price);
+            add(stockTF);
+        }        
+    
         cheese = new ButtonGroup();
         cheese.add(american);
         cheese.add(cheddar);
@@ -146,27 +214,46 @@ public class SpecialPanel extends JPanel implements ActionListener, ItemListener
 
         bbq = new JRadioButton("Barbeque Sauce");
         bbq.setFont(font2);
-        bbq.setBounds(50, 420, 300, 20);
+        bbq.setBounds(20, 420, 200, 20);
         bbq.setFocusable(false);
         bbq.setBackground(Color.white);
 
         ket = new JRadioButton("Tomato Ketchup");
         ket.setFont(font2);
-        ket.setBounds(50, 450, 300, 20);
+        ket.setBounds(20, 450, 200, 20);
         ket.setFocusable(false);
         ket.setBackground(Color.white);
 
         mayo = new JRadioButton("Mayonnaise");
         mayo.setFont(font2);
-        mayo.setBounds(50, 480, 300, 20);
+        mayo.setBounds(20, 480, 200, 20);
         mayo.setFocusable(false);
         mayo.setBackground(Color.white);
 
         thouIsl = new JRadioButton("Thousand Island");
         thouIsl.setFont(font2);
-        thouIsl.setBounds(50, 510, 300, 20);
+        thouIsl.setBounds(20, 510, 200, 20);
         thouIsl.setFocusable(false);
         thouIsl.setBackground(Color.white);
+        
+        for (int i = 0; i < 4; i++) {
+            JLabel price = new JLabel("Stock: ");
+            price.setBounds(240, 420+(30*i), 80, 20);
+            price.setFont(font2);
+            price.setBackground(Color.WHITE);
+
+            JTextField stockTF = new JTextField();
+            stockTF.setBounds(340, 420+(30*i), 30, 20);
+            stockTF.setEditable(false);
+            stockTF.setFocusable(false);
+
+            if (i == 0) {
+                stockTF.setText(Integer.toString(SpecialVendo.nonSellableItems[7].getStock().size()));
+                nonSellField[7] = stockTF;
+            }        
+            add(price);
+            add(stockTF);
+        }        
 
         noS = new JRadioButton("No Sauce");
         noS.setFont(font2);
@@ -181,53 +268,116 @@ public class SpecialPanel extends JPanel implements ActionListener, ItemListener
         sauce.add(thouIsl);
         sauce.add(noS);
 
+        addOnPanel = new JPanel();
+        addOnPanel.setLayout(new GridLayout(8, 3));
+        addOnPanel.setSize(new Dimension(400, 135));
+        addOnPanel.setBackground(Color.WHITE);
+
         bacon = new JRadioButton("Crispy Bacon Strips");
         bacon.setFont(font2);
-        bacon.setBounds(10, 600, 180, 20);
         bacon.setFocusable(false);
         bacon.setBackground(Color.white);
 
-        egg = new JRadioButton("Sunny Side ");
-        egg.setFont(font2);
-        egg.setBounds(10, 630, 180, 20);
-        egg.setFocusable(false);
-        egg.setBackground(Color.white);
-
         ham = new JRadioButton("Sweet Smoked Ham");
         ham.setFont(font2);
-        ham.setBounds(10, 660, 180, 20);
         ham.setFocusable(false);
         ham.setBackground(Color.white);
 
+        egg = new JRadioButton("Sunny Side ");
+        egg.setFont(font2);
+        egg.setFocusable(false);
+        egg.setBackground(Color.white);
+
         sausage = new JRadioButton("Smoked Sausage");
         sausage.setFont(font2);
-        sausage.setBounds(10, 690, 180, 20);
         sausage.setFocusable(false);
         sausage.setBackground(Color.white);
 
-        lettuce = new JRadioButton("Iceberg Lettuce");
-        lettuce.setFont(font2);
-        lettuce.setBounds(210, 600, 180, 20);
-        lettuce.setFocusable(false);
-        lettuce.setBackground(Color.white);
+        for (int i = 0; i < 4; i++) {
+            JLabel price = new JLabel("Php: " + Integer.toString(SpecialVendo.sellableItems[i+6].getPrice()));
+            price.setSize(new Dimension(80, 20));
+            price.setFont(font2);
+            price.setBackground(Color.WHITE);
+            price.setHorizontalAlignment(JLabel.CENTER);
 
-        onion = new JRadioButton("Sweet Red Onion");
-        onion.setFont(font2);
-        onion.setBounds(210, 630, 180, 20);
-        onion.setFocusable(false);
-        onion.setBackground(Color.white);
+            labels[i] = price;
 
-        pickle = new JRadioButton("Fresh Pickles");
-        pickle.setFont(font2);
-        pickle.setBounds(210, 660, 180, 20);
-        pickle.setFocusable(false);
-        pickle.setBackground(Color.white);
+            JTextField stockTF = new JTextField();
+            stockTF.setSize(new Dimension(30, 20));
+            stockTF.setEditable(false);
+            stockTF.setFocusable(false);
+            stockTF.setText(Integer.toString(VendingMachine.sellableItems[i+6].getStock().size()));
+
+            sellField[6+i] = stockTF;
+        }
 
         tomato = new JRadioButton("Fresh Tomato Slices");
         tomato.setFont(font2);
-        tomato.setBounds(210, 690, 180, 20);
         tomato.setFocusable(false);
         tomato.setBackground(Color.white);
+
+        lettuce = new JRadioButton("Iceberg Lettuce");
+        lettuce.setFont(font2);
+        lettuce.setFocusable(false);
+        lettuce.setBackground(Color.white);
+
+        pickle = new JRadioButton("Fresh Pickles");
+        pickle.setFont(font2);
+        pickle.setFocusable(false);
+        pickle.setBackground(Color.white);
+
+        onion = new JRadioButton("Sweet Red Onion");
+        onion.setFont(font2);
+        onion.setFocusable(false);
+        onion.setBackground(Color.white);
+        
+        for (int i = 0; i < 4; i++) {
+            JLabel price = new JLabel("Php: " +Integer.toString(SpecialVendo.nonSellableItems[i].getPrice()));
+            price.setSize(new Dimension(80, 20));
+            price.setFont(font2);
+            price.setBackground(Color.WHITE);
+            price.setHorizontalAlignment(JLabel.CENTER);
+
+            labels[i+4] = price;
+
+            JTextField stockTF = new JTextField();
+            stockTF.setSize(new Dimension(30, 20));
+            stockTF.setEditable(false);
+            stockTF.setFocusable(false);
+            stockTF.setText(Integer.toString(SpecialVendo.nonSellableItems[i].getStock().size()));
+
+            nonSellField[i] = stockTF;
+        }
+        
+        addOnPanel.add(bacon);
+        addOnPanel.add(labels[0]);
+        addOnPanel.add(sellField[6]);
+        addOnPanel.add(ham);
+        addOnPanel.add(labels[1]);
+        addOnPanel.add(sellField[7]);
+        addOnPanel.add(egg);
+        addOnPanel.add(labels[2]);
+        addOnPanel.add(sellField[8]);
+        addOnPanel.add(sausage);
+        addOnPanel.add(labels[3]);
+        addOnPanel.add(sellField[9]);
+        addOnPanel.add(tomato);
+        addOnPanel.add(labels[4]);
+        addOnPanel.add(nonSellField[0]);
+        addOnPanel.add(lettuce);
+        addOnPanel.add(labels[5]);
+        addOnPanel.add(nonSellField[1]);
+        addOnPanel.add(pickle);
+        addOnPanel.add(labels[6]);
+        addOnPanel.add(nonSellField[2]);
+        addOnPanel.add(onion);
+        addOnPanel.add(labels[7]);
+        addOnPanel.add(nonSellField[3]);
+
+        scrollAddOn = new JScrollPane(addOnPanel);
+        scrollAddOn.setBounds(0, 590, 400, 135);
+        scrollAddOn.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollAddOn.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
         setBounds(20, 10, 400, 720);
         setBackground(Color.WHITE);
@@ -253,15 +403,18 @@ public class SpecialPanel extends JPanel implements ActionListener, ItemListener
         add(mayo);
         add(thouIsl);
         add(noS);
-        add(bacon);
-        add(egg);
-        add(ham);
-        add(sausage);
-        add(lettuce);
-        add(onion);
-        add(pickle);
-        add(tomato);
+        add(scrollAddOn);
 
+    }
+
+    public void updateStock () {
+
+        for (int i = 0; i < 10; i++) {
+            sellField[i].setText(Integer.toString(VendingMachine.sellableItems[i].getStock().size()));
+            
+            if(i < 7) 
+                nonSellField[i].setText(Integer.toString(SpecialVendo.sellableItems[i].getStock().size()));
+        }
     }
 
     public void itemStateChanged(ItemEvent e) {

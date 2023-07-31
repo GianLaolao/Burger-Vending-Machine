@@ -51,7 +51,7 @@ public class MaintenancePanel extends JPanel implements ActionListener {
     Font font2 = new Font("Monospaced Bold", Font.BOLD, 15);
     Font font3 = new Font("Monospaced Bold", Font.BOLD, 21);
 
-    private static String indent = "                 ";
+    private final String indent = "                 ";
 
     public MaintenancePanel(Controller controller) {
 
@@ -78,8 +78,6 @@ public class MaintenancePanel extends JPanel implements ActionListener {
         lSell.setHorizontalTextPosition(JLabel.CENTER);
 
         pSellable.add(lSell);
-
-        
 
         for (int i = 0; i < 10; i++) {
                 
@@ -515,10 +513,35 @@ public class MaintenancePanel extends JPanel implements ActionListener {
 
     private boolean priceVerify (String price) {
         
-        if(price.matches("^\\d+$"))
+        if(price.matches("^\\d+$")) {
+            JOptionPane.showMessageDialog(null, "Price Updated!", "Notice", JOptionPane.INFORMATION_MESSAGE, null);
             return true;
-           
+        }
+        
+        JOptionPane.showMessageDialog(null, "Invalid Price Input!", "Error", JOptionPane.INFORMATION_MESSAGE, null);
         return false;
+    }
+
+    private void printDialog() {
+        JDialog message = new JDialog();
+        message.setTitle("Notice: ");
+        message.setSize(new Dimension(200, 80));
+        message.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        message.setLocationRelativeTo(null);
+
+        JLabel label = new JLabel("Stock Updated!");
+        label.setBackground(new Color(0xEEEEEE));
+        label.setHorizontalAlignment(JLabel.CENTER);
+        message.addWindowFocusListener(new WindowFocusListener() {
+            public void windowGainedFocus(WindowEvent e) {
+            }
+            public void windowLostFocus(WindowEvent e) {
+                message.dispose();
+            }
+        });
+
+        message.add(label);
+        message.setVisible(true);
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -576,52 +599,33 @@ public class MaintenancePanel extends JPanel implements ActionListener {
 
                 ((SpinnerNumberModel)sellModel[i]).setMinimum(VendingMachine.sellableItems[i].getStock().size());
 
-                JDialog message = new JDialog();
-                message.setTitle("Notice: ");
-                message.setSize(new Dimension(200, 80));
-                message.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-                message.setLocationRelativeTo(null);
-
-                JLabel label = new JLabel("Stock Updated!");
-                label.setBackground(new Color(0xEEEEEE));
-                label.setHorizontalAlignment(JLabel.CENTER);
-
-                message.addWindowFocusListener(new WindowFocusListener() {
-                    public void windowGainedFocus(WindowEvent e) {
-                    }
-                    public void windowLostFocus(WindowEvent e) {
-                        message.dispose();
-                    }
-                });
-
-                message.add(label);
-                message.setVisible(true);
+                printDialog();
+               
             }
             if (e.getSource() == priceSell[i]) {
-                if(priceVerify(sellTextF[i].getText())) {
+
+                if(priceVerify(sellTextF[i].getText())) 
                     controller.setSellabeItemPrice(Integer.parseInt(sellTextF[i].getText()), i);
-                    JOptionPane.showMessageDialog(null, "Price Updated!", "Notice", JOptionPane.INFORMATION_MESSAGE, null);
-                }
-                else {
+                else
                     sellTextF[i].setText(Integer.toString(VendingMachine.sellableItems[i].getPrice()));
-                    JOptionPane.showMessageDialog(null, "Invalid Price Input!", "Error", JOptionPane.INFORMATION_MESSAGE, null);
-                }
             }
         }
         
         for (int i = 0; i < 8; i++) {
             if (e.getSource() == restockNonSell[i]) {
 
+                controller.restockNonSellable((Integer)nonSellSpinners[i].getValue(), i);
+
+                ((SpinnerNumberModel)sellModel[i]).setMinimum(SpecialVendo.nonSellableItems[i].getStock().size());
+
+                printDialog();
+
             }
             if (e.getSource() == priceNonSell[i]) {
-                if(priceVerify(nonSellTextF[i].getText())) {
+                if(priceVerify(nonSellTextF[i].getText())) 
                     controller.setNonSellabeItemPrice(Integer.parseInt(nonSellTextF[i].getText()), i);
-                    JOptionPane.showMessageDialog(null, "Price Updated!", "Notice", JOptionPane.INFORMATION_MESSAGE, null);
-                }
-                else {
+                else 
                     nonSellTextF[i].setText(Integer.toString(SpecialVendo.nonSellableItems[i].getPrice()));
-                    JOptionPane.showMessageDialog(null, "Invalid Price Input!", "Error", JOptionPane.INFORMATION_MESSAGE, null);
-                }
             }
         }
 
@@ -664,7 +668,11 @@ public class MaintenancePanel extends JPanel implements ActionListener {
         
         for (int i = 0; i < 8; i++) {
             if (e.getSource() == slots[i]) {
-                controller.addItem(i, slots[i].getSelectedIndex() - 1);
+                if (slots[i].getSelectedIndex() == 0) {
+                    RegularVendo.slotsItem[i] = null;
+                }
+                else
+                    controller.addItem(i, slots[i].getSelectedIndex() - 1);
             }
         }
     }

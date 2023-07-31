@@ -15,19 +15,19 @@ Onion
 0
 4
 null
-Barbeque Sauce
+American Cheese
 0
 5
 null
-American Cheese
+Cheddar Cheese
 0
 6
 null
-Cheddar Cheese
+Swiss Cheese
 0
 7
 null
-Swiss Cheese
+Barbeque Sauce
 0
 8
 null

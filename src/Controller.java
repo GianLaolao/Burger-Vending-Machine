@@ -79,9 +79,9 @@ public class Controller {
         return null;
     }
 
-    public void restockNonSellable (int quantity) {
+    public void restockNonSellable (int quantity, int slot) {
 
-        //TODO
+        SpecialVendo.nonSellableItems[slot].addStock(quantity, SpecialVendo.nonSellableItems[slot]);
 
     }
 

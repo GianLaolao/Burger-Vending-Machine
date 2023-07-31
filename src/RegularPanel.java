@@ -18,7 +18,7 @@ public class RegularPanel extends JPanel implements ActionListener{
     JTextField[] amountTF = new JTextField[8];
     JTextField[] numTF = new JTextField[8];
 
-    private static String indent = "                             ";
+    private final String indent = "                             ";
 
     RegularPanel(JButton cancel, JButton dispense, JTextArea screen) {
 
@@ -147,7 +147,17 @@ public class RegularPanel extends JPanel implements ActionListener{
                     itemButton[i].setBackground(Color.DARK_GRAY);
                     itemButton[i].setEnabled(false);   
                 }
-            }   
+            }
+            else if (RegularVendo.slotsItem[i] == null) {
+                itemButton[i].setIcon(null);
+                itemButton[i].setText(null);
+                itemButton[i].setBackground(Color.DARK_GRAY);
+                itemButton[i].setEnabled(false); 
+
+                numTF[i].setText(null);
+                amountTF[i].setText(null);
+                 
+            }
             else {
                 itemButton[i].setEnabled(false);
                 itemButton[i].setBackground(Color.DARK_GRAY);

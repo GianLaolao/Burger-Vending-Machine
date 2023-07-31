@@ -34,8 +34,8 @@ public class VendoGUI extends JFrame implements ActionListener{
 
     public VendoGUI (int choice){ 
         
-        VendingMachine.sellableItems = initialize.initialize("src/ItemSellable.txt");
-        SpecialVendo.nonSellableItems = initialize.initialize("src/ItemNonSell.txt");
+        VendingMachine.sellableItems = initialize.initialize("src\\ItemSellable.txt");
+        SpecialVendo.nonSellableItems = initialize.initialize("src\\ItemNonSell.txt");
 
         frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -229,6 +229,8 @@ public class VendoGUI extends JFrame implements ActionListener{
         }
         if (e.getSource() == maintePanel.specB) {
             
+            specPanel.updateStock();
+
             frame.remove(maintePanel);
 
             frame.revalidate();
@@ -278,7 +280,7 @@ public class VendoGUI extends JFrame implements ActionListener{
     }
     
     public static void main(String[] args) {
-        new VendoGUI(2);
+        new VendoGUI(1);
 
     }
 }
