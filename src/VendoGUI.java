@@ -37,9 +37,9 @@ public class VendoGUI extends JFrame implements ActionListener{
         SpecialVendo.nonSellableItems = initialize.initialize("src\\ItemNonSell.txt");
         initialize.initializeCreated();
 
-        RegularVendo.sellableRecords = initialize.createRecord(RegularVendo.sellableItems);
-        SpecialVendo.nonSellRecords = initialize.createRecord(SpecialVendo.nonSellableItems);
-        SpecialVendo.createdRecords = initialize.createRecord(SpecialVendo.createdItems);
+        vendo.getRegular().setRecords(initialize.createRecord(RegularVendo.sellableItems));
+        vendo.getSpecial().setNonSellRecords(initialize.createRecord(SpecialVendo.nonSellableItems));
+        vendo.getSpecial().setCreatedRecords(initialize.createRecord(SpecialVendo.createdItems));
 
         frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -125,10 +125,10 @@ public class VendoGUI extends JFrame implements ActionListener{
         regular.setBorder(BorderFactory.createRaisedBevelBorder());
         regular.addActionListener(this);
 
-        regPanel = new RegularPanel(cancel, dispense, screen, total);
+        regPanel = new RegularPanel(cancel, dispense, screen, total, vendo);
         specPanel = new SpecialPanel(cancel, dispense, screen, total);
         maintePanel = new MaintenancePanel(vendo);
-        paymentPanel = new PaymentPanel(payment, cancel);
+        paymentPanel = new PaymentPanel(payment, cancel, vendo);
 
         card = new JPanel(new CardLayout());
         card.setBounds(30, 10, 400, 720);

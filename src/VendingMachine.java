@@ -8,15 +8,15 @@ public class VendingMachine {
     
     //can be changed to Items
 
-    protected static MoneyCalc moneyCalc = new MoneyCalc();
-    RegularVendo regular = new RegularVendo();
-    SpecialVendo special = new SpecialVendo();
+    private MoneyCalc moneyCalc = new MoneyCalc();
+    private RegularVendo regular = new RegularVendo();
+    private SpecialVendo special = new SpecialVendo();
 
     
     public void addItem(int slot, int index) { 
         
         if (index != -1)
-            RegularVendo.slotsItem[slot] = RegularVendo.sellableItems[index];
+            regular.getSlotsItem()[slot] = RegularVendo.sellableItems[index];
 
     }
 
@@ -39,6 +39,17 @@ public class VendingMachine {
     public void restockSellable(int quantity, int slot) {
     
         RegularVendo.sellableItems[slot].addStock(quantity, RegularVendo.sellableItems[slot]);
+    }
+
+    public void restockNonSellable (int quantity, int slot) {
+
+        SpecialVendo.nonSellableItems[slot].addStock(quantity, SpecialVendo.nonSellableItems[slot]);
+
+    }
+
+    public boolean restockCreatedItems (int quantity, int slot) {
+
+        return SpecialVendo.createdItems[slot].addStock(quantity, SpecialVendo.createdItems[slot]);
     }
 
 /* 
@@ -73,15 +84,15 @@ public class VendingMachine {
         return null;
     }
 
-    public int getTotalSales() {
+    // public int getTotalSales() {
 
-        int totalSales = 0;
-        for(int i = 0; i < RegularVendo.sellableRecords.length; i++) {
-            totalSales += RegularVendo.sellableRecords[i].getSoldAmount();
-        }
+    //     int totalSales = 0;
+    //     for(int i = 0; i < regular.getSellableRecords().length; i++) {
+    //         totalSales += RegularVendo.sellableRecords[i].getSoldAmount();
+    //     }
         
-        return totalSales;
-    }
+    //     return totalSales;
+    // }
 
     public Item[] getOrder(int[] order) {
 
@@ -90,16 +101,19 @@ public class VendingMachine {
         return null;
     }
 
-    public void restockNonSellable (int quantity, int slot) {
-
-        SpecialVendo.nonSellableItems[slot].addStock(quantity, SpecialVendo.nonSellableItems[slot]);
-
+    public MoneyCalc getMoneyCalc() {
+        return moneyCalc;
     }
 
-    public boolean restockCreatedItems (int quantity, int slot) {
-
-        return SpecialVendo.createdItems[slot].addStock(quantity, SpecialVendo.createdItems[slot]);
+    public RegularVendo getRegular() {
+        return regular;
     }
+
+    public SpecialVendo getSpecial() {
+        return special;
+    }
+
+    
 }
     
 

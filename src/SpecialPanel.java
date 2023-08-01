@@ -466,6 +466,7 @@ public class SpecialPanel extends JPanel implements ActionListener, ItemListener
             
             if (i < 3) {
                 createdField[i].setText(Integer.toString(SpecialVendo.createdItems[i].getStock().size()));
+                createdLabels[i].setText("Php: " + Integer.toString(SpecialVendo.createdItems[i].getPrice()));
             }
         }
     }

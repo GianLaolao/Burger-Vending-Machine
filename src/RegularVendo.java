@@ -6,16 +6,16 @@ public class RegularVendo{
 
     //can hold item instances
     protected static Item sellableItems[] = new Item[10]; 
-    protected static Record sellableRecords[] = new Record[10];
-    protected static Item[] slotsItem = new Item[8]; //accepts ArrayList of Item
+    private Record sellableRecords[] = new Record[10];
+    private Item[] slotsItem = new Item[8]; //accepts ArrayList of Item
 
     //TODO    
 
-    public static void setRecords(Record[] records) {
-        RegularVendo.sellableRecords = records;
+    public void setRecords(Record[] records) {
+        this.sellableRecords = records;
     }
 
-    public Record[] getRecords() {
+    public Record[] getSellableRecords() {
         return sellableRecords; //returns the vending machine records
     }
 
@@ -31,7 +31,7 @@ public class RegularVendo{
         slotsItem[slot] = item;
     }
 
-    public static Item[] getSlotsItem() {
+    public Item[] getSlotsItem() {
         return slotsItem;
     }
 }

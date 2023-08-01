@@ -5,12 +5,31 @@ public class SpecialVendo extends RegularVendo{
     //methods for Special vendo
 
     protected static Item nonSellableItems[] = new Item[8];
-    protected static Record nonSellRecords[] = new Record[10];
+    private Record nonSellRecords[] = new Record[10];
     protected static CreatedItem createdItems[] = new CreatedItem[3];
-    protected static Record createdRecords[] = new Record[3]; 
-    // private Item specialItem[] 
+    private Record createdRecords[] = new Record[3]; 
     
-    public static Item[] getNonSellables() {
+    public static Item[] getNonSellableItems() {
         return nonSellableItems;
+    }
+
+    public static CreatedItem[] getCreatedItems() {
+        return createdItems;
+    }
+
+    public void setNonSellRecords(Record[] nonSellRecords) {
+        this.nonSellRecords = nonSellRecords;
+    }
+
+    public void setCreatedRecords(Record[] createdRecords) {
+        this.createdRecords = createdRecords;
+    }
+
+    public Record[] getNonSellRecords() {
+        return nonSellRecords;
+    }
+
+    public Record[] getCreatedRecords() {
+        return createdRecords;
     }
 }

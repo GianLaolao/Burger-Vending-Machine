@@ -365,7 +365,7 @@ public class MaintenancePanel extends JPanel implements ActionListener {
 
         for (int i = 0; i < 9; i++) {
 
-            SpinnerModel value = new SpinnerNumberModel(0, VendingMachine.moneyCalc.getVendoMoney().getDenominations()[i].getQuantity(), 99, 1);
+            SpinnerModel value = new SpinnerNumberModel(0,  vendo.getMoneyCalc().getVendoMoney().getDenominations()[i].getQuantity(), 99, 1);
             JSpinner spinner = new JSpinner(value);       
             spinner.setBounds(120, 60+(50*i), 80, 30);
             spinner.setFocusable(false);
@@ -523,6 +523,12 @@ public class MaintenancePanel extends JPanel implements ActionListener {
                 ((SpinnerNumberModel)nonSellModel[i]).setMinimum(SpecialVendo.nonSellableItems[i].getStock().size());
                 nonSellModel[i].setValue(SpecialVendo.nonSellableItems[i].getStock().size());
             }
+
+            if (i < 3) {
+                ((SpinnerNumberModel)createdModel[i]).setMinimum(SpecialVendo.nonSellableItems[i].getStock().size());
+                createdModel[i].setValue(SpecialVendo.createdItems[i].getStock().size());
+   
+            }
         }
     }
 
@@ -632,7 +638,7 @@ public class MaintenancePanel extends JPanel implements ActionListener {
             mainteCardLayout.show(mainteCard, "MonSlo");
         }
         if (e.getSource() == collectB) {
-            MoneyBox profit = VendingMachine.moneyCalc.getVendoMoney();
+            MoneyBox profit = vendo.getMoneyCalc().getVendoMoney();
             String message = "\tProfit: \n\n" +
                             " Value:   \tQuantity:   \tTotal:  \n\n";
 
@@ -656,7 +662,7 @@ public class MaintenancePanel extends JPanel implements ActionListener {
                 }
             }
             
-            String total = Integer.toString(VendingMachine.moneyCalc.retrieveProfit());
+            String total = Integer.toString( vendo.getMoneyCalc().retrieveProfit());
             message += "\n\tTotal:          Php: " + total;
             text.setText(message);
 
@@ -664,9 +670,9 @@ public class MaintenancePanel extends JPanel implements ActionListener {
         }
         if (e.getSource() == recordB) {
             
-            Record[] sellable = RegularVendo.sellableRecords;
-            Record[] nonSellable = SpecialVendo.nonSellRecords;
-            Record[] created = SpecialVendo.createdRecords;
+            Record[] sellable = vendo.getRegular().getSellableRecords();
+            Record[] nonSellable = vendo.getSpecial().getNonSellRecords();
+            Record[] created = vendo.getSpecial().getCreatedRecords();
 
             String total;
             int amount = 0;
@@ -702,9 +708,9 @@ public class MaintenancePanel extends JPanel implements ActionListener {
 
                 vendo.restockSellable((Integer)sellSpinners[i].getValue() - RegularVendo.sellableItems[i].getStock().size(), i);
 
-                RegularVendo.sellableRecords[i].setStartingInventory();
-                RegularVendo.sellableRecords[i].resetSoldAmount();
-                RegularVendo.sellableRecords[i].setSold(0);
+                vendo.getRegular().getSellableRecords()[i].setStartingInventory();
+                vendo.getRegular().getSellableRecords()[i].resetSoldAmount();
+                vendo.getRegular().getSellableRecords()[i].setSold(0);
 
                 ((SpinnerNumberModel)sellModel[i]).setMinimum(RegularVendo.sellableItems[i].getStock().size());
 
@@ -725,11 +731,11 @@ public class MaintenancePanel extends JPanel implements ActionListener {
 
                 vendo.restockNonSellable((Integer)nonSellSpinners[i].getValue() - SpecialVendo.nonSellableItems[i].getStock().size(), i);
 
-                SpecialVendo.nonSellRecords[i].setStartingInventory();
-                SpecialVendo.nonSellRecords[i].resetSoldAmount();
-                SpecialVendo.nonSellRecords[i].setSold(0);
+                vendo.getSpecial().getNonSellRecords()[i].setStartingInventory();
+                vendo.getSpecial().getNonSellRecords()[i].resetSoldAmount();
+                vendo.getSpecial().getNonSellRecords()[i].setSold(0);
 
-                ((SpinnerNumberModel)sellModel[i]).setMinimum(SpecialVendo.nonSellableItems[i].getStock().size());
+                ((SpinnerNumberModel)nonSellModel[i]).setMinimum(SpecialVendo.nonSellableItems[i].getStock().size());
 
                 printDialog();
 
@@ -748,11 +754,13 @@ public class MaintenancePanel extends JPanel implements ActionListener {
     
                 if (vendo.restockCreatedItems((Integer)createdSpinners[i].getValue() - SpecialVendo.createdItems[i].getStock().size(), i)) {
 
-                    SpecialVendo.createdRecords[i].setStartingInventory();
-                    SpecialVendo.createdRecords[i].resetSoldAmount();
-                    SpecialVendo.createdRecords[i].setSold(0);
+                    vendo.getSpecial().getCreatedRecords()[i].setStartingInventory();
+                    vendo.getSpecial().getCreatedRecords()[i].resetSoldAmount();
+                    vendo.getSpecial().getCreatedRecords()[i].setSold(0);
                     
-                    ((SpinnerNumberModel)sellModel[i]).setMinimum(SpecialVendo.createdItems[i].getStock().size());
+                    ((SpinnerNumberModel)createdModel[i]).setMinimum(SpecialVendo.createdItems[i].getStock().size());
+
+                    System.out.println(SpecialVendo.createdItems[i].getStock().size());
 
                     updateStockValue();
                     printDialog();
@@ -773,8 +781,8 @@ public class MaintenancePanel extends JPanel implements ActionListener {
 
         for (int i = 0; i < 9; i++) {
             if (e.getSource() == bAddMoney[i]) {
-                VendingMachine.moneyCalc.getVendoMoney().getDenominations()[i].setQuantity((int)moneySpinner[i].getValue());
-                ((SpinnerNumberModel)moneyModel[i]).setMinimum(VendingMachine.moneyCalc.getVendoMoney().getDenominations()[i].getQuantity());
+                vendo.getMoneyCalc().getVendoMoney().getDenominations()[i].setQuantity((int)moneySpinner[i].getValue());
+                ((SpinnerNumberModel)moneyModel[i]).setMinimum( vendo.getMoneyCalc().getVendoMoney().getDenominations()[i].getQuantity());
                 
                 JDialog message = new JDialog();
                 message.setTitle("Notice: ");
@@ -802,7 +810,7 @@ public class MaintenancePanel extends JPanel implements ActionListener {
         for (int i = 0; i < 8; i++) {
             if (e.getSource() == slots[i]) {
                 if (slots[i].getSelectedIndex() == 0) {
-                    RegularVendo.slotsItem[i] = null;
+                    vendo.getRegular().getSlotsItem()[i] = null;
                 }
                 else
                     vendo.addItem(i, slots[i].getSelectedIndex() - 1);

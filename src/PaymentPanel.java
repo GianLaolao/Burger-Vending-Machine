@@ -13,14 +13,18 @@ public class PaymentPanel extends JPanel implements ActionListener {
     Font font1 = new Font("Monospaced Bold", Font.BOLD, 20);
     Font font2 = new Font("Monospaced Bold", Font.BOLD, 15);
 
-    private static String indent = "                  ";
+    VendingMachine vendo;
 
-    public PaymentPanel(JTextField payment, JButton cancel) {
+    private final String indent = "                  ";
+
+    public PaymentPanel(JTextField payment, JButton cancel, VendingMachine vendo) {
 
         this.payment = payment;
         
         this.cancel = cancel;
         cancel.addActionListener(this);
+
+        this.vendo = vendo;
 
         moneyButton[0] = one = new JButton("1");
         moneyButton[1] = five = new JButton("5");
@@ -52,43 +56,43 @@ public class PaymentPanel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
     
         if (e.getSource() == one){
-            VendingMachine.moneyCalc.getUserMoney().setDenom(0, 1);
-            payment.setText("Php " + String.format("%.2f", Float.valueOf(VendingMachine.moneyCalc.getUserMoney().getTotal())));
+            vendo.getMoneyCalc().getUserMoney().setDenom(0, 1);
+            payment.setText("Php " + String.format("%.2f", Float.valueOf( vendo.getMoneyCalc().getUserMoney().getTotal())));
         }
         if (e.getSource() == five){
-            VendingMachine.moneyCalc.getUserMoney().setDenom(1, 1);
-            payment.setText("Php " + String.format("%.2f", Float.valueOf(VendingMachine.moneyCalc.getUserMoney().getTotal())));
+             vendo.getMoneyCalc().getUserMoney().setDenom(1, 1);
+            payment.setText("Php " + String.format("%.2f", Float.valueOf( vendo.getMoneyCalc().getUserMoney().getTotal())));
         }
         if (e.getSource() == ten){
-            VendingMachine.moneyCalc.getUserMoney().setDenom(2, 1);
-            payment.setText("Php " + String.format("%.2f", Float.valueOf(VendingMachine.moneyCalc.getUserMoney().getTotal())));
+             vendo.getMoneyCalc().getUserMoney().setDenom(2, 1);
+            payment.setText("Php " + String.format("%.2f", Float.valueOf( vendo.getMoneyCalc().getUserMoney().getTotal())));
         }
         if (e.getSource() == twenty){
-            VendingMachine.moneyCalc.getUserMoney().setDenom(3, 1);
-            payment.setText("Php " + String.format("%.2f", Float.valueOf(VendingMachine.moneyCalc.getUserMoney().getTotal())));
+             vendo.getMoneyCalc().getUserMoney().setDenom(3, 1);
+            payment.setText("Php " + String.format("%.2f", Float.valueOf( vendo.getMoneyCalc().getUserMoney().getTotal())));
         }
         if (e.getSource() == fifty){
-            VendingMachine.moneyCalc.getUserMoney().setDenom(4, 1);
-            payment.setText("Php " + String.format("%.2f", Float.valueOf(VendingMachine.moneyCalc.getUserMoney().getTotal())));
+             vendo.getMoneyCalc().getUserMoney().setDenom(4, 1);
+            payment.setText("Php " + String.format("%.2f", Float.valueOf( vendo.getMoneyCalc().getUserMoney().getTotal())));
         }
         if (e.getSource() == hundred){
-            VendingMachine.moneyCalc.getUserMoney().setDenom(5, 1);
-            payment.setText("Php " + String.format("%.2f", Float.valueOf(VendingMachine.moneyCalc.getUserMoney().getTotal())));
+             vendo.getMoneyCalc().getUserMoney().setDenom(5, 1);
+            payment.setText("Php " + String.format("%.2f", Float.valueOf( vendo.getMoneyCalc().getUserMoney().getTotal())));
         }
         if (e.getSource() == twoHun){
-            VendingMachine.moneyCalc.getUserMoney().setDenom(6, 1);
-            payment.setText("Php " + String.format("%.2f", Float.valueOf(VendingMachine.moneyCalc.getUserMoney().getTotal())));
+             vendo.getMoneyCalc().getUserMoney().setDenom(6, 1);
+            payment.setText("Php " + String.format("%.2f", Float.valueOf( vendo.getMoneyCalc().getUserMoney().getTotal())));
         }
         if (e.getSource() == fiveHun){
-            VendingMachine.moneyCalc.getUserMoney().setDenom(7, 1);
-            payment.setText("Php " + String.format("%.2f", Float.valueOf(VendingMachine.moneyCalc.getUserMoney().getTotal())));
+             vendo.getMoneyCalc().getUserMoney().setDenom(7, 1);
+            payment.setText("Php " + String.format("%.2f", Float.valueOf( vendo.getMoneyCalc().getUserMoney().getTotal())));
         }
         if (e.getSource() == thou){
-            VendingMachine.moneyCalc.getUserMoney().setDenom(8, 1);
-            payment.setText("Php " + String.format("%.2f", Float.valueOf(VendingMachine.moneyCalc.getUserMoney().getTotal())));
+             vendo.getMoneyCalc().getUserMoney().setDenom(8, 1);
+            payment.setText("Php " + String.format("%.2f", Float.valueOf( vendo.getMoneyCalc().getUserMoney().getTotal())));
         }
         if (e.getSource() ==  cancel) {
-            MoneyBox x = VendingMachine.moneyCalc.getUserMoney();
+            MoneyBox x =  vendo.getMoneyCalc().getUserMoney();
             String message = "         Payment Returned \n\n" +
                             "Value:\t\tQuantity: \n";
 
@@ -107,7 +111,7 @@ public class PaymentPanel extends JPanel implements ActionListener {
 
             text.setText(message);
 
-            VendingMachine.moneyCalc.resetUserMoney();
+             vendo.getMoneyCalc().resetUserMoney();
             JOptionPane.showMessageDialog(null, text, "Payment Return", JOptionPane.INFORMATION_MESSAGE);
         }
         

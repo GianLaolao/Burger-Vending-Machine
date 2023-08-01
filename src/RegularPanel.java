@@ -24,9 +24,11 @@ public class RegularPanel extends JPanel implements ActionListener{
 
     ArrayList<Item> order = new ArrayList<>();
 
+    RegularVendo reg;
+
     private final String indent = "                             ";
 
-    RegularPanel(JButton cancel, JButton dispense, JTextArea screen, JTextField total) {
+    RegularPanel(JButton cancel, JButton dispense, JTextArea screen, JTextField total, VendingMachine vendo) {
 
         this.cancel = cancel;
         cancel.addActionListener(this);
@@ -36,6 +38,8 @@ public class RegularPanel extends JPanel implements ActionListener{
 
         this.screen = screen;
         this.total = total;
+
+        reg = vendo.getRegular();
 
         itemButton[0] = bSlot1 = new JButton();
         itemButton[1] = bSlot2 = new JButton();
@@ -143,16 +147,16 @@ public class RegularPanel extends JPanel implements ActionListener{
     public void updateSlots () {
 
         for (int i = 0; i < 8; i++) {
-            if (RegularVendo.slotsItem[i] != null) {
+            if (reg.getSlotsItem()[i] != null) {
 
-                itemButton[i].setText(RegularVendo.slotsItem[i].getName());
+                itemButton[i].setText(reg.getSlotsItem()[i].getName());
                 
-                itemButton[i].setIcon(buttonIcon(RegularVendo.slotsItem[i].getPath()));
+                itemButton[i].setIcon(buttonIcon( reg.getSlotsItem()[i].getPath()));
 
-                amountTF[i].setText(Integer.toString(RegularVendo.slotsItem[i].getPrice()));
-                numTF[i].setText(Integer.toString(RegularVendo.slotsItem[i].getStock().size()));
+                amountTF[i].setText(Integer.toString( reg.getSlotsItem()[i].getPrice()));
+                numTF[i].setText(Integer.toString( reg.getSlotsItem()[i].getStock().size()));
 
-                if (RegularVendo.slotsItem[i].getStock().size() != 0) {
+                if ( reg.getSlotsItem()[i].getStock().size() != 0) {
                     itemButton[i].setBackground(Color.WHITE);
                     itemButton[i].setEnabled(true);   
                 }
@@ -161,7 +165,7 @@ public class RegularPanel extends JPanel implements ActionListener{
                     itemButton[i].setEnabled(false);   
                 }
             }
-            else if (RegularVendo.slotsItem[i] == null) {
+            else if ( reg.getSlotsItem()[i] == null) {
                 itemButton[i].setIcon(null);
                 itemButton[i].setText(null);
                 itemButton[i].setBackground(Color.DARK_GRAY);
@@ -181,7 +185,7 @@ public class RegularPanel extends JPanel implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == bSlot1) {
             if (order.size() != 5) {
-                order.add(RegularVendo.slotsItem[0]);
+                order.add(reg.getSlotsItem()[0]);
                 printScreen();
             }
             else 
@@ -189,7 +193,7 @@ public class RegularPanel extends JPanel implements ActionListener{
         }
         if (e.getSource() == bSlot2) {
             if (order.size() != 5) {
-                order.add(RegularVendo.slotsItem[1]);
+                order.add( reg.getSlotsItem()[1]);
                 printScreen();
             }
             else 
@@ -197,7 +201,7 @@ public class RegularPanel extends JPanel implements ActionListener{
         }
         if (e.getSource() == bSlot3) {
             if (order.size() != 5) {
-                order.add(RegularVendo.slotsItem[2]);
+                order.add( reg.getSlotsItem()[2]);
                 printScreen();
             }
             else 
@@ -205,7 +209,7 @@ public class RegularPanel extends JPanel implements ActionListener{
         }
         if (e.getSource() == bSlot4) {
             if (order.size() != 5) {
-                order.add(RegularVendo.slotsItem[3]);
+                order.add( reg.getSlotsItem()[3]);
                 printScreen();
             }
             else 
@@ -213,7 +217,7 @@ public class RegularPanel extends JPanel implements ActionListener{
         }
         if (e.getSource() == bSlot5) {
             if (order.size() != 5) {
-                order.add(RegularVendo.slotsItem[4]);
+                order.add( reg.getSlotsItem()[4]);
                 printScreen();
             }
             else 
@@ -221,7 +225,7 @@ public class RegularPanel extends JPanel implements ActionListener{
         }
         if (e.getSource() == bSlot6) {
             if (order.size() != 5) {
-                order.add(RegularVendo.slotsItem[5]);
+                order.add( reg.getSlotsItem()[5]);
                 printScreen();
             }
             else 
@@ -229,7 +233,7 @@ public class RegularPanel extends JPanel implements ActionListener{
         }
         if (e.getSource() == bSlot7) {
             if (order.size() != 5) {
-                order.add(RegularVendo.slotsItem[6]);
+                order.add( reg.getSlotsItem()[6]);
                 printScreen();
             }
             else 
@@ -237,7 +241,7 @@ public class RegularPanel extends JPanel implements ActionListener{
         }
         if (e.getSource() == bSlot8) {
             if (order.size() != 5) {
-                order.add(RegularVendo.slotsItem[7]);
+                order.add( reg.getSlotsItem()[7]);
                 printScreen();
             }
             else 
