@@ -578,6 +578,45 @@ public class MaintenancePanel extends JPanel implements ActionListener {
         message.setVisible(true);
     }
 
+    private String printRecords (Record[] sell, Record[] nonSell, Record[] create) {
+
+        String s = "", ns = "", cr = "";
+        String in = "                               ";
+        String message = "\t\tRecords \n\n" + 
+                        "Item\t\tStart Inventory\tEnding Inventory\t    Quantity Sold\n\n";
+
+        for (int i = 0; i < 10; i++) {
+            String a = sell[i].getItem().getName();
+            a += in.substring(0, in.length() - a.length());
+            a += "\t\t" + Integer.toString(sell[i].getStartingInventory());
+            a += "\t\t" + Integer.toString(sell[i].getItem().getStock().size());
+            a += "\t\t" + sell[i].getSold() + "\n";
+            s += a;
+
+            if (i < 8) {
+                String b = nonSell[i].getItem().getName();
+                b += in.substring(0, in.length() - b.length());
+                b += "\t\t" + Integer.toString(nonSell[i].getStartingInventory());
+                b += "\t\t" + Integer.toString(nonSell[i].getItem().getStock().size());
+                b += "\t\t" + sell[i].getSold() + "\n";
+                ns += b;
+            }
+
+            if (i < 3) {
+                String c = create[i].getItem().getName();
+                c += in.substring(0, in.length() - c.length());
+                c += "\t\t" + Integer.toString(create[i].getStartingInventory());
+                c += "\t\t" + Integer.toString(create[i].getItem().getStock().size());
+                c += "\t\t" + sell[i].getSold() + "\n";
+                cr += c;
+            }
+        }
+
+        message += s + "\n" + ns + "\n" + cr + "\n";
+
+        return message;
+    }
+
     public void actionPerformed(ActionEvent e) {
         // TODO Auto-generated method stub
         if (e.getSource() == sell) {
@@ -625,8 +664,39 @@ public class MaintenancePanel extends JPanel implements ActionListener {
         }
         if (e.getSource() == recordB) {
             
+            Record[] sellable = RegularVendo.sellableRecords;
+            Record[] nonSellable = SpecialVendo.nonSellRecords;
+            Record[] created = SpecialVendo.createdRecords;
+
+            String total;
+            int amount = 0;
+
+            JTextArea text = new JTextArea();
+            text.setEditable(false);
+            text.setFocusable(false);
+            text.setFont(font2);
+            text.setBackground(new Color(0xEEEEEE));
+            text.setSize(new Dimension(300, 300));
+
+            String message = printRecords(sellable, nonSellable, created);
+
+            for (int i = 0; i < 10; i++) {
+                amount += sellable[i].getSoldAmount();
+                if (i < 8)
+                    amount += nonSellable[i].getSoldAmount();
+                if (i < 3)
+                    amount += created[i].getSoldAmount();
+            }
+
+           total = Integer.toString(amount);
+            
+           message += "\n" + "\tTotal: " + total;
+           text.setText(message);
+
+           JOptionPane.showMessageDialog(null, text, "Transaction Records", JOptionPane.PLAIN_MESSAGE);
         }
         
+
         for (int i = 0; i < 10; i++) {
             if (e.getSource() == restockSell[i]) {
 
@@ -694,10 +764,10 @@ public class MaintenancePanel extends JPanel implements ActionListener {
             }
             if (e.getSource() == priceCreated[i]) {
 
-                    if(priceVerify(createdTextF[i].getText())) 
-                    vendo.setNonSellabeItemPrice(Integer.parseInt(nonSellTextF[i].getText()), i);
+                if(priceVerify(createdTextF[i].getText())) 
+                    vendo.setCreatedItemPrice(Integer.parseInt(createdTextF[i].getText()), i);
                 else 
-                    nonSellTextF[i].setText(Integer.toString(SpecialVendo.nonSellableItems[i].getPrice()));
+                    createdTextF[i].setText(Integer.toString(SpecialVendo.createdItems[i].getPrice()));
             }
         }
 

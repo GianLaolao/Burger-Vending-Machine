@@ -57,7 +57,10 @@ public class VendingMachine {
         SpecialVendo.nonSellableItems[slot].setPrice(price);
     }
 
-    
+    public void setCreatedItemPrice(int price, int slot){
+
+        SpecialVendo.createdItems[slot].setPrice(price);
+    }
 
     public Item dispenseItem(int slot) {
 
