@@ -31,39 +31,57 @@ public class VendingMachine {
     
         RegularVendo.sellableItems[slot].addStock(quantity, RegularVendo.sellableItems[slot]);
     }
-
+    /* restock a non-sellable item in the special vending machine.
+     * @param quantity the quantity of item to be restocked
+     * @param slot the slot to be occupied for restocking
+    */
     public void restockNonSellable (int quantity, int slot) {
 
         SpecialVendo.nonSellableItems[slot].addStock(quantity, SpecialVendo.nonSellableItems[slot]);
 
     }
-
+    /* restock a created item in the special vending machine.
+     * @param quantity the quantity of item to be restocked
+     * @param slot the slot to be occupied for restocking
+    */
     public boolean restockCreatedItems (int quantity, int slot) {
 
         return SpecialVendo.createdItems[slot].addStock(quantity, SpecialVendo.createdItems[slot]);
     }
 
-/* 
- * sets item price  
- * @param price the set price for the selected item 
- * @param slot the slot of the item selected 
- */
+    /*
+    * sets item price
+    * @param price the set price for the selected item
+    * @param slot the slot of the item selected
+    */
     public void setSellabeItemPrice(int price, int slot){
 
         RegularVendo.sellableItems[slot].setPrice(price);
     
     }
-
+    /*
+     * sets price for non-sellable item
+     * @param price the set price for the selected item
+     * @param slot the slot of the item selected
+     */
     public void setNonSellabeItemPrice(int price, int slot){
 
         SpecialVendo.nonSellableItems[slot].setPrice(price);
     }
-
+    /*
+     * sets price for a created item in the special vending machine
+     * @param price the set price for the selected item
+     * @param slot the slot of the item selected
+     */
     public void setCreatedItemPrice(int price, int slot){
 
         SpecialVendo.createdItems[slot].setPrice(price);
     }
 
+    /*
+     * Dispenses items from the vending machine.
+     * @param items The list of items to be dispensed.
+     */
     public void dispenseItem(ArrayList<Item> items) {
 
         for (Item item : items) {
@@ -73,7 +91,7 @@ public class VendingMachine {
             r.setSold(r.getSold() + 1);
         }
     }
-
+    //calculate and retrieve the total sales for all items in the vending machine.
     public int getTotalSales() {
 
         int totalSales = 0;
@@ -88,16 +106,22 @@ public class VendingMachine {
         return totalSales;
     }
 
+    /*
+     * Processes an order from the vending machine.
+     * @param order The list of items in the order.
+     */
     public void getOrder(ArrayList<Item> order) {
 
         for (Item item : order) {
             item.getStock().remove(0);
             Record r = null;
-
+            // Check if the item exists in the regular vending machine records.
             if (regular.getItemRecord(item) != null)
                 r = regular.getItemRecord(item);
+            // If not found in regular records, check in non-sellable items records of special vending machine.
             else if (special.getnonSellItemRecord(item) != null) 
                 r = special.getnonSellItemRecord(item);
+            // If not found in non-sellable items records, check in created items records of special vending machine.
             else if (special.getCreatedItemRecord(item) != null)
                 r = special.getCreatedItemRecord(item);
 
