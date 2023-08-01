@@ -1,4 +1,6 @@
 
+import java.util.*;
+
 /*
  * A VendingMachine represents the vending machine. It contains the regular vending machine, 
  * records, vending machine money, user money, and total sales. 
@@ -73,7 +75,7 @@ public class VendingMachine {
         SpecialVendo.createdItems[slot].setPrice(price);
     }
 
-    public Item dispenseItem(int slot) {
+    public void dispenseItem(ArrayList<Item> items) {
 
         // Item bought; 
 
@@ -81,7 +83,6 @@ public class VendingMachine {
       
         // RegularVendo.itemStock[slot].remove(0);
 
-        return null;
     }
 
     // public int getTotalSales() {

@@ -111,7 +111,7 @@ public class PaymentPanel extends JPanel implements ActionListener {
 
             text.setText(message);
 
-             vendo.getMoneyCalc().resetUserMoney();
+            vendo.getMoneyCalc().resetUserMoney();
             JOptionPane.showMessageDialog(null, text, "Payment Return", JOptionPane.INFORMATION_MESSAGE);
         }
         

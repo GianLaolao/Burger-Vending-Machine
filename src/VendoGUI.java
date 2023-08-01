@@ -125,8 +125,8 @@ public class VendoGUI extends JFrame implements ActionListener{
         regular.setBorder(BorderFactory.createRaisedBevelBorder());
         regular.addActionListener(this);
 
-        regPanel = new RegularPanel(cancel, dispense, screen, total, vendo);
-        specPanel = new SpecialPanel(cancel, dispense, screen, total);
+        regPanel = new RegularPanel(cancel, dispense, special, mainte, screen, total, vendo);
+        specPanel = new SpecialPanel(cancel, dispense, regular, mainte, screen, total, vendo);
         maintePanel = new MaintenancePanel(vendo);
         paymentPanel = new PaymentPanel(payment, cancel, vendo);
 
@@ -183,9 +183,6 @@ public class VendoGUI extends JFrame implements ActionListener{
 
     public void actionPerformed(ActionEvent e) {
        
-        if (e.getSource() == dispense) {
-            
-        }
         if (e.getSource() == cancel) {
             payment.setText("Php 0.00");
             cancel();
@@ -246,7 +243,7 @@ public class VendoGUI extends JFrame implements ActionListener{
         }
         if (e.getSource() == maintePanel.specB) {
             
-            specPanel.updateStock();
+            specPanel.update();
 
             frame.remove(maintePanel);
 

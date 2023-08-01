@@ -18,17 +18,18 @@ public class RegularPanel extends JPanel implements ActionListener{
     JTextField[] amountTF = new JTextField[8];
     JTextField[] numTF = new JTextField[8];
 
-    JButton cancel, dispense;
+    JButton cancel, dispense, special, mainte;
     JTextArea screen;
     JTextField total;
 
     ArrayList<Item> order = new ArrayList<>();
 
     RegularVendo reg;
+    VendingMachine vendo;
 
     private final String indent = "                             ";
 
-    RegularPanel(JButton cancel, JButton dispense, JTextArea screen, JTextField total, VendingMachine vendo) {
+    RegularPanel(JButton cancel, JButton dispense, JButton special, JButton mainte, JTextArea screen, JTextField total, VendingMachine vendo) {
 
         this.cancel = cancel;
         cancel.addActionListener(this);
@@ -36,10 +37,17 @@ public class RegularPanel extends JPanel implements ActionListener{
         this.dispense = dispense;
         dispense.addActionListener(this);
 
+        this.special = special;
+        special.addActionListener(this);
+
+        this.mainte = mainte;
+        mainte.addActionListener(this);
+
         this.screen = screen;
         this.total = total;
 
         reg = vendo.getRegular();
+        this.vendo = vendo;
 
         itemButton[0] = bSlot1 = new JButton();
         itemButton[1] = bSlot2 = new JButton();
@@ -246,6 +254,9 @@ public class RegularPanel extends JPanel implements ActionListener{
             }
             else 
                 JOptionPane.showMessageDialog(null, "Order Limit! (Max: 5)", "Limit", JOptionPane.INFORMATION_MESSAGE, null);
+        }
+        if (e.getSource() == special || e.getSource() == mainte) {
+            order.clear();
         }
         if (e.getSource() == dispense) {
             

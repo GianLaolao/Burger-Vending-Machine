@@ -1,10 +1,11 @@
 
 import javax.swing.*;
 import java.awt.event.*;
-import java.util.ArrayList;
 import java.awt.*;
+import java.util.*;
+import java.lang.*;
 
-public class SpecialPanel extends JPanel implements ActionListener, ItemListener {
+public class SpecialPanel extends JPanel implements ActionListener {
 
     JLabel b, m, c, s, addOn;
     JRadioButton sesame, wheat, brioche;
@@ -15,7 +16,7 @@ public class SpecialPanel extends JPanel implements ActionListener, ItemListener
     ButtonGroup cheeseGroup;
     JRadioButton bbq, ket, mayo, thouIsl, noS;
     ButtonGroup sauceGroup;
-    JRadioButton bacon, egg,  ham, sausage, tomato, lettuce, pickle, onion;
+    JRadioButton bacon, ham, egg, sausage, tomato, lettuce, pickle, onion;
     JPanel addOnPanel;
     JScrollPane scrollAddOn;
 
@@ -30,18 +31,22 @@ public class SpecialPanel extends JPanel implements ActionListener, ItemListener
     JLabel[] nonSellLabels = new JLabel[8];
     JLabel[] createdLabels = new JLabel[3];
 
-    JButton cancel, dispense;
+    JButton cancel, dispense, regular, mainte;
     JTextArea screen;
     JTextField total;
 
+    ArrayList<Item> burger = new ArrayList<>();
     Item order[] = {null, null, null, null};
     ArrayList<Item> addOns = new ArrayList<>();
 
+    VendingMachine vendo;
+
     Font font1 = new Font("Monospaced Bold", Font.BOLD, 20);
     Font font2 = new Font("Monospaced Bold", Font.BOLD, 15);
- 
+    
+    private final String indent = "                             ";
 
-    SpecialPanel(JButton cancel, JButton dispense, JTextArea screen, JTextField total) {  
+    SpecialPanel(JButton cancel, JButton dispense,JButton regular, JButton mainte, JTextArea screen, JTextField total, VendingMachine vendo) {  
 
         this.cancel = cancel;
         cancel.addActionListener(this);
@@ -49,7 +54,14 @@ public class SpecialPanel extends JPanel implements ActionListener, ItemListener
         this.dispense = dispense;
         dispense.addActionListener(this);
 
+        this.regular = regular;
+        regular.addActionListener(this);
+
+        this.mainte = mainte;
+        mainte.addActionListener(this);
+
         this.screen = screen;
+        this.vendo = vendo;
 
         b = new JLabel("Choose Bun:");
         b.setBounds(0,0, 400, 20);
@@ -449,11 +461,37 @@ public class SpecialPanel extends JPanel implements ActionListener, ItemListener
 
     }
 
-    public void printScreen() {
-        
+    private void printProcess() {
+
+        int delay = 2000;
     }
 
-    public void updateStock () {
+    private void printScreen() {
+        
+        String textOrder = "\t        Order: \n\n" + "  Item\t\t            Price \n";
+       
+        for (int i = 0; i < 4; i++) {
+            if (order[i] != null) {
+                String string = order[i].getName();
+                string += indent.substring(0, indent.length() - string.length());
+                string = String.format("  %s \t            %d\n", string, order[i].getPrice());
+                textOrder += string;
+            }   
+        }
+
+        textOrder += "\n  Add-Ons: \n";
+
+        for (Item a : addOns) {
+    
+            String string = a.getName();
+            string += indent.substring(0, indent.length() - string.length());
+            string = String.format("  %s \t            %d\n", string, a.getPrice());
+            textOrder += string;
+        } 
+
+        screen.setText(textOrder);
+    }
+    public void update () {
 
         for (int i = 0; i < 10; i++) { 
             sellField[i].setText(Integer.toString(RegularVendo.sellableItems[i].getStock().size()));
@@ -469,104 +507,188 @@ public class SpecialPanel extends JPanel implements ActionListener, ItemListener
                 createdLabels[i].setText("Php: " + Integer.toString(SpecialVendo.createdItems[i].getPrice()));
             }
         }
+
+        
     }
 
-    public void itemStateChanged(ItemEvent e) {
-        // TODO Auto-generated method stub
+    private void clearButtons () {
+
+        for (int i = 0; i < 4; i++) {
+            order[i] = null;
+        }
+
+        addOns.clear();
+        burger.clear();
+
+        breadGroup.clearSelection();
+        meatGroup.clearSelection();
+        sauceGroup.clearSelection();
+        cheeseGroup.clearSelection();
+        bacon.setSelected(false);
+        egg.setSelected(false);
+        ham.setSelected(false);
+        sausage.setSelected(false);
+        tomato.setSelected(false);
+        lettuce.setSelected(false); 
+        pickle.setSelected(false);
+        onion.setSelected(false);
+    }
+
+    public void removeAddOn(Item item) {
+
+        for (int i = 0; i < addOns.size(); i++) {
+            if (addOns.get(i).equals(item))
+                addOns.remove(i);
+        }
     }
 
     public void actionPerformed(ActionEvent e) {
         // TODO Auto-generated method stub
         if (e.getSource() == sesame) {
             order[0] = RegularVendo.sellableItems[0];
+            printScreen();
         }
         if (e.getSource() == wheat) {
             order[0] = RegularVendo.sellableItems[1];
+            printScreen();
         }
         if (e.getSource() == brioche) {
             order[0] = RegularVendo.sellableItems[2];
+            printScreen();
         }
         if (e.getSource() == beef) {
             order[1] = RegularVendo.sellableItems[3];
+            printScreen();
         }
         if (e.getSource() == vegan) {
             order[1] = RegularVendo.sellableItems[4];
+            printScreen();
         }
         if (e.getSource() == chicken) {
             order[1] = RegularVendo.sellableItems[5];
+            printScreen();
         }
         if (e.getSource() == american) {
             order[2] = SpecialVendo.nonSellableItems[4];
+            printScreen();
         }
         if (e.getSource() == cheddar) {
             order[2] = SpecialVendo.nonSellableItems[5];
+            printScreen();
         }
         if (e.getSource() == swiss) {
             order[2] = SpecialVendo.nonSellableItems[6];
+            printScreen();
         }
         if (e.getSource() == noC) {
             order[2] = null;
+            printScreen();
         }
         if (e.getSource() == bbq) {
             order[3] = SpecialVendo.nonSellableItems[7];
+            printScreen();
         }
         if (e.getSource() == ket) {
             order[3] = SpecialVendo.createdItems[0];
+            printScreen();
         }
         if (e.getSource() == mayo) {
             order[3] = SpecialVendo.createdItems[1];
+            printScreen();
         }
         if (e.getSource() == thouIsl) {
             order[3] = SpecialVendo.createdItems[2];
+            printScreen();
         }
         if (e.getSource() == noS) {
             order[3] = null;
+            printScreen();
         }   
         if (e.getSource() == bacon) {
-            
-        }
-        if (e.getSource() == egg) {
-            
+           if (bacon.isSelected() && addOns.size() <= 5)
+                addOns.add(RegularVendo.sellableItems[6]);
+            else
+                removeAddOn(RegularVendo.sellableItems[6]);
+            printScreen();
         }
         if (e.getSource() == ham) {
-            
+            if (ham.isSelected() && addOns.size() <= 5)
+                addOns.add(RegularVendo.sellableItems[7]);
+            else
+                removeAddOn(RegularVendo.sellableItems[7]);
+            printScreen();
+        }
+        if (e.getSource() == egg) {
+            if (egg.isSelected() && addOns.size() <= 5)
+                addOns.add(RegularVendo.sellableItems[8]);
+            else
+                removeAddOn(RegularVendo.sellableItems[8]);
+            printScreen();
         }
         if (e.getSource() == sausage) {
-            
+            if (sausage.isSelected() && addOns.size() <= 5)
+                addOns.add(RegularVendo.sellableItems[9]);
+            else
+                removeAddOn(RegularVendo.sellableItems[9]);
+            printScreen();
         }
         if (e.getSource() == tomato) {
-            
+            if (tomato.isSelected() && addOns.size() <= 5)
+                addOns.add(SpecialVendo.nonSellableItems[0]);
+            else
+                removeAddOn(SpecialVendo.nonSellableItems[0]);
+            printScreen();
         }
         if (e.getSource() == lettuce) {
-            
+            if (lettuce.isSelected() && addOns.size() <= 5)
+                addOns.add(SpecialVendo.nonSellableItems[1]);
+            else
+                removeAddOn(SpecialVendo.nonSellableItems[1]);
+            printScreen();
         }
         if (e.getSource() == pickle) {
-            
+            if (pickle.isSelected() && addOns.size() <= 5)
+                addOns.add(SpecialVendo.nonSellableItems[2]);
+            else
+                removeAddOn(SpecialVendo.nonSellableItems[2]);
+            printScreen();
         }
         if (e.getSource() == onion) {
-            
+            if (onion.isSelected() && addOns.size() <= 5)
+                addOns.add(SpecialVendo.nonSellableItems[3]);
+            else
+                removeAddOn(SpecialVendo.nonSellableItems[3]);
+            printScreen();
         }
-
+        
+        if (e.getSource() == regular || e.getSource() == mainte) {
+            clearButtons();
+        }
         if (e.getSource() == dispense) {
             
+            burger = new ArrayList<>();
+
             for (int i = 0; i < 4; i++) {
-                order[i] = null;
+                 if (order[i] != null)
+                    burger.add(order[i]);
+            } 
+
+            // for (int i = 0; i < 8; i++) {
+            //      if (addOns[i] != null)
+            //         burger.add(addOns[i]);
+            // } 
+
+            if (burger.size() == 1) {
+                vendo.dispenseItem(burger);
             }
-            addOns.clear();
+            else    
+                //vendo.getOrder()
+
+            printScreen();
+            clearButtons();
         }
         if (e.getSource() == cancel) {
-            breadGroup.clearSelection();
-            meatGroup.clearSelection();
-            sauceGroup.clearSelection();
-            cheeseGroup.clearSelection();
-            bacon.setSelected(false);
-            egg.setSelected(false);
-            ham.setSelected(false);
-            sausage.setSelected(false);
-            tomato.setSelected(false);
-            lettuce.setSelected(false); 
-            pickle.setSelected(false);
-            onion.setSelected(false);
+            clearButtons();
         }
     }    
 }

@@ -233,7 +233,7 @@ public class MaintenancePanel extends JPanel implements ActionListener {
         
         for (int i = 0; i < 3; i++) {
 
-           JLabel name = new JLabel(SpecialVendo.createdItems[i].getName());
+            JLabel name = new JLabel(SpecialVendo.createdItems[i].getName());
             name.setBounds(20, 440+(40*i), 200, 30);
             name.setBackground(Color.LIGHT_GRAY);
             name.setFont(font2);
@@ -525,7 +525,7 @@ public class MaintenancePanel extends JPanel implements ActionListener {
             }
 
             if (i < 3) {
-                ((SpinnerNumberModel)createdModel[i]).setMinimum(SpecialVendo.nonSellableItems[i].getStock().size());
+                ((SpinnerNumberModel)createdModel[i]).setMinimum(SpecialVendo.createdItems[i].getStock().size());
                 createdModel[i].setValue(SpecialVendo.createdItems[i].getStock().size());
    
             }
@@ -759,9 +759,7 @@ public class MaintenancePanel extends JPanel implements ActionListener {
                     vendo.getSpecial().getCreatedRecords()[i].setSold(0);
                     
                     ((SpinnerNumberModel)createdModel[i]).setMinimum(SpecialVendo.createdItems[i].getStock().size());
-
-                    System.out.println(SpecialVendo.createdItems[i].getStock().size());
-
+                    
                     updateStockValue();
                     printDialog();
                 }
