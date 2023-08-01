@@ -58,25 +58,21 @@ public class Initialize {
 
     public void initializeCreated () {
 
-        ArrayList<Item> ketIng = new ArrayList<>();
-        ketIng.add(SpecialVendo.nonSellableItems[0]);
-        ketIng.add(SpecialVendo.nonSellableItems[0]);
-        ketIng.add(SpecialVendo.nonSellableItems[0]);
+        HashMap<Item, Integer> ketIng = new HashMap<Item, Integer>();
+        ketIng.put(SpecialVendo.nonSellableItems[0], 3);
         CreatedItem ketchup = new CreatedItem("Ketchup", 0, 1, null, ketIng);
 
         SpecialVendo.createdItems[0] = ketchup;
 
-        ArrayList<Item> mayoIng = new ArrayList<>();
-        mayoIng.add(RegularVendo.sellableItems[8]);
-        mayoIng.add(RegularVendo.sellableItems[8]);
-        mayoIng.add(RegularVendo.sellableItems[8]);
+        HashMap<Item, Integer> mayoIng = new HashMap<Item, Integer>();
+        mayoIng.put(SpecialVendo.sellableItems[8], 2);
         CreatedItem mayo = new CreatedItem("Mayonnaise", 0, 2, null, mayoIng);
 
         SpecialVendo.createdItems[1] = mayo;
 
-        ArrayList<Item> thouIslIng = new ArrayList<>();
-        thouIslIng.add(SpecialVendo.createdItems[0]);
-        thouIslIng.add(SpecialVendo.createdItems[1]);
+        HashMap<Item, Integer> thouIslIng = new HashMap<Item, Integer>();
+        thouIslIng.put(SpecialVendo.createdItems[0], 1);
+        thouIslIng.put(SpecialVendo.createdItems[1], 1);
         CreatedItem thouIsl = new CreatedItem("Thousand Island", 0, 3, null, thouIslIng);
 
         SpecialVendo.createdItems[2] = thouIsl;

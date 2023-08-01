@@ -512,6 +512,20 @@ public class MaintenancePanel extends JPanel implements ActionListener {
     
     }
 
+    private void updateStockValue () {
+
+        for (int i = 0; i < 10; i++) {
+
+            ((SpinnerNumberModel)sellModel[i]).setMinimum(RegularVendo.sellableItems[i].getStock().size());
+            sellModel[i].setValue(RegularVendo.sellableItems[i].getStock().size());
+
+            if (i < 8) {
+                ((SpinnerNumberModel)nonSellModel[i]).setMinimum(SpecialVendo.nonSellableItems[i].getStock().size());
+                nonSellModel[i].setValue(SpecialVendo.nonSellableItems[i].getStock().size());
+            }
+        }
+    }
+
     private boolean priceVerify (String price) {
         
         if(price.matches("^\\d+$")) {
@@ -616,7 +630,7 @@ public class MaintenancePanel extends JPanel implements ActionListener {
         for (int i = 0; i < 10; i++) {
             if (e.getSource() == restockSell[i]) {
 
-                vendo.restockSellable((Integer)sellSpinners[i].getValue(), i);
+                vendo.restockSellable((Integer)sellSpinners[i].getValue() - RegularVendo.sellableItems[i].getStock().size(), i);
 
                 RegularVendo.sellableRecords[i].setStartingInventory();
                 RegularVendo.sellableRecords[i].resetSoldAmount();
@@ -624,7 +638,7 @@ public class MaintenancePanel extends JPanel implements ActionListener {
 
                 ((SpinnerNumberModel)sellModel[i]).setMinimum(RegularVendo.sellableItems[i].getStock().size());
 
-                printDialog();
+                printDialog();  
                
             }
             if (e.getSource() == priceSell[i]) {
@@ -639,7 +653,7 @@ public class MaintenancePanel extends JPanel implements ActionListener {
         for (int i = 0; i < 8; i++) {
             if (e.getSource() == restockNonSell[i]) {
 
-                vendo.restockNonSellable((Integer)nonSellSpinners[i].getValue(), i);
+                vendo.restockNonSellable((Integer)nonSellSpinners[i].getValue() - SpecialVendo.nonSellableItems[i].getStock().size(), i);
 
                 SpecialVendo.nonSellRecords[i].setStartingInventory();
                 SpecialVendo.nonSellRecords[i].resetSoldAmount();
@@ -661,20 +675,29 @@ public class MaintenancePanel extends JPanel implements ActionListener {
 
         for (int i = 0; i < 3; i++) {
             if (e.getSource() == restockCreated[i]) {
-                
-                vendo.restockCreatedItems((Integer)nonSellSpinners[i].getValue(), i);
+    
+                if (vendo.restockCreatedItems((Integer)createdSpinners[i].getValue() - SpecialVendo.createdItems[i].getStock().size(), i)) {
 
-                SpecialVendo.createdRecords[i].setStartingInventory();
-                SpecialVendo.createdRecords[i].resetSoldAmount();
-                SpecialVendo.createdRecords[i].setSold(0);
+                    SpecialVendo.createdRecords[i].setStartingInventory();
+                    SpecialVendo.createdRecords[i].resetSoldAmount();
+                    SpecialVendo.createdRecords[i].setSold(0);
+                    
+                    ((SpinnerNumberModel)sellModel[i]).setMinimum(SpecialVendo.createdItems[i].getStock().size());
 
-                ((SpinnerNumberModel)sellModel[i]).setMinimum(SpecialVendo.createdItems[i].getStock().size());
-
-                printDialog();
-
+                    updateStockValue();
+                    printDialog();
+                }
+                else {
+                    createdModel[i].setValue(SpecialVendo.createdItems[i].getStock().size());
+                    JOptionPane.showMessageDialog(null, "Not enough Ingredients to Restock", "Error!", JOptionPane.ERROR_MESSAGE);
+                }
             }
             if (e.getSource() == priceCreated[i]) {
-                
+
+                    if(priceVerify(createdTextF[i].getText())) 
+                    vendo.setNonSellabeItemPrice(Integer.parseInt(nonSellTextF[i].getText()), i);
+                else 
+                    nonSellTextF[i].setText(Integer.toString(SpecialVendo.nonSellableItems[i].getPrice()));
             }
         }
 

@@ -449,6 +449,10 @@ public class SpecialPanel extends JPanel implements ActionListener, ItemListener
 
     }
 
+    public void printScreen() {
+        
+    }
+
     public void updateStock () {
 
         for (int i = 0; i < 10; i++) { 

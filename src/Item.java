@@ -11,7 +11,7 @@ public class Item {
     private int price;
     private float calories;
     private String path;
-    private ArrayList<Item> stock = new ArrayList<>();
+    protected ArrayList<Item> stock = new ArrayList<>();
 
     /*
      * creates an Item object given the name of the item, its price, amount of calories, and quantity. 
@@ -40,13 +40,10 @@ public class Item {
 
     public void addStock (int quantity, Item item) {
 
-        ArrayList<Item> newStock = new ArrayList<>();
         for (int i = 0; i < quantity; i++) {
-            Item newItem = item;
-            newStock.add(newItem);
+            stock.add(item);
         }
         
-        stock = newStock;
     }
 
 

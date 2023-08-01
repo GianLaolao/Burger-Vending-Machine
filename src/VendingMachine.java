@@ -57,6 +57,8 @@ public class VendingMachine {
         SpecialVendo.nonSellableItems[slot].setPrice(price);
     }
 
+    
+
     public Item dispenseItem(int slot) {
 
         // Item bought; 
@@ -91,9 +93,9 @@ public class VendingMachine {
 
     }
 
-    public void restockCreatedItems (int quantity, int slot) {
+    public boolean restockCreatedItems (int quantity, int slot) {
 
-        SpecialVendo.createdItems[slot].addStock(quantity, SpecialVendo.createdItems[slot]);
+        return SpecialVendo.createdItems[slot].addStock(quantity, SpecialVendo.createdItems[slot]);
     }
 }
     
