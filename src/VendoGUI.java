@@ -37,6 +37,10 @@ public class VendoGUI extends JFrame implements ActionListener{
         SpecialVendo.nonSellableItems = initialize.initialize("src\\ItemNonSell.txt");
         initialize.initializeCreated();
 
+        RegularVendo.sellableRecords = initialize.createRecord(RegularVendo.sellableItems);
+        SpecialVendo.nonSellRecords = initialize.createRecord(SpecialVendo.nonSellableItems);
+        SpecialVendo.createdRecords = initialize.createRecord(SpecialVendo.createdItems);
+
         frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(750,870);
@@ -295,7 +299,9 @@ public class VendoGUI extends JFrame implements ActionListener{
     public static void main(String[] args) {
         new VendoGUI(1);
 
-        
+        //TODO
+
+        //special items restock logic
     }
 }
 

@@ -42,6 +42,20 @@ public class Initialize {
         return items;
     }
 
+    public Record[] createRecord (Item[] items) {
+
+        int n = items.length;
+
+        Record records[] = new Record[n];
+
+        for (int i = 0; i < n; i++) {
+            Record newRec = new Record(items[i]);
+            records[i] = newRec;
+        }
+        
+        return records;
+    }
+
     public void initializeCreated () {
 
         ArrayList<Item> ketIng = new ArrayList<>();

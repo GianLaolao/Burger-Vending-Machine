@@ -615,7 +615,12 @@ public class MaintenancePanel extends JPanel implements ActionListener {
         
         for (int i = 0; i < 10; i++) {
             if (e.getSource() == restockSell[i]) {
+
                 vendo.restockSellable((Integer)sellSpinners[i].getValue(), i);
+
+                RegularVendo.sellableRecords[i].setStartingInventory();
+                RegularVendo.sellableRecords[i].resetSoldAmount();
+                RegularVendo.sellableRecords[i].setSold(0);
 
                 ((SpinnerNumberModel)sellModel[i]).setMinimum(RegularVendo.sellableItems[i].getStock().size());
 
@@ -636,12 +641,17 @@ public class MaintenancePanel extends JPanel implements ActionListener {
 
                 vendo.restockNonSellable((Integer)nonSellSpinners[i].getValue(), i);
 
+                SpecialVendo.nonSellRecords[i].setStartingInventory();
+                SpecialVendo.nonSellRecords[i].resetSoldAmount();
+                SpecialVendo.nonSellRecords[i].setSold(0);
+
                 ((SpinnerNumberModel)sellModel[i]).setMinimum(SpecialVendo.nonSellableItems[i].getStock().size());
 
                 printDialog();
 
             }
             if (e.getSource() == priceNonSell[i]) {
+
                 if(priceVerify(nonSellTextF[i].getText())) 
                     vendo.setNonSellabeItemPrice(Integer.parseInt(nonSellTextF[i].getText()), i);
                 else 
@@ -653,6 +663,10 @@ public class MaintenancePanel extends JPanel implements ActionListener {
             if (e.getSource() == restockCreated[i]) {
                 
                 vendo.restockCreatedItems((Integer)nonSellSpinners[i].getValue(), i);
+
+                SpecialVendo.createdRecords[i].setStartingInventory();
+                SpecialVendo.createdRecords[i].resetSoldAmount();
+                SpecialVendo.createdRecords[i].setSold(0);
 
                 ((SpinnerNumberModel)sellModel[i]).setMinimum(SpecialVendo.createdItems[i].getStock().size());
 

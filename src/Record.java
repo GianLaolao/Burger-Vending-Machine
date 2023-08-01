@@ -34,7 +34,7 @@ public class Record {
 
     public void setStartingInventory() {
         //TODO
-        //this.startingInventory = item.getQuantity();
+        this.startingInventory = item.getStock().size();
     }
 
 /*
