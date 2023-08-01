@@ -1,9 +1,9 @@
 
 import javax.swing.*;
+import javax.swing.Timer;
 import java.awt.event.*;
 import java.awt.*;
 import java.util.*;
-import java.lang.*;
 
 public class SpecialPanel extends JPanel implements ActionListener {
 
@@ -461,9 +461,45 @@ public class SpecialPanel extends JPanel implements ActionListener {
 
     }
 
-    private void printProcess() {
+    private void printProcess(){
 
-        int delay = 2000;
+        // int delay = 500;
+        screen.setText( "\nPreparing Burger...\n\n");
+
+        ArrayList<String> string = new ArrayList<>();
+
+        if(order[0] != null) {        
+            string.add("Toasting Buns...\n\n");
+        }
+        if (order[1] != null) {
+            string.add("Grilling Patty...\n\n");
+        }
+        if (order[2] != null) {
+            string.add("Melting Cheese...\n\n");
+        }
+        string.add("Assembling Burger...\n\n");
+        if (order[3] != null) {
+            string.add("Adding " + order[3].getName() + "\n\n");
+        }
+        if (addOns.size() != 0) {
+            string.add("Adding add-ons...\n\n");
+        }
+        string.add("Dispensing Burger...\n\n");
+
+        Timer delay = new Timer(700, new ActionListener() {
+            private int i = 0;
+            public void actionPerformed(ActionEvent e) {
+             if (i < string.size()) {
+                    screen.append(string.get(i));
+                    i++;
+                } else {
+                    ((Timer) e.getSource()).stop();
+                }
+            }
+            
+        });
+
+        delay.start();
     }
 
     private void printScreen() {
@@ -491,6 +527,34 @@ public class SpecialPanel extends JPanel implements ActionListener {
 
         screen.setText(textOrder);
     }
+
+    private void printOrder() {
+
+        JTextArea text = new JTextArea();
+        int total = 0;
+        text.setEditable(false);
+        text.setFocusable(false);
+        text.setFont(font2);
+        text.setBackground(new Color(0xEEEEEE));
+        text.setSize(new Dimension(300, 300));
+
+        String message = "\tOrder: \n\n";
+
+        for (Item item : burger) {
+            String a = item.getName();
+            a += indent.substring(0, indent.length() - a.length());
+            a += "\tPrice: " + item.getPrice() + "\n";
+            a += "        Calories: " + item.getCalories() + "\n"; 
+            message += a;
+            total += item.getPrice();
+        }       
+
+        message += "\n\tTotal: " + Integer.toString(total);
+        text.setText(message);
+
+        JOptionPane.showMessageDialog(null, text, "Burger", JOptionPane.PLAIN_MESSAGE);
+    }
+
     public void update () {
 
         for (int i = 0; i < 10; i++) { 
@@ -507,8 +571,6 @@ public class SpecialPanel extends JPanel implements ActionListener {
                 createdLabels[i].setText("Php: " + Integer.toString(SpecialVendo.createdItems[i].getPrice()));
             }
         }
-
-        
     }
 
     private void clearButtons () {
@@ -516,6 +578,9 @@ public class SpecialPanel extends JPanel implements ActionListener {
         for (int i = 0; i < 4; i++) {
             order[i] = null;
         }
+
+        screen.setText("\t        Order: \n\n");
+        screen.append("  Item\t\t            Price \n");
 
         addOns.clear();
         burger.clear();
@@ -543,7 +608,7 @@ public class SpecialPanel extends JPanel implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
+        
         if (e.getSource() == sesame) {
             order[0] = RegularVendo.sellableItems[0];
             printScreen();
@@ -605,57 +670,100 @@ public class SpecialPanel extends JPanel implements ActionListener {
             printScreen();
         }   
         if (e.getSource() == bacon) {
-           if (bacon.isSelected() && addOns.size() <= 5)
-                addOns.add(RegularVendo.sellableItems[6]);
+            if (bacon.isSelected())
+                if (addOns.size() != 5)
+                    addOns.add(RegularVendo.sellableItems[6]);
+                else {
+                    JOptionPane.showMessageDialog(null, "Add-On Limit! (Max: 5)", "Limit", JOptionPane.INFORMATION_MESSAGE, null);
+                    bacon.setSelected(false);
+                }
             else
                 removeAddOn(RegularVendo.sellableItems[6]);
             printScreen();
         }
         if (e.getSource() == ham) {
-            if (ham.isSelected() && addOns.size() <= 5)
-                addOns.add(RegularVendo.sellableItems[7]);
+            if (ham.isSelected())
+                if (addOns.size() != 5) 
+                    addOns.add(RegularVendo.sellableItems[7]);
+                else {
+                    JOptionPane.showMessageDialog(null, "Add-On Limit! (Max: 5)", "Limit", JOptionPane.INFORMATION_MESSAGE, null);
+                    ham.setSelected(false);
+                }
             else
                 removeAddOn(RegularVendo.sellableItems[7]);
             printScreen();
         }
         if (e.getSource() == egg) {
-            if (egg.isSelected() && addOns.size() <= 5)
-                addOns.add(RegularVendo.sellableItems[8]);
+            if (egg.isSelected())
+                if (addOns.size() != 5) 
+                    addOns.add(RegularVendo.sellableItems[8]);
+                else {
+                    JOptionPane.showMessageDialog(null, "Add-On Limit! (Max: 5)", "Limit", JOptionPane.INFORMATION_MESSAGE, null);
+                    egg.setSelected(false);
+                }
             else
                 removeAddOn(RegularVendo.sellableItems[8]);
             printScreen();
         }
         if (e.getSource() == sausage) {
-            if (sausage.isSelected() && addOns.size() <= 5)
-                addOns.add(RegularVendo.sellableItems[9]);
+            if (sausage.isSelected())
+                if (addOns.size() != 5)
+                    addOns.add(RegularVendo.sellableItems[9]);
+                else {
+                    JOptionPane.showMessageDialog(null, "Add-On Limit! (Max: 5)", "Limit", JOptionPane.INFORMATION_MESSAGE, null);
+                    sausage.setSelected(false);
+                }
             else
                 removeAddOn(RegularVendo.sellableItems[9]);
             printScreen();
         }
         if (e.getSource() == tomato) {
-            if (tomato.isSelected() && addOns.size() <= 5)
-                addOns.add(SpecialVendo.nonSellableItems[0]);
+            if (tomato.isSelected())
+                if (addOns.size() != 5)
+                    addOns.add(SpecialVendo.nonSellableItems[0]);
+                else {
+                    JOptionPane.showMessageDialog(null, "Add-On Limit! (Max: 5)", "Limit", JOptionPane.INFORMATION_MESSAGE, null);
+                    tomato.setSelected(false);
+                }
             else
                 removeAddOn(SpecialVendo.nonSellableItems[0]);
+
             printScreen();
         }
         if (e.getSource() == lettuce) {
-            if (lettuce.isSelected() && addOns.size() <= 5)
-                addOns.add(SpecialVendo.nonSellableItems[1]);
+            if (lettuce.isSelected())
+                if (addOns.size() != 5)
+                    addOns.add(SpecialVendo.nonSellableItems[1]);
+                else {
+                    JOptionPane.showMessageDialog(null, "Add-On Limit! (Max: 5)", "Limit", JOptionPane.INFORMATION_MESSAGE, null);
+                    lettuce.setSelected(false);
+                }
             else
                 removeAddOn(SpecialVendo.nonSellableItems[1]);
+
             printScreen();
         }
         if (e.getSource() == pickle) {
-            if (pickle.isSelected() && addOns.size() <= 5)
-                addOns.add(SpecialVendo.nonSellableItems[2]);
+            if (pickle.isSelected())
+                if (addOns.size() != 5)
+                    addOns.add(SpecialVendo.nonSellableItems[2]);
+                else {
+                    JOptionPane.showMessageDialog(null, "Add-On Limit! (Max: 5)", "Limit", JOptionPane.INFORMATION_MESSAGE, null);
+                    pickle.setSelected(false);
+                }
             else
                 removeAddOn(SpecialVendo.nonSellableItems[2]);
+
             printScreen();
         }
         if (e.getSource() == onion) {
-            if (onion.isSelected() && addOns.size() <= 5)
-                addOns.add(SpecialVendo.nonSellableItems[3]);
+            if (onion.isSelected())
+                if (addOns.size() != 5)
+                    addOns.add(SpecialVendo.nonSellableItems[3]);
+                else { 
+                    JOptionPane.showMessageDialog(null, "Add-On Limit! (Max: 5)", "Limit", JOptionPane.INFORMATION_MESSAGE, null);
+                    onion.setSelected(false);
+                }
             else
                 removeAddOn(SpecialVendo.nonSellableItems[3]);
             printScreen();
@@ -672,19 +780,19 @@ public class SpecialPanel extends JPanel implements ActionListener {
                  if (order[i] != null)
                     burger.add(order[i]);
             } 
-
-            // for (int i = 0; i < 8; i++) {
-            //      if (addOns[i] != null)
-            //         burger.add(addOns[i]);
-            // } 
-
-            if (burger.size() == 1) {
-                vendo.dispenseItem(burger);
+            for (Item item : addOns) {
+                burger.add(item);
             }
-            else    
-                //vendo.getOrder()
+             
+            // if (burger.size() == 1) {
+            //     vendo.dispenseItem(burger);
+            // }
+            // else    
+            //     vendo.getOrder(burger);
 
-            printScreen();
+            printProcess();
+            printOrder();
+            // printScreen();
             clearButtons();
         }
         if (e.getSource() == cancel) {

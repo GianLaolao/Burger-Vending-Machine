@@ -22,17 +22,6 @@ public class VendingMachine {
 
     }
 
-// /* 
-//  * removes item from the vending machine 
-//  * @param slot the slot occupied by the item being removed 
-//  */
-//     public boolean removeItem(int slot) { 
-
-        //not need i think
-
-//         return false;
-//     }
-
 /* 
  * restocks or replaces item of the inventory or vending machine 
  * @param quantity the quantity of item to be restocked  
@@ -77,29 +66,45 @@ public class VendingMachine {
 
     public void dispenseItem(ArrayList<Item> items) {
 
-        // Item bought; 
-
-        // bought = RegularVendo.itemStock[slot].get(0);
-      
-        // RegularVendo.itemStock[slot].remove(0);
-
+        for (Item item : items) {
+            item.getStock().remove(0);
+            Record r = regular.getItemRecord(item);
+            r.setSoldAmount(1);
+            r.setSold(r.getSold() + 1);
+        }
     }
 
-    // public int getTotalSales() {
+    public int getTotalSales() {
 
-    //     int totalSales = 0;
-    //     for(int i = 0; i < regular.getSellableRecords().length; i++) {
-    //         totalSales += RegularVendo.sellableRecords[i].getSoldAmount();
-    //     }
+        int totalSales = 0;
+        for (int i = 0; i < 10; i++) {
+            totalSales += regular.getSellableRecords()[i].getSoldAmount();
+            if (i < 8)
+                totalSales += special.getNonSellRecords()[i].getSoldAmount();
+            if (i < 3)
+                totalSales += special.getCreatedRecords()[i].getSoldAmount();
+        }
         
-    //     return totalSales;
-    // }
+        return totalSales;
+    }
 
-    public Item[] getOrder(int[] order) {
+    public void getOrder(ArrayList<Item> order) {
 
-        //TODO
+        for (Item item : order) {
+            item.getStock().remove(0);
+            Record r = null;
 
-        return null;
+            if (regular.getItemRecord(item) != null)
+                r = regular.getItemRecord(item);
+            else if (special.getnonSellItemRecord(item) != null) 
+                r = special.getnonSellItemRecord(item);
+            else if (special.getCreatedItemRecord(item) != null)
+                r = special.getCreatedItemRecord(item);
+
+            r.setSoldAmount(1);
+            r.setSold(r.getSold() + 1);
+        }
+
     }
 
     public MoneyCalc getMoneyCalc() {

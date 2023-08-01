@@ -5,11 +5,10 @@
 public class RegularVendo{
 
     //can hold item instances
-    protected static Item sellableItems[] = new Item[10]; 
-    private Record sellableRecords[] = new Record[10];
+    protected static Item sellableItems[];
+    private Record sellableRecords[];
     private Item[] slotsItem = new Item[8]; //accepts ArrayList of Item
 
-    //TODO    
 
     public void setRecords(Record[] records) {
         this.sellableRecords = records;
@@ -23,8 +22,14 @@ public class RegularVendo{
      * returns the records of an item 
      * @param 
      */
-    public Record getItemRecord(int slot) {
-        return sellableRecords[slot];
+    public Record getItemRecord(Item item) {
+
+        for (Record r : sellableRecords) {
+            if (r.getItem().equals(item))
+                return r;
+        }
+
+        return null;
     }
 
     public void setSlot(int slot, Item item) {

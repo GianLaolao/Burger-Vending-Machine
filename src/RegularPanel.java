@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import javax.imageio.*;
 
-public class RegularPanel extends JPanel implements ActionListener{
+public class RegularPanel extends JPanel implements ActionListener {
 
     JPanel pSlot1, pSlot2, pSlot3, pSlot4, pSlot5, pSlot6, pSlot7, pSlot8;
     JButton bSlot1, bSlot2, bSlot3,bSlot4, bSlot5, bSlot6, bSlot7, bSlot8; 
@@ -27,7 +27,8 @@ public class RegularPanel extends JPanel implements ActionListener{
     RegularVendo reg;
     VendingMachine vendo;
 
-    private final String indent = "                             ";
+    Font font2 = new Font("Monospaced Bold", Font.BOLD, 15);
+    private final String indent = "                       ";
 
     RegularPanel(JButton cancel, JButton dispense, JButton special, JButton mainte, JTextArea screen, JTextField total, VendingMachine vendo) {
 
@@ -152,6 +153,33 @@ public class RegularPanel extends JPanel implements ActionListener{
         screen.setText(s);
     }
 
+    private void printOrder() {
+
+        JTextArea text = new JTextArea();
+        int total = 0;
+        text.setEditable(false);
+        text.setFocusable(false);
+        text.setFont(font2);
+        text.setBackground(new Color(0xEEEEEE));
+        text.setSize(new Dimension(300, 300));
+
+        String message = "\tOrder: \n\n";
+
+        for (Item item : order) {
+            String a = item.getName();
+            a += indent.substring(0, indent.length() - a.length());
+            a += "\tPrice: " + item.getPrice() + "\n";
+            a += "        Calories: " + item.getCalories() + "\n"; 
+            message += a;
+            total += item.getPrice();
+        }       
+
+        message += "\n\tTotal: " + Integer.toString(total);
+        text.setText(message);
+
+        JOptionPane.showMessageDialog(null, text, "Transaction Records", JOptionPane.PLAIN_MESSAGE);
+    }
+
     public void updateSlots () {
 
         for (int i = 0; i < 8; i++) {
@@ -259,7 +287,13 @@ public class RegularPanel extends JPanel implements ActionListener{
             order.clear();
         }
         if (e.getSource() == dispense) {
-            
+
+            printOrder();
+            vendo.dispenseItem(order);
+
+            updateSlots();
+
+            order.clear();
         }
         if (e.getSource() == cancel) {
             order.clear();

@@ -624,7 +624,7 @@ public class MaintenancePanel extends JPanel implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
+        
         if (e.getSource() == sell) {
             mainteCardLayout.show(mainteCard, "Sellable");
         }
@@ -686,20 +686,13 @@ public class MaintenancePanel extends JPanel implements ActionListener {
 
             String message = printRecords(sellable, nonSellable, created);
 
-            for (int i = 0; i < 10; i++) {
-                amount += sellable[i].getSoldAmount();
-                if (i < 8)
-                    amount += nonSellable[i].getSoldAmount();
-                if (i < 3)
-                    amount += created[i].getSoldAmount();
-            }
-
-           total = Integer.toString(amount);
+            amount = vendo.getTotalSales();
+            total = Integer.toString(amount);
             
-           message += "\n" + "\tTotal: " + total;
-           text.setText(message);
+            message += "\n" + "\tTotal: " + total;
+            text.setText(message);
 
-           JOptionPane.showMessageDialog(null, text, "Transaction Records", JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(null, text, "Transaction Records", JOptionPane.PLAIN_MESSAGE);
         }
         
 
