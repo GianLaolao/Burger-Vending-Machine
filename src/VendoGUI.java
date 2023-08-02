@@ -95,7 +95,6 @@ public class VendoGUI extends JFrame implements ActionListener{
         dispense.setFocusable(false);
         dispense.setBackground(Color.WHITE);
         dispense.setBorder(BorderFactory.createRaisedBevelBorder());
-        dispense.addActionListener(this);
 
         cancel.setBounds(20, 670, 250, 30);
         cancel.setFont(font1);
@@ -126,8 +125,8 @@ public class VendoGUI extends JFrame implements ActionListener{
         regular.setBorder(BorderFactory.createRaisedBevelBorder());
         regular.addActionListener(this);
 
-        regPanel = new RegularPanel(cancel, special, mainte, screen, total, vendo);
-        specPanel = new SpecialPanel(cancel, regular, mainte, screen, total, vendo);
+        regPanel = new RegularPanel(cancel, dispense, special, mainte, screen, total, vendo);
+        specPanel = new SpecialPanel(cancel, dispense, regular, mainte, screen, total, vendo);
         maintePanel = new MaintenancePanel(vendo);
         paymentPanel = new PaymentPanel(payment, total, screen, dispense, cancel, vendo);
 
@@ -183,24 +182,6 @@ public class VendoGUI extends JFrame implements ActionListener{
 
     public void actionPerformed(ActionEvent e) {
         
-        if (e.getSource() == dispense) {
-            
-            for (Component panel : card.getComponents()) {
-                if (panel.equals(regPanel)) {
-                    if (regPanel.dispense())
-                        paymentPanel.dispense();
-                    else 
-                        paymentPanel.returnChange();
-                }
-                else if (panel.equals(specPanel)) {
-                    if (specPanel.dispense()) 
-                        paymentPanel.dispense();
-                    else
-                        paymentPanel.returnChange();
-                }
-            }
-             
-        }
         if (e.getSource() == cancel) {
             payment.setText("Php 0.00");
             cancel();
@@ -218,6 +199,9 @@ public class VendoGUI extends JFrame implements ActionListener{
             frame.add(special);
 
             payment.setText("Php: 0.00");
+
+            dispense.addActionListener(regPanel);
+            dispense.removeActionListener(specPanel);
 
             frame.revalidate();
             frame.repaint();
@@ -239,6 +223,9 @@ public class VendoGUI extends JFrame implements ActionListener{
             frame.add(regular);
 
             payment.setText("Php: 0.00");
+
+            dispense.addActionListener(specPanel);
+            dispense.removeActionListener(regPanel);
 
             frame.revalidate();
             frame.repaint();
@@ -262,6 +249,9 @@ public class VendoGUI extends JFrame implements ActionListener{
 
             regPanel.updateSlots();
             payment.setText("Php: 0.00");
+            
+            dispense.addActionListener(regPanel);
+            dispense.removeActionListener(specPanel);
 
             frame.revalidate();
             frame.repaint();
@@ -284,6 +274,9 @@ public class VendoGUI extends JFrame implements ActionListener{
 
             specPanel.update();
             payment.setText("Php: 0.00");
+
+            dispense.addActionListener(specPanel);
+            dispense.removeActionListener(regPanel);
 
             frame.revalidate();
             frame.repaint();

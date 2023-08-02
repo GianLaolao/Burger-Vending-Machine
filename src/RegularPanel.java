@@ -17,7 +17,7 @@ public class RegularPanel extends JPanel implements ActionListener {
     JTextField[] amountTF = new JTextField[8];
     JTextField[] numTF = new JTextField[8];
 
-    JButton cancel, special, mainte;
+    JButton cancel, dispense, special, mainte;
     JTextArea screen;
     JTextField total;
 
@@ -29,11 +29,13 @@ public class RegularPanel extends JPanel implements ActionListener {
     Font font2 = new Font("Monospaced Bold", Font.BOLD, 15);
     private final String indent = "                       ";
 
-    RegularPanel(JButton cancel, JButton special, JButton mainte, JTextArea screen, JTextField total, VendingMachine vendo) {
+    RegularPanel(JButton cancel, JButton dispense, JButton special, JButton mainte, JTextArea screen, JTextField total, VendingMachine vendo) {
 
         this.cancel = cancel;
         cancel.addActionListener(this);
-    
+        
+        this.dispense = dispense;
+
         this.special = special;
         special.addActionListener(this);
 
@@ -248,31 +250,26 @@ public class RegularPanel extends JPanel implements ActionListener {
         if (e.getSource() == special || e.getSource() == mainte) {
             order = null;
             vendo.getMoneyCalc().resetUserMoney();
-        } 
+        }
+        if (e.getSource() == dispense) {
+            try {
+                if (vendo.getMoneyCalc().checkUserMoney(Integer.parseInt(total.getText()))) {
+                    
+                    if (order != null) {
+                        vendo.dispenseItem(order);
+                        printOrder();
+                    }
+                    updateSlots();  
+                }   
+            }
+            catch (NumberFormatException v) {}
+            order = null;
+        }
+        
         if (e.getSource() == cancel) {
             order = null;
             printScreen();
         } 
     }
-
-    public boolean dispense() {
-        try {
-            if (vendo.getMoneyCalc().checkUserMoney(Integer.parseInt(total.getText()))) {
-                if (order != null) {
-                    vendo.dispenseItem(order);
-                    printOrder();
-                    updateSlots();  
-                    order = null;
-                    return true;
-                }
-            }   
-            
-        } 
-        catch (NumberFormatException v) {
-            JOptionPane.showMessageDialog(null, "Not enough Payment!", "Payment", JOptionPane.INFORMATION_MESSAGE);
-            return false;
-        } 
-
-        return false;
-    }
+    
 }

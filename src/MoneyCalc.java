@@ -45,10 +45,6 @@ public class MoneyCalc {
             return null;
         }
 
-        for (int i = 0; i < 9; i++) {
-            vendoMoney.setDenom(i, vendoMoney.getCash(i).getQuantity() + userMoney.getDenominations()[i].getQuantity());
-        }
-
         if (vendoMoney.getCash(8).getQuantity() != 0){
             int amount = change / 1000;
             if ((change / 1000 != 0) && amount > vendoMoney.getCash(8).getQuantity()) {
@@ -174,6 +170,9 @@ public class MoneyCalc {
         if (change != 0)
             return null;
         else {
+            for (int i = 0; i < 9; i++) {
+            vendoMoney.setDenom(i, vendoMoney.getCash(i).getQuantity() + userMoney.getDenominations()[i].getQuantity());
+            }
             resetUserMoney();
 
             return changeBox;
