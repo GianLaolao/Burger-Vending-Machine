@@ -69,18 +69,18 @@ public class Initialize {
         HashMap<Item, Integer> ketIng = new HashMap<Item, Integer>();
         ketIng.put(SpecialVendo.nonSellableItems[0], 3);
         // Create a 'CreatedItem' object for 'Ketchup' with the given name, price, calories, and ingredients.
-        CreatedItem ketchup = new CreatedItem("Ketchup", 0, 1, null, ketIng);
+        CreatedItem ketchup = new CreatedItem("Ketchup", 5, 19, null, ketIng);
 
         HashMap<Item, Integer> mayoIng = new HashMap<Item, Integer>();
         mayoIng.put(SpecialVendo.sellableItems[8], 2);
         // Create a 'CreatedItem' object for 'Mayonnaise' with the given name, price, calories, and ingredients.
-        CreatedItem mayo = new CreatedItem("Mayonnaise", 0, 2, null, mayoIng);
+        CreatedItem mayo = new CreatedItem("Mayonnaise", 5, 94, null, mayoIng);
 
         // Create the 'Thousand Island' with 'Ketchup' and 'Mayonnaise' as ingredients.
         HashMap<Item, Integer> thouIslIng = new HashMap<Item, Integer>();
         thouIslIng.put(ketchup, 1);
         thouIslIng.put(mayo, 1);
-        CreatedItem thouIsl = new CreatedItem("Thousand Island", 0, 3, null, thouIslIng);
+        CreatedItem thouIsl = new CreatedItem("Thousand Island", 5, 59, null, thouIslIng);
 
         // Create an array of 'CreatedItem' objects with the predefined 'CreatedItem's.
         CreatedItem create[] = {ketchup, mayo, thouIsl};

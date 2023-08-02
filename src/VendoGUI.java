@@ -198,6 +198,8 @@ public class VendoGUI extends JFrame implements ActionListener{
             cardLayout.show(card, "Regular");
             frame.add(special);
 
+            payment.setText("Php: 0.00");
+
             dispense.addActionListener(regPanel);
             dispense.removeActionListener(specPanel);
 
@@ -219,6 +221,8 @@ public class VendoGUI extends JFrame implements ActionListener{
             frame.remove(special);
             cardLayout.show(card, "Special");
             frame.add(regular);
+
+            payment.setText("Php: 0.00");
 
             dispense.addActionListener(specPanel);
             dispense.removeActionListener(regPanel);
@@ -244,7 +248,8 @@ public class VendoGUI extends JFrame implements ActionListener{
             frame.add(special);
 
             regPanel.updateSlots();
-
+            payment.setText("Php: 0.00");
+            
             dispense.addActionListener(regPanel);
             dispense.removeActionListener(specPanel);
 
@@ -268,7 +273,8 @@ public class VendoGUI extends JFrame implements ActionListener{
             frame.add(regular);
 
             specPanel.update();
-            
+            payment.setText("Php: 0.00");
+
             dispense.addActionListener(specPanel);
             dispense.removeActionListener(regPanel);
 
@@ -297,7 +303,9 @@ public class VendoGUI extends JFrame implements ActionListener{
             frame.repaint();
 
             frame.add(maintePanel);
+
             maintePanel.updateStockValue();
+            payment.setText("Php: 0.00");
 
             frame.revalidate();
             frame.repaint();

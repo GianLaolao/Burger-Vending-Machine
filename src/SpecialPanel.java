@@ -789,6 +789,7 @@ public class SpecialPanel extends JPanel implements ActionListener {
         
         if (e.getSource() == regular || e.getSource() == mainte) {
             clearButtons();
+            vendo.getMoneyCalc().resetUserMoney();
         }
         if (e.getSource() == dispense) {
             try {

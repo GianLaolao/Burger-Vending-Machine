@@ -250,6 +250,7 @@ public class RegularPanel extends JPanel implements ActionListener {
         }
         if (e.getSource() == special || e.getSource() == mainte) {
             order = null;
+            vendo.getMoneyCalc().resetUserMoney();
         }
         if (e.getSource() == dispense) {
             try {

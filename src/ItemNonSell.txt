@@ -1,33 +1,33 @@
 8
 Tomato
-0
-1
+5
+7
 null
 Lettuce
-0
-2
+5
+1
 null
 Pickles
-0
+5
 3
 null
 Onion
-0
-4
+5
+15
 null
 American Cheese
-0
 5
+104
 null
 Cheddar Cheese
-0
-6
+5
+113
 null
 Swiss Cheese
-0
-7
+5
+106
 null
 Barbeque Sauce
-0
-8
+5
+29
 null
