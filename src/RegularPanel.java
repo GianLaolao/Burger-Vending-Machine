@@ -146,7 +146,6 @@ public class RegularPanel extends JPanel implements ActionListener {
 
             t = order.getPrice();
 
-
         total.setText(Integer.toString(t));
         screen.setText(s);
     }
@@ -261,10 +260,10 @@ public class RegularPanel extends JPanel implements ActionListener {
 
                     updateSlots();  
                    
-                    order = null;
                 }   
             }
             catch (NumberFormatException v) {}
+            order = null;
         }
         
         if (e.getSource() == cancel) {
