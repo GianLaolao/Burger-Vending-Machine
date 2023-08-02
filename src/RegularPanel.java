@@ -271,4 +271,24 @@ public class RegularPanel extends JPanel implements ActionListener {
             printScreen();
         } 
     }
+
+    public boolean dispense() {
+        try {
+            if (vendo.getMoneyCalc().checkUserMoney(Integer.parseInt(total.getText()))) {
+                if (order != null) {
+                    vendo.dispenseItem(order);
+                    printOrder();
+                    updateSlots();  
+                    order = null;
+                    return true;
+                }
+            }   
+        }
+        catch (NumberFormatException v) {
+            JOptionPane.showMessageDialog(null, "Not enough Payment!", "Payment", JOptionPane.INFORMATION_MESSAGE);
+            return false;
+        } 
+
+        return false;
+    }
 }

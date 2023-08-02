@@ -792,7 +792,7 @@ public class SpecialPanel extends JPanel implements ActionListener {
             vendo.getMoneyCalc().resetUserMoney();
         }
         if (e.getSource() == dispense) {
-            try {
+            // try {
                 if (vendo.getMoneyCalc().checkUserMoney(Integer.parseInt(total.getText()))) {
                     burger = new ArrayList<>();
 
@@ -819,8 +819,8 @@ public class SpecialPanel extends JPanel implements ActionListener {
                     else
                         JOptionPane.showMessageDialog(null, "Please Select a Bun!", "Invalid Transaction", JOptionPane.INFORMATION_MESSAGE, null);
                 }
-            }
-            catch (NumberFormatException v) {}
+            // }
+            // cacth (NumberFormatException v) {}
 
             clearButtons();
             
@@ -830,4 +830,48 @@ public class SpecialPanel extends JPanel implements ActionListener {
             total.setText("0");
         }
     }    
+
+    public boolean dispense() {
+        try {
+                if (vendo.getMoneyCalc().checkUserMoney(Integer.parseInt(total.getText()))) {
+                    burger = new ArrayList<>(); 
+                    for (int i = 0; i < 4; i++) {
+                         if (order[i] != null)
+                            burger.add(order[i]);
+                    } 
+                    for (Item item : addOns) {
+                        burger.add(item);
+                    }   
+                    if (burger.size() == 1) {
+                        if (isSellable(burger.get(0))) {
+                            vendo.dispenseItem(burger.get(0));
+                            printOrder();
+                            clearButtons();       
+                            return true;
+                        }
+                        else {
+                            JOptionPane.showMessageDialog(null, "Item is not Sellable!", "Invalid Transaction", JOptionPane.INFORMATION_MESSAGE, null);
+                            clearButtons();       
+                            return false;
+                        }
+                    }
+                    else if (order[0] != null) {
+                        vendo.getOrder(burger);
+                        printProcess();
+                        return true;
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(null, "Please Select a Bun!", "Invalid Transaction", JOptionPane.INFORMATION_MESSAGE, null);
+                        clearButtons();       
+                        return false;
+                    }
+                }   
+            }
+            catch (NumberFormatException v) {
+                JOptionPane.showMessageDialog(null, "Not enough Payment!", "Payment", JOptionPane.INFORMATION_MESSAGE);
+                return false;
+            }
+
+        return true;
+    }
 }
