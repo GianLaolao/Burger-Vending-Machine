@@ -62,7 +62,6 @@ public class VendoGUI extends JFrame implements ActionListener{
         screen.setBackground(Color.DARK_GRAY);
         screen.setForeground(Color.WHITE);
         screen.setText("\t        Order: \n\n");
-        screen.append("  Item\t\t            Price \n");
 
         totalLabel = new JLabel("Total: ");
         totalLabel.setBounds(20, 310, 100, 20);
@@ -179,7 +178,6 @@ public class VendoGUI extends JFrame implements ActionListener{
 
     public void cancel() {
         screen.setText("\t        Order: \n\n");
-        screen.append("  Item\t\t            Price \n\n");
     }
 
     public void actionPerformed(ActionEvent e) {
