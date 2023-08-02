@@ -126,8 +126,8 @@ public class VendoGUI extends JFrame implements ActionListener{
         regular.setBorder(BorderFactory.createRaisedBevelBorder());
         regular.addActionListener(this);
 
-        regPanel = new RegularPanel(cancel, dispense, special, mainte, screen, total, vendo);
-        specPanel = new SpecialPanel(cancel, dispense, regular, mainte, screen, total, vendo);
+        regPanel = new RegularPanel(cancel, special, mainte, screen, total, vendo);
+        specPanel = new SpecialPanel(cancel, regular, mainte, screen, total, vendo);
         maintePanel = new MaintenancePanel(vendo);
         paymentPanel = new PaymentPanel(payment, total, screen, dispense, cancel, vendo);
 

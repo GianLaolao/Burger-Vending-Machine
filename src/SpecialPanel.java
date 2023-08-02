@@ -31,7 +31,7 @@ public class SpecialPanel extends JPanel implements ActionListener {
     JLabel[] nonSellLabels = new JLabel[8];
     JLabel[] createdLabels = new JLabel[3];
 
-    JButton cancel, dispense, regular, mainte;
+    JButton cancel, regular, mainte;
     JTextArea screen;
     JTextField total;
 
@@ -46,12 +46,10 @@ public class SpecialPanel extends JPanel implements ActionListener {
     
     private final String indent = "                             ";
 
-    SpecialPanel(JButton cancel, JButton dispense,JButton regular, JButton mainte, JTextArea screen, JTextField total, VendingMachine vendo) {  
+    SpecialPanel(JButton cancel, JButton regular, JButton mainte, JTextArea screen, JTextField total, VendingMachine vendo) {  
 
         this.cancel = cancel;
         cancel.addActionListener(this);
-
-        this.dispense = dispense;
 
         this.regular = regular;
         regular.addActionListener(this);
@@ -791,40 +789,6 @@ public class SpecialPanel extends JPanel implements ActionListener {
             clearButtons();
             vendo.getMoneyCalc().resetUserMoney();
         }
-        if (e.getSource() == dispense) {
-            // try {
-                if (vendo.getMoneyCalc().checkUserMoney(Integer.parseInt(total.getText()))) {
-                    burger = new ArrayList<>();
-
-                    for (int i = 0; i < 4; i++) {
-                         if (order[i] != null)
-                            burger.add(order[i]);
-                    } 
-                    for (Item item : addOns) {
-                        burger.add(item);
-                    }
-
-                    if (burger.size() == 1) {
-                        if (isSellable(burger.get(0))) {
-                            vendo.dispenseItem(burger.get(0));
-                            printOrder();
-                        }
-                        else
-                            JOptionPane.showMessageDialog(null, "Item is not Sellable!", "Invalid Transaction", JOptionPane.INFORMATION_MESSAGE, null);
-                    }
-                    else if (order[0] != null) {
-                        vendo.getOrder(burger);
-                        printProcess();
-                    }
-                    else
-                        JOptionPane.showMessageDialog(null, "Please Select a Bun!", "Invalid Transaction", JOptionPane.INFORMATION_MESSAGE, null);
-                }
-            // }
-            // cacth (NumberFormatException v) {}
-
-            clearButtons();
-            
-        }
         if (e.getSource() == cancel) {
             clearButtons();
             total.setText("0");
@@ -866,6 +830,8 @@ public class SpecialPanel extends JPanel implements ActionListener {
                         return false;
                     }
                 }   
+                else if (Integer.parseInt(total.getText()) > vendo.getMoneyCalc().getUserMoney().getTotal())
+                    JOptionPane.showMessageDialog(null, "Not enough Payment!", "Payment", JOptionPane.INFORMATION_MESSAGE);
             }
             catch (NumberFormatException v) {
                 JOptionPane.showMessageDialog(null, "Not enough Payment!", "Payment", JOptionPane.INFORMATION_MESSAGE);
