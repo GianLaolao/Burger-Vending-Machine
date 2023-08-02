@@ -52,7 +52,6 @@ public class SpecialPanel extends JPanel implements ActionListener {
         cancel.addActionListener(this);
 
         this.dispense = dispense;
-        dispense.addActionListener(this);
 
         this.regular = regular;
         regular.addActionListener(this);
@@ -60,6 +59,7 @@ public class SpecialPanel extends JPanel implements ActionListener {
         this.mainte = mainte;
         mainte.addActionListener(this);
 
+        this.total = total;
         this.screen = screen;
         this.vendo = vendo;
 
@@ -463,7 +463,6 @@ public class SpecialPanel extends JPanel implements ActionListener {
 
     private void printProcess(){
 
-        // int delay = 500;
         screen.setText( "\nPreparing Burger...\n\n");
 
         ArrayList<String> string = new ArrayList<>();
@@ -494,6 +493,9 @@ public class SpecialPanel extends JPanel implements ActionListener {
                     i++;
                 } else {
                     ((Timer) e.getSource()).stop();
+                    printOrder();
+                    printScreen();
+                    clearButtons();
                 }
             }
             
@@ -505,13 +507,14 @@ public class SpecialPanel extends JPanel implements ActionListener {
     private void printScreen() {
         
         String textOrder = "\t        Order: \n\n" + "  Item\t\t            Price \n";
-       
+        int totalPrice = 0;
         for (int i = 0; i < 4; i++) {
             if (order[i] != null) {
                 String string = order[i].getName();
                 string += indent.substring(0, indent.length() - string.length());
                 string = String.format("  %s \t            %d\n", string, order[i].getPrice());
                 textOrder += string;
+                totalPrice += order[i].getPrice();
             }   
         }
 
@@ -523,8 +526,10 @@ public class SpecialPanel extends JPanel implements ActionListener {
             string += indent.substring(0, indent.length() - string.length());
             string = String.format("  %s \t            %d\n", string, a.getPrice());
             textOrder += string;
+            totalPrice += a.getPrice();
         } 
 
+        total.setText(Integer.toString(totalPrice));
         screen.setText(textOrder);
     }
 
@@ -532,6 +537,7 @@ public class SpecialPanel extends JPanel implements ActionListener {
 
         JTextArea text = new JTextArea();
         int total = 0;
+        int calories = 0;
         text.setEditable(false);
         text.setFocusable(false);
         text.setFont(font2);
@@ -547,9 +553,11 @@ public class SpecialPanel extends JPanel implements ActionListener {
             a += "        Calories: " + item.getCalories() + "\n"; 
             message += a;
             total += item.getPrice();
+            calories += item.getCalories();
         }       
 
-        message += "\n\tTotal: " + Integer.toString(total);
+        message += "Total Calories: " + calories + "\n";
+        message += "\n\tTotal Price: " + Integer.toString(total);
         text.setText(message);
 
         JOptionPane.showMessageDialog(null, text, "Burger", JOptionPane.PLAIN_MESSAGE);
@@ -773,27 +781,28 @@ public class SpecialPanel extends JPanel implements ActionListener {
             clearButtons();
         }
         if (e.getSource() == dispense) {
-            
-            burger = new ArrayList<>();
+            try {
+                if (vendo.getMoneyCalc().checkUserMoney(Integer.parseInt(total.getText()))) {
+                    burger = new ArrayList<>();
 
-            for (int i = 0; i < 4; i++) {
-                 if (order[i] != null)
-                    burger.add(order[i]);
-            } 
-            for (Item item : addOns) {
-                burger.add(item);
+                    for (int i = 0; i < 4; i++) {
+                         if (order[i] != null)
+                            burger.add(order[i]);
+                    } 
+                    for (Item item : addOns) {
+                        burger.add(item);
+                    }
+
+                    if (burger.size() == 1) {
+                        vendo.dispenseItem(burger);
+                    }
+                    else    
+                        vendo.getOrder(burger);
+
+                    printProcess();
+                }
             }
-             
-            // if (burger.size() == 1) {
-            //     vendo.dispenseItem(burger);
-            // }
-            // else    
-            //     vendo.getOrder(burger);
-
-            printProcess();
-            printOrder();
-            // printScreen();
-            clearButtons();
+            catch (NumberFormatException v) {}
         }
         if (e.getSource() == cancel) {
             clearButtons();

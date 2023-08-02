@@ -6,9 +6,9 @@ public class PaymentPanel extends JPanel implements ActionListener {
 
     JButton one, five, ten, twenty, fifty, hundred, twoHun, fiveHun, thou;
     JButton moneyButton[] = new JButton[9];
-    JTextField payment;
-    
-    JButton cancel;
+
+    JTextField payment, total;
+    JButton cancel, dispense;
 
     Font font1 = new Font("Monospaced Bold", Font.BOLD, 20);
     Font font2 = new Font("Monospaced Bold", Font.BOLD, 15);
@@ -17,12 +17,16 @@ public class PaymentPanel extends JPanel implements ActionListener {
 
     private final String indent = "                  ";
 
-    public PaymentPanel(JTextField payment, JButton cancel, VendingMachine vendo) {
+    public PaymentPanel(JTextField payment, JTextField total, JButton dispense, JButton cancel, VendingMachine vendo) {
 
         this.payment = payment;
-        
+        this.total = total;
+
         this.cancel = cancel;
         cancel.addActionListener(this);
+
+        this.dispense = dispense;
+        dispense.addActionListener(this);
 
         this.vendo = vendo;
 
@@ -52,69 +56,119 @@ public class PaymentPanel extends JPanel implements ActionListener {
         }
     }
 
+    private void returnChange() {
+
+        MoneyBox x =  vendo.getMoneyCalc().getUserMoney();
+        String message = "         Payment Returned \n\n" +
+                        "Value:\t\tQuantity: \n";
+        JTextArea text = new JTextArea();
+        text.setEditable(false);
+        text.setFont(font2);
+        text.setBackground(new Color(0xEEEEEE));
+        
+        for (int i = 0; i < 9; i++) {
+            if (x.getCash(i).getQuantity() != 0) {
+                String a = Integer.toString(x.getCash(i).getValue());
+                a += indent.substring(0, indent.length() - a.length());
+                message += " " + a + "\t\t " + x.getCash(i).getQuantity() + "\n"; 
+            }
+        }
+        text.setText(message);
+        vendo.getMoneyCalc().resetUserMoney();
+        JOptionPane.showMessageDialog(null, text, "Payment Return", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    private void printReceipt(MoneyBox change) {
+
+        JTextArea text = new JTextArea();
+        int total = 0;
+        text.setEditable(false);
+        text.setFocusable(false);
+        text.setFont(font2);
+        text.setBackground(new Color(0xEEEEEE));
+        text.setSize(new Dimension(300, 300));
+
+        String message = "\tChange \n\n" +
+                            "Value:\t\tQuantity: \n";
+
+
+        if(change == null) {
+            JOptionPane.showMessageDialog(null, "Not Enough Change.", "Transaction Fail", JOptionPane.INFORMATION_MESSAGE);
+            returnChange();
+        }
+        else {
+            for (int i = 0; i < 9; i++) {
+                if (change.getCash(i).getQuantity() != 0) {
+                    String a = Integer.toString(change.getCash(i).getValue());
+                    a += indent.substring(0, indent.length() - a.length());
+                    message += " " + a + "\t\t " + change.getCash(i).getQuantity() + "\n"; 
+                    total += change.getCash(i).getTotal();
+                }
+            }
+
+            message += "\n\n\tTotal:       Php: " + total;
+            text.setText(message);
+            JOptionPane.showMessageDialog(null, text, "Change", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+       
+    }
     
     public void actionPerformed(ActionEvent e) {
     
         if (e.getSource() == one){
-            vendo.getMoneyCalc().getUserMoney().setDenom(0, 1);
-            payment.setText("Php " + String.format("%.2f", Float.valueOf( vendo.getMoneyCalc().getUserMoney().getTotal())));
+            vendo.getMoneyCalc().takePayment(0);
+            payment.setText(String.format("%d", vendo.getMoneyCalc().getUserMoney().getTotal()));
         }
         if (e.getSource() == five){
-             vendo.getMoneyCalc().getUserMoney().setDenom(1, 1);
-            payment.setText("Php " + String.format("%.2f", Float.valueOf( vendo.getMoneyCalc().getUserMoney().getTotal())));
+            vendo.getMoneyCalc().takePayment(1);
+            payment.setText(String.format("%d", vendo.getMoneyCalc().getUserMoney().getTotal()));
         }
         if (e.getSource() == ten){
-             vendo.getMoneyCalc().getUserMoney().setDenom(2, 1);
-            payment.setText("Php " + String.format("%.2f", Float.valueOf( vendo.getMoneyCalc().getUserMoney().getTotal())));
+            vendo.getMoneyCalc().takePayment(2);
+            payment.setText(String.format("%d", vendo.getMoneyCalc().getUserMoney().getTotal()));
         }
         if (e.getSource() == twenty){
-             vendo.getMoneyCalc().getUserMoney().setDenom(3, 1);
-            payment.setText("Php " + String.format("%.2f", Float.valueOf( vendo.getMoneyCalc().getUserMoney().getTotal())));
+            vendo.getMoneyCalc().takePayment(3);
+            payment.setText(String.format("%d", vendo.getMoneyCalc().getUserMoney().getTotal()));
         }
         if (e.getSource() == fifty){
-             vendo.getMoneyCalc().getUserMoney().setDenom(4, 1);
-            payment.setText("Php " + String.format("%.2f", Float.valueOf( vendo.getMoneyCalc().getUserMoney().getTotal())));
+            vendo.getMoneyCalc().takePayment(4);
+            payment.setText(String.format("%d", vendo.getMoneyCalc().getUserMoney().getTotal()));
         }
         if (e.getSource() == hundred){
-             vendo.getMoneyCalc().getUserMoney().setDenom(5, 1);
-            payment.setText("Php " + String.format("%.2f", Float.valueOf( vendo.getMoneyCalc().getUserMoney().getTotal())));
+            vendo.getMoneyCalc().takePayment(5);
+            payment.setText(String.format("%d", vendo.getMoneyCalc().getUserMoney().getTotal()));
         }
         if (e.getSource() == twoHun){
-             vendo.getMoneyCalc().getUserMoney().setDenom(6, 1);
-            payment.setText("Php " + String.format("%.2f", Float.valueOf( vendo.getMoneyCalc().getUserMoney().getTotal())));
+            vendo.getMoneyCalc().takePayment(6);
+            payment.setText(String.format("%d", vendo.getMoneyCalc().getUserMoney().getTotal()));
         }
         if (e.getSource() == fiveHun){
-             vendo.getMoneyCalc().getUserMoney().setDenom(7, 1);
-            payment.setText("Php " + String.format("%.2f", Float.valueOf( vendo.getMoneyCalc().getUserMoney().getTotal())));
+            vendo.getMoneyCalc().takePayment(7);
+            payment.setText(String.format("%d", vendo.getMoneyCalc().getUserMoney().getTotal()));
         }
         if (e.getSource() == thou){
-             vendo.getMoneyCalc().getUserMoney().setDenom(8, 1);
-            payment.setText("Php " + String.format("%.2f", Float.valueOf( vendo.getMoneyCalc().getUserMoney().getTotal())));
+            vendo.getMoneyCalc().takePayment(8);
+            payment.setText(String.format("%d", vendo.getMoneyCalc().getUserMoney().getTotal()));
         }
-        if (e.getSource() ==  cancel) {
-            MoneyBox x =  vendo.getMoneyCalc().getUserMoney();
-            String message = "         Payment Returned \n\n" +
-                            "Value:\t\tQuantity: \n";
-
-            JTextArea text = new JTextArea();
-            text.setEditable(false);
-            text.setFont(font2);
-            text.setBackground(new Color(0xEEEEEE));
-           
-            for (int i = 0; i < 9; i++) {
-                if (x.getDenominations()[i].getQuantity() != 0) {
-                    String a = Integer.toString(x.getDenominations()[i].getValue());
-                    a += indent.substring(0, indent.length() - a.length());
-                    message += " " + a + "\t\t " + x.getDenominations()[i].getQuantity() + "\n"; 
+        if (e.getSource() == dispense) {
+            try {
+                if (vendo.getMoneyCalc().checkUserMoney(Integer.parseInt(total.getText()))) {
+                    MoneyBox change = vendo.getMoneyCalc().produceChange(Integer.parseInt(total.getText()));
+                    printReceipt(change);
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "Not enough Payment!", "Payment", JOptionPane.INFORMATION_MESSAGE);
                 }
             }
-
-            text.setText(message);
-
-            vendo.getMoneyCalc().resetUserMoney();
-            JOptionPane.showMessageDialog(null, text, "Payment Return", JOptionPane.INFORMATION_MESSAGE);
+            catch (NumberFormatException v) {
+                JOptionPane.showMessageDialog(null, "Not enough Payment!", "Payment", JOptionPane.INFORMATION_MESSAGE);
+            }
+            payment.setText("Php 0.00");
         }
-        
+        if (e.getSource() ==  cancel) {
+            returnChange();
+        }
     }
-    
 }

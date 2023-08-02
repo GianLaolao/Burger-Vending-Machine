@@ -32,7 +32,7 @@ public class MoneyBox {
 
     public void setDenom(int slot, int quantity) {
         
-        denominations[slot].setQuantity(quantity +  denominations[slot].getQuantity());
+        denominations[slot].setQuantity(quantity);
     }
 /*
  * returns the object of a specific denomination

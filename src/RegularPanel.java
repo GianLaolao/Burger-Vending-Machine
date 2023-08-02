@@ -36,7 +36,6 @@ public class RegularPanel extends JPanel implements ActionListener {
         cancel.addActionListener(this);
         
         this.dispense = dispense;
-        dispense.addActionListener(this);
 
         this.special = special;
         special.addActionListener(this);
@@ -149,7 +148,7 @@ public class RegularPanel extends JPanel implements ActionListener {
             t += item.getPrice();
         }
 
-        total.setText(" Php: " + Integer.toString(t));
+        total.setText(Integer.toString(t));
         screen.setText(s);
     }
 
@@ -287,17 +286,35 @@ public class RegularPanel extends JPanel implements ActionListener {
             order.clear();
         }
         if (e.getSource() == dispense) {
+            try {
+                if (vendo.getMoneyCalc().checkUserMoney(Integer.parseInt(total.getText()))) {
+                    printOrder();
+                    vendo.dispenseItem(order);
 
-            printOrder();
-            vendo.dispenseItem(order);
+                    updateSlots();
 
-            updateSlots();
-
-            order.clear();
+                    total.setText("0");
+                    order.clear();
+                }
+            }
+            catch (NumberFormatException v) {}
         }
         if (e.getSource() == cancel) {
             order.clear();
         } 
     }
     
+    // public void dispense() {
+    //     try {
+    //             if (vendo.getMoneyCalc().checkUserMoney(Integer.parseInt(total.getText()))) {
+    //                 printOrder();
+    //                 vendo.dispenseItem(order);
+
+    //                 updateSlots();
+
+    //                 order.clear();
+    //             }
+    //         }
+    //         catch (NumberFormatException v) {}
+    // }
 }

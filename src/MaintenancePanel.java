@@ -457,7 +457,6 @@ public class MaintenancePanel extends JPanel implements ActionListener {
         nonCre.setFont(font2);
         nonCre.addActionListener(this);
 
-
         monSlo = new JButton("Vending Settings");
         monSlo.setBounds(480, 600, 200, 40);
         monSlo.setFocusable(false);
