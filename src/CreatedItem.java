@@ -17,7 +17,7 @@ public class CreatedItem extends Item{
         super(name, price, calories, path);
         this.ingredients = ingredients;
     }
-    
+
     public Map<Item, Integer> getIngredients() {
         return ingredients;
     }
@@ -28,8 +28,8 @@ public class CreatedItem extends Item{
     private boolean checkStock (int quantity) {
 
         for (HashMap.Entry<Item, Integer> x : ingredients.entrySet()) {
-            Item one = x.getKey();
-            int num = x.getValue();
+            Item one = x.getKey(); //item instance of the ingredient
+            int num = x.getValue(); //amount of ingredient needed
             // For each ingredient, check if its stock size is sufficient for creating 'num' instances of the item.
             if (one.getStock().size() < num*quantity) 
                 return false; // If any ingredient has insufficient stock, return false.

@@ -8,13 +8,15 @@ import java.util.*;
 
 public class VendingMachine {
     
-    //can be changed to Items
-
     private MoneyCalc moneyCalc = new MoneyCalc();
     private RegularVendo regular = new RegularVendo();
     private SpecialVendo special = new SpecialVendo();
 
-    
+    /*
+     * puts an item into a speicific slot
+     * @param slot the slot to the occupied 
+     * @param index the index of the item to be added
+     */
     public void addItem(int slot, int index) { 
         
         if (index != -1)
@@ -77,7 +79,7 @@ public class VendingMachine {
 
         SpecialVendo.createdItems[slot].setPrice(price);
     }
-    
+
     /*
      * Dispenses items from the vending machine.
      * @param items The list of items to be dispensed.
