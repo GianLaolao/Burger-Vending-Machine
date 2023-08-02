@@ -22,7 +22,7 @@ public class RegularPanel extends JPanel implements ActionListener {
     JTextArea screen;
     JTextField total;
 
-    ArrayList<Item> order = new ArrayList<>();
+    Item order;
 
     RegularVendo reg;
     VendingMachine vendo;
@@ -136,17 +136,17 @@ public class RegularPanel extends JPanel implements ActionListener {
 
     private void printScreen() {
 
-        String s = "\t        Order: \n\n" + "  Item\t\t            Price \n\n";
+        String s = "\t        Order: \n\n";
         int t = 0;
 
-        for (Item item : order) {
-            String string = item.getName();
+            String string = order.getName();
             string += indent.substring(0, indent.length() - string.length());
-            string = String.format("  %s \t            %d\n", string,item.getPrice());
+            string = String.format("  %s \t           Php: %d\n", string,order.getPrice());
+            string += "     Calories: " + order.getCalories();
             s += string;
 
-            t += item.getPrice();
-        }
+            t = order.getPrice();
+
 
         total.setText(Integer.toString(t));
         screen.setText(s);
@@ -164,14 +164,13 @@ public class RegularPanel extends JPanel implements ActionListener {
 
         String message = "\tOrder: \n\n";
 
-        for (Item item : order) {
-            String a = item.getName();
+            String a = order.getName();
             a += indent.substring(0, indent.length() - a.length());
-            a += "\tPrice: " + item.getPrice() + "\n";
-            a += "        Calories: " + item.getCalories() + "\n"; 
+            a += "\tPrice: " + order.getPrice() + "\n";
+            a += "        Calories: " + order.getCalories() + "\n"; 
             message += a;
-            total += item.getPrice();
-        }       
+            total = order.getPrice();
+             
 
         message += "\n\tTotal: " + Integer.toString(total);
         text.setText(message);
@@ -219,71 +218,39 @@ public class RegularPanel extends JPanel implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == bSlot1) {
-            if (order.size() != 5) {
-                order.add(reg.getSlotsItem()[0]);
+                order = reg.getSlotsItem()[0];
                 printScreen();
-            }
-            else 
-                JOptionPane.showMessageDialog(null, "Order Limit! (Max: 5)", "Limit", JOptionPane.INFORMATION_MESSAGE, null);
         }
         if (e.getSource() == bSlot2) {
-            if (order.size() != 5) {
-                order.add( reg.getSlotsItem()[1]);
+                order = reg.getSlotsItem()[1];
                 printScreen();
-            }
-            else 
-                JOptionPane.showMessageDialog(null, "Order Limit! (Max: 5)", "Limit", JOptionPane.INFORMATION_MESSAGE, null);
         }
         if (e.getSource() == bSlot3) {
-            if (order.size() != 5) {
-                order.add( reg.getSlotsItem()[2]);
+                order = reg.getSlotsItem()[2];
                 printScreen();
-            }
-            else 
-                JOptionPane.showMessageDialog(null, "Order Limit! (Max: 5)", "Limit", JOptionPane.INFORMATION_MESSAGE, null);
         }
         if (e.getSource() == bSlot4) {
-            if (order.size() != 5) {
-                order.add( reg.getSlotsItem()[3]);
+                order = reg.getSlotsItem()[3];
                 printScreen();
-            }
-            else 
-                JOptionPane.showMessageDialog(null, "Order Limit! (Max: 5)", "Limit", JOptionPane.INFORMATION_MESSAGE, null);
         }
         if (e.getSource() == bSlot5) {
-            if (order.size() != 5) {
-                order.add( reg.getSlotsItem()[4]);
+                order = reg.getSlotsItem()[4];
                 printScreen();
-            }
-            else 
-                JOptionPane.showMessageDialog(null, "Order Limit! (Max: 5)", "Limit", JOptionPane.INFORMATION_MESSAGE, null);
         }
         if (e.getSource() == bSlot6) {
-            if (order.size() != 5) {
-                order.add( reg.getSlotsItem()[5]);
+                order = reg.getSlotsItem()[5];
                 printScreen();
-            }
-            else 
-                JOptionPane.showMessageDialog(null, "Order Limit! (Max: 5)", "Limit", JOptionPane.INFORMATION_MESSAGE, null);
         }
         if (e.getSource() == bSlot7) {
-            if (order.size() != 5) {
-                order.add( reg.getSlotsItem()[6]);
+                order = reg.getSlotsItem()[6];
                 printScreen();
-            }
-            else 
-                JOptionPane.showMessageDialog(null, "Order Limit! (Max: 5)", "Limit", JOptionPane.INFORMATION_MESSAGE, null);
         }
         if (e.getSource() == bSlot8) {
-            if (order.size() != 5) {
-                order.add( reg.getSlotsItem()[7]);
+                order = reg.getSlotsItem()[7];
                 printScreen();
-            }
-            else 
-                JOptionPane.showMessageDialog(null, "Order Limit! (Max: 5)", "Limit", JOptionPane.INFORMATION_MESSAGE, null);
         }
         if (e.getSource() == special || e.getSource() == mainte) {
-            order.clear();
+            order = null;
         }
         if (e.getSource() == dispense) {
             try {
@@ -294,14 +261,15 @@ public class RegularPanel extends JPanel implements ActionListener {
 
                     updateSlots();  
                    
-                    order.clear();
+                    order = null;
                 }   
             }
             catch (NumberFormatException v) {}
         }
         
         if (e.getSource() == cancel) {
-            order.clear();
+            order = null;
+            printScreen();
         } 
     }
 }

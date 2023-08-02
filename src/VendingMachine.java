@@ -81,17 +81,16 @@ public class VendingMachine {
     }
 
     /*
-     * Dispenses items from the vending machine.
-     * @param items The list of items to be dispensed.
+     * Dispenses item from the vending machine.
+     * @param item The item to be dispensed.
      */
-    public void dispenseItem(ArrayList<Item> items) {
+    public void dispenseItem(Item item) {
 
-        for (Item item : items) {
-            item.getStock().remove(0);
-            Record r = regular.getItemRecord(item);
-            r.setSoldAmount(1);
-            r.setSold(r.getSold() + 1);
-        }
+        item.getStock().remove(0);
+        Record r = regular.getItemRecord(item);
+        r.setSoldAmount(1);
+        r.setSold(r.getSold() + 1);
+        
     }
     //calculate and retrieve the total sales for all items in the vending machine.
     public int getTotalSales() {

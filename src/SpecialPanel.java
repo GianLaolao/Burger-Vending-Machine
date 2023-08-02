@@ -805,7 +805,7 @@ public class SpecialPanel extends JPanel implements ActionListener {
 
                     if (burger.size() == 1) {
                         if (isSellable(burger.get(0))) {
-                            vendo.dispenseItem(burger);
+                            vendo.dispenseItem(burger.get(0));
                             printOrder();
                         }
                         else
