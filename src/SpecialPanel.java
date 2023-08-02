@@ -569,7 +569,7 @@ public class SpecialPanel extends JPanel implements ActionListener {
             sellField[i].setText(Integer.toString(RegularVendo.sellableItems[i].getStock().size()));
             sellLabels[i].setText("Php: " + Integer.toString(RegularVendo.sellableItems[i].getPrice()));
             
-            if(i < 7) {
+            if(i < 8) {
                 nonSellField[i].setText(Integer.toString(SpecialVendo.nonSellableItems[i].getStock().size()));
                 nonSellLabels[i].setText("Php: " + Integer.toString(SpecialVendo.nonSellableItems[i].getPrice()));
             }  
