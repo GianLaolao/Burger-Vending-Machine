@@ -85,7 +85,7 @@ public class VendingMachine {
      * @param item The item to be dispensed.
      */
     public void dispenseItem(Item item) {
-
+        
         item.getStock().remove(0);
         Record r = regular.getItemRecord(item);
         r.setSoldAmount(1);

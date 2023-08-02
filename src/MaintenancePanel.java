@@ -531,6 +531,7 @@ public class MaintenancePanel extends JPanel implements ActionListener {
 
             if (i < 9) {
                 moneySpinner[i].setValue(vendo.getMoneyCalc().getVendoMoney().getCash(i).getQuantity());
+                ((SpinnerNumberModel)moneyModel[i]).setMinimum(vendo.getMoneyCalc().getVendoMoney().getCash(i).getQuantity());
             }
         }
     }
