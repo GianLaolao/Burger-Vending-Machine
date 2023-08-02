@@ -607,13 +607,23 @@ public class SpecialPanel extends JPanel implements ActionListener {
         onion.setSelected(false);
     }
 
-    public void removeAddOn(Item item) {
+    private void removeAddOn(Item item) {
 
         for (int i = 0; i < addOns.size(); i++) {
             if (addOns.get(i).equals(item))
                 addOns.remove(i);
         }
     }
+
+    private boolean isSellable(Item item) {
+
+        for (Item i : RegularVendo.sellableItems) {
+            if (i.equals(item))
+                return true;
+        }
+
+        return false;
+    } 
 
     public void actionPerformed(ActionEvent e) {
         
@@ -794,18 +804,29 @@ public class SpecialPanel extends JPanel implements ActionListener {
                     }
 
                     if (burger.size() == 1) {
-                        vendo.dispenseItem(burger);
+                        if (isSellable(burger.get(0))) {
+                            vendo.dispenseItem(burger);
+                            printOrder();
+                        }
+                        else
+                            JOptionPane.showMessageDialog(null, "Item is not Sellable!", "Invalid Transaction", JOptionPane.INFORMATION_MESSAGE, null);
                     }
-                    else    
+                    else if (order[0] != null) {
                         vendo.getOrder(burger);
-
-                    printProcess();
+                        printProcess();
+                    }
+                    else
+                        JOptionPane.showMessageDialog(null, "Please Select a Bun!", "Invalid Transaction", JOptionPane.INFORMATION_MESSAGE, null);
                 }
             }
             catch (NumberFormatException v) {}
+            
+            clearButtons();
+            
         }
         if (e.getSource() == cancel) {
             clearButtons();
+            total.setText("0");
         }
     }    
 }

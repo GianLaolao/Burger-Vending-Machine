@@ -74,7 +74,7 @@ public class VendoGUI extends JFrame implements ActionListener{
         total.setFont(font1);
         total.setEditable(false);
         total.setFocusable(false);
-        total.setText("0");
+        total.setText("");
         total.setHorizontalAlignment(JTextField.CENTER);
 
         payment = new JTextField("Php 0.00");
@@ -96,7 +96,6 @@ public class VendoGUI extends JFrame implements ActionListener{
         dispense.setFocusable(false);
         dispense.setBackground(Color.WHITE);
         dispense.setBorder(BorderFactory.createRaisedBevelBorder());
-        dispense.addActionListener(this);
 
         cancel.setBounds(20, 670, 250, 30);
         cancel.setFont(font1);
@@ -185,20 +184,13 @@ public class VendoGUI extends JFrame implements ActionListener{
 
     public void actionPerformed(ActionEvent e) {
         
-        if (e.getSource() == dispense) {
-            // for (Component panel : card.getComponents()) {
-            //     if (panel.isVisible())
-            //         if (panel.equals(regPanel))
-            //             regPanel.dispense();
-            //         else if (panel.equals(specPanel))
-            //             specPanel.dispense();
-            // }
-        }
         if (e.getSource() == cancel) {
             payment.setText("Php 0.00");
             cancel();
         }   
         if (e.getSource() == regular) {
+
+            regPanel.updateSlots();
 
             frame.revalidate();
             frame.repaint();
@@ -220,6 +212,8 @@ public class VendoGUI extends JFrame implements ActionListener{
         }
         if (e.getSource() == special) {
             
+            specPanel.update();
+
             frame.revalidate();
             frame.repaint();
 
@@ -239,8 +233,6 @@ public class VendoGUI extends JFrame implements ActionListener{
             frame.setIconImage(iconBurg.getImage());
         }
         if (e.getSource() == maintePanel.regularB){
-            
-            regPanel.updateSlots();
 
             frame.remove(maintePanel);
 
@@ -253,6 +245,8 @@ public class VendoGUI extends JFrame implements ActionListener{
             frame.add(mainte);
             frame.add(special);
 
+            regPanel.updateSlots();
+
             dispense.addActionListener(regPanel);
             dispense.removeActionListener(specPanel);
 
@@ -262,9 +256,7 @@ public class VendoGUI extends JFrame implements ActionListener{
             frame.setIconImage(iconReg.getImage());
         }
         if (e.getSource() == maintePanel.specB) {
-            
-            specPanel.update();
-
+        
             frame.remove(maintePanel);
 
             frame.revalidate();
@@ -276,6 +268,8 @@ public class VendoGUI extends JFrame implements ActionListener{
             cardLayout.show(card, "Special");
             frame.add(mainte);
             frame.add(regular);
+
+            specPanel.update();
             
             dispense.addActionListener(specPanel);
             dispense.removeActionListener(regPanel);
@@ -314,14 +308,6 @@ public class VendoGUI extends JFrame implements ActionListener{
             frame.setIconImage(iconWrench.getImage());
         } 
 
-    }
-    
-    public static void main(String[] args) {
-        new VendoGUI(1);
-
-        //TODO
-
-        //take payment, check payment, return change
     }
 }
 

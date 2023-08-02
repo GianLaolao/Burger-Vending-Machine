@@ -7,7 +7,7 @@ public class PaymentPanel extends JPanel implements ActionListener {
     JButton one, five, ten, twenty, fifty, hundred, twoHun, fiveHun, thou;
     JButton moneyButton[] = new JButton[9];
 
-    JTextField payment, total;
+    JTextField payment, totalPrice;
     JButton cancel, dispense;
 
     Font font1 = new Font("Monospaced Bold", Font.BOLD, 20);
@@ -20,7 +20,7 @@ public class PaymentPanel extends JPanel implements ActionListener {
     public PaymentPanel(JTextField payment, JTextField total, JButton dispense, JButton cancel, VendingMachine vendo) {
 
         this.payment = payment;
-        this.total = total;
+        this.totalPrice = total;
 
         this.cancel = cancel;
         cancel.addActionListener(this);
@@ -91,25 +91,18 @@ public class PaymentPanel extends JPanel implements ActionListener {
         String message = "\tChange \n\n" +
                             "Value:\t\tQuantity: \n";
 
-
-        if(change == null) {
-            JOptionPane.showMessageDialog(null, "Not Enough Change.", "Transaction Fail", JOptionPane.INFORMATION_MESSAGE);
-            returnChange();
-        }
-        else {
-            for (int i = 0; i < 9; i++) {
-                if (change.getCash(i).getQuantity() != 0) {
-                    String a = Integer.toString(change.getCash(i).getValue());
-                    a += indent.substring(0, indent.length() - a.length());
-                    message += " " + a + "\t\t " + change.getCash(i).getQuantity() + "\n"; 
-                    total += change.getCash(i).getTotal();
-                }
+        for (int i = 0; i < 9; i++) {
+            if (change.getCash(i).getQuantity() != 0) {
+                String a = Integer.toString(change.getCash(i).getValue());
+                a += indent.substring(0, indent.length() - a.length());
+                message += " " + a + "\t\t " + change.getCash(i).getQuantity() + "\n"; 
+                total += change.getCash(i).getTotal();
             }
-
-            message += "\n\n\tTotal:       Php: " + total;
-            text.setText(message);
-            JOptionPane.showMessageDialog(null, text, "Change", JOptionPane.INFORMATION_MESSAGE);
         }
+        message += "\n\n\tTotal:       Php: " + total;
+        text.setText(message);
+        JOptionPane.showMessageDialog(null, text, "Change", JOptionPane.INFORMATION_MESSAGE);
+        
 
        
     }
@@ -153,19 +146,32 @@ public class PaymentPanel extends JPanel implements ActionListener {
             payment.setText(String.format("%d", vendo.getMoneyCalc().getUserMoney().getTotal()));
         }
         if (e.getSource() == dispense) {
+
+            boolean check = vendo.getMoneyCalc().checkUserMoney(Integer.parseInt(totalPrice.getText()));
+            MoneyBox change = vendo.getMoneyCalc().produceChange(Integer.parseInt(totalPrice.getText()));
+            
+            System.out.println(vendo.getMoneyCalc().getUserMoney().getTotal());
+
             try {
-                if (vendo.getMoneyCalc().checkUserMoney(Integer.parseInt(total.getText()))) {
-                    MoneyBox change = vendo.getMoneyCalc().produceChange(Integer.parseInt(total.getText()));
+                if (check) {
                     printReceipt(change);
+                    payment.setText("Php 0.00");
                 }
                 else {
-                    JOptionPane.showMessageDialog(null, "Not enough Payment!", "Payment", JOptionPane.INFORMATION_MESSAGE);
+                    if (Integer.parseInt(totalPrice.getText()) > vendo.getMoneyCalc().getUserMoney().getTotal())
+                        JOptionPane.showMessageDialog(null, "Not enough Payment!", "Payment", JOptionPane.INFORMATION_MESSAGE);
+                    else if (change == null) {
+                        JOptionPane.showMessageDialog(null, "Not Enough Change.", "Transaction Fail", JOptionPane.INFORMATION_MESSAGE);
+                        returnChange();
+                        vendo.getMoneyCalc().resetUserMoney();
+                        payment.setText("Php 0.00");
+                    }            
                 }
             }
             catch (NumberFormatException v) {
                 JOptionPane.showMessageDialog(null, "Not enough Payment!", "Payment", JOptionPane.INFORMATION_MESSAGE);
             }
-            payment.setText("Php 0.00");
+            
         }
         if (e.getSource() ==  cancel) {
             returnChange();

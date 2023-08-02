@@ -7,7 +7,8 @@ public class Cash{
     //initialize variables 
     private int value;
     private int quantity = 0;
-    private int total;
+    private int total = 0;
+    
     
     /* 
      * creates a Cash object for each cash value

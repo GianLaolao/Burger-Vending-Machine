@@ -5,9 +5,6 @@ public class MoneyCalc {
     private MoneyBox vendoMoney = new MoneyBox();
     private MoneyBox userMoney = new MoneyBox();
 
-
-    //TODO
-
 /* 
  * takes payment from the user 
  * @param type the money paid by user 
@@ -25,9 +22,10 @@ public class MoneyCalc {
  */
     public boolean checkUserMoney(int price) {
 
-        if (price >= userMoney.getTotal() && userMoney.getTotal() - price > vendoMoney.getTotal()){
+        if (price >= userMoney.getTotal())
             return false;
-        }
+        else if (userMoney.getTotal() - price > vendoMoney.getTotal()) 
+            return false;
 
         return true;
     }
@@ -41,10 +39,7 @@ public class MoneyCalc {
         MoneyBox changeBox = new MoneyBox(); 
         int change = 0;
 
-        if (totalPrice == 0 )
-            return userMoney;
-        else 
-            change = userMoney.getTotal() - totalPrice;
+        change = userMoney.getTotal() - totalPrice;
 
         if(change > vendoMoney.getTotal()) {
             return null;

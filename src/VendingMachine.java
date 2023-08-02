@@ -77,7 +77,7 @@ public class VendingMachine {
 
         SpecialVendo.createdItems[slot].setPrice(price);
     }
-
+    
     /*
      * Dispenses items from the vending machine.
      * @param items The list of items to be dispensed.

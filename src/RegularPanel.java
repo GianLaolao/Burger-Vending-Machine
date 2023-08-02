@@ -291,30 +291,18 @@ public class RegularPanel extends JPanel implements ActionListener {
                     printOrder();
                     vendo.dispenseItem(order);
 
-                    updateSlots();
-
+                    updateSlots();  
+                   
                     total.setText("0");
                     order.clear();
-                }
+                    printScreen();
+                }   
             }
             catch (NumberFormatException v) {}
         }
+        
         if (e.getSource() == cancel) {
             order.clear();
         } 
     }
-    
-    // public void dispense() {
-    //     try {
-    //             if (vendo.getMoneyCalc().checkUserMoney(Integer.parseInt(total.getText()))) {
-    //                 printOrder();
-    //                 vendo.dispenseItem(order);
-
-    //                 updateSlots();
-
-    //                 order.clear();
-    //             }
-    //         }
-    //         catch (NumberFormatException v) {}
-    // }
 }
