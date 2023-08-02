@@ -136,6 +136,7 @@ public class RegularPanel extends JPanel implements ActionListener {
         String s = "\t        Order: \n\n";
         int t = 0;
 
+        if (order != null) {
             String string = order.getName();
             string += indent.substring(0, indent.length() - string.length());
             string = String.format("  %s \t           Php: %d\n", string,order.getPrice());
@@ -143,7 +144,7 @@ public class RegularPanel extends JPanel implements ActionListener {
             s += string;
 
             t = order.getPrice();
-
+        }
         total.setText(Integer.toString(t));
         screen.setText(s);
     }
@@ -159,14 +160,15 @@ public class RegularPanel extends JPanel implements ActionListener {
         text.setSize(new Dimension(300, 300));
 
         String message = "\tOrder: \n\n";
-
+        
+        if (order != null) {
             String a = order.getName();
             a += indent.substring(0, indent.length() - a.length());
             a += "\tPrice: " + order.getPrice() + "\n";
             a += "        Calories: " + order.getCalories() + "\n"; 
             message += a;
             total = order.getPrice();
-             
+        }
 
         message += "\n\tTotal: " + Integer.toString(total);
         text.setText(message);
@@ -255,7 +257,7 @@ public class RegularPanel extends JPanel implements ActionListener {
         } 
     }
 
-    public boolean dispense() {
+    public void dispense() {
         try {
             if (vendo.getMoneyCalc().checkUserMoney(Integer.parseInt(total.getText()))) {
                 if (order != null) {
@@ -263,16 +265,11 @@ public class RegularPanel extends JPanel implements ActionListener {
                     printOrder();
                     updateSlots();  
                     order = null;
-                    return true;
                 }
             }   
-            
         } 
         catch (NumberFormatException v) {
             JOptionPane.showMessageDialog(null, "Not enough Payment!", "Payment", JOptionPane.INFORMATION_MESSAGE);
-            return false;
         } 
-
-        return false;
     }
 }

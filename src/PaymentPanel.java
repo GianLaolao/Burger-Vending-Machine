@@ -183,19 +183,22 @@ public class PaymentPanel extends JPanel implements ActionListener {
     }
     public void dispense() {
 
-        boolean check = vendo.getMoneyCalc().checkUserMoney(Integer.parseInt(totalPrice.getText()));
-        MoneyBox change = vendo.getMoneyCalc().produceChange(Integer.parseInt(totalPrice.getText()));
-            
-        if (check && change != null) {
-            printReceipt(change);
-            screen.setText("\t        Order: \n\n");
-            screen.append("  Item\t\t            Price \n");
-            totalPrice.setText("0");
-            payment.setText("Php 0.00");
+        if (Integer.parseInt(totalPrice.getText()) > vendo.getMoneyCalc().getUserMoney().getTotal()) {
+                JOptionPane.showMessageDialog(null, "Not enough Payment!", "Payment", JOptionPane.INFORMATION_MESSAGE);
+                payment.setText("Php: 0.00");
+                returnChange();
         }
         else {
-            if (Integer.parseInt(totalPrice.getText()) > vendo.getMoneyCalc().getUserMoney().getTotal())
-                JOptionPane.showMessageDialog(null, "Not enough Payment!", "Payment", JOptionPane.INFORMATION_MESSAGE);
+            boolean check = vendo.getMoneyCalc().checkUserMoney(Integer.parseInt(totalPrice.getText()));
+            MoneyBox change = vendo.getMoneyCalc().produceChange(Integer.parseInt(totalPrice.getText()));
+                
+            if (check && change != null) {
+                printReceipt(change);
+                screen.setText("\t        Order: \n\n");
+                screen.append("  Item\t\t            Price \n");
+                totalPrice.setText("0");
+                payment.setText("Php 0.00");
+            }
             else if (change == null) {
                 JOptionPane.showMessageDialog(null, "Not Enough Change.", "Transaction Fail", JOptionPane.INFORMATION_MESSAGE);
                 returnChange();

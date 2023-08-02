@@ -483,7 +483,7 @@ public class SpecialPanel extends JPanel implements ActionListener {
         }
         string.add("Dispensing Burger...\n\n");
 
-        Timer delay = new Timer(700, new ActionListener() {
+        Timer delay = new Timer(500, new ActionListener() {
             private int i = 0;
             public void actionPerformed(ActionEvent e) {
              if (i < string.size()) {
@@ -492,7 +492,6 @@ public class SpecialPanel extends JPanel implements ActionListener {
                 } else {
                     ((Timer) e.getSource()).stop();
                     printOrder();
-                    printScreen();
                     clearButtons();
                 }
             }
@@ -622,6 +621,16 @@ public class SpecialPanel extends JPanel implements ActionListener {
 
         return false;
     } 
+
+    private boolean checkOrder () {
+
+        for (Item i : burger) {
+            if (i.getStock().size() == 0)
+             return false;
+        }
+
+        return true;
+    }
 
     public void actionPerformed(ActionEvent e) {
         
@@ -784,7 +793,6 @@ public class SpecialPanel extends JPanel implements ActionListener {
                 removeAddOn(SpecialVendo.nonSellableItems[3]);
             printScreen();
         }
-        
         if (e.getSource() == regular || e.getSource() == mainte) {
             clearButtons();
             vendo.getMoneyCalc().resetUserMoney();
@@ -808,10 +816,17 @@ public class SpecialPanel extends JPanel implements ActionListener {
                     }   
                     if (burger.size() == 1) {
                         if (isSellable(burger.get(0))) {
-                            vendo.dispenseItem(burger.get(0));
-                            printOrder();
-                            clearButtons();       
-                            return true;
+                            if (checkOrder()) {
+                                vendo.dispenseItem(burger.get(0));
+                                printOrder();
+                                clearButtons();       
+                                return true;
+                            }
+                            else {
+                                JOptionPane.showMessageDialog(null, "Item is not Sellable!", "Invalid Transaction", JOptionPane.INFORMATION_MESSAGE, null);
+                                clearButtons();  
+                                return false;     
+                            }
                         }
                         else {
                             JOptionPane.showMessageDialog(null, "Item is not Sellable!", "Invalid Transaction", JOptionPane.INFORMATION_MESSAGE, null);
@@ -820,9 +835,16 @@ public class SpecialPanel extends JPanel implements ActionListener {
                         }
                     }
                     else if (order[0] != null) {
-                        vendo.getOrder(burger);
-                        printProcess();
-                        return true;
+                        if (checkOrder()) {
+                            vendo.getOrder(burger);
+                            printProcess();
+                            return true;
+                        }
+                        else {
+                            JOptionPane.showMessageDialog(null, "Invalid Order!", "Invalid Transaction", JOptionPane.INFORMATION_MESSAGE, null);
+                            clearButtons();
+                            return false;
+                        }
                     }
                     else {
                         JOptionPane.showMessageDialog(null, "Please Select a Bun!", "Invalid Transaction", JOptionPane.INFORMATION_MESSAGE, null);
@@ -830,8 +852,6 @@ public class SpecialPanel extends JPanel implements ActionListener {
                         return false;
                     }
                 }   
-                else if (Integer.parseInt(total.getText()) > vendo.getMoneyCalc().getUserMoney().getTotal())
-                    JOptionPane.showMessageDialog(null, "Not enough Payment!", "Payment", JOptionPane.INFORMATION_MESSAGE);
             }
             catch (NumberFormatException v) {
                 JOptionPane.showMessageDialog(null, "Not enough Payment!", "Payment", JOptionPane.INFORMATION_MESSAGE);

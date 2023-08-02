@@ -179,24 +179,24 @@ public class VendoGUI extends JFrame implements ActionListener{
 
     public void cancel() {
         screen.setText("\t        Order: \n\n");
+        total.setText("0");
+        payment.setText("Php: 0.00");
     }
 
     public void actionPerformed(ActionEvent e) {
         
         if (e.getSource() == dispense) {
-            
             for (Component panel : card.getComponents()) {
-                if (panel.equals(regPanel)) {
-                    if (regPanel.dispense())
+                if (panel.isVisible() && panel.equals(regPanel)) {
+                        regPanel.dispense();
                         paymentPanel.dispense();
-                    else 
-                        paymentPanel.returnChange();
                 }
-                else if (panel.equals(specPanel)) {
+                else if (panel.isVisible() && panel.equals(specPanel)) {
                     if (specPanel.dispense()) 
                         paymentPanel.dispense();
                     else
                         paymentPanel.returnChange();
+                        cancel();
                 }
             }
              
