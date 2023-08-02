@@ -289,8 +289,8 @@ public class RegularPanel extends JPanel implements ActionListener {
             try {
                 if (vendo.getMoneyCalc().checkUserMoney(Integer.parseInt(total.getText()))) {
                     
-                    printOrder();
                     vendo.dispenseItem(order);
+                    printOrder();
 
                     updateSlots();  
                    
