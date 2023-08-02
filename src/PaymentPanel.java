@@ -152,7 +152,7 @@ public class PaymentPanel extends JPanel implements ActionListener {
             MoneyBox change = vendo.getMoneyCalc().produceChange(Integer.parseInt(totalPrice.getText()));
             
             try {
-                if (check) {
+                if (check && change != null) {
                     printReceipt(change);
                     screen.setText("\t        Order: \n\n");
                     screen.append("  Item\t\t            Price \n");
@@ -167,6 +167,7 @@ public class PaymentPanel extends JPanel implements ActionListener {
                         returnChange();
                         vendo.getMoneyCalc().resetUserMoney();
                         payment.setText("Php 0.00");
+                        totalPrice.setText("0");
                         screen.setText("\t        Order: \n\n");
                         screen.append("  Item\t\t            Price \n");
                     }            
