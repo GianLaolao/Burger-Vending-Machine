@@ -8,6 +8,7 @@ public class PaymentPanel extends JPanel implements ActionListener {
     JButton moneyButton[] = new JButton[9];
 
     JTextField payment, totalPrice;
+    JTextArea screen;
     JButton cancel, dispense;
 
     Font font1 = new Font("Monospaced Bold", Font.BOLD, 20);
@@ -17,10 +18,11 @@ public class PaymentPanel extends JPanel implements ActionListener {
 
     private final String indent = "                  ";
 
-    public PaymentPanel(JTextField payment, JTextField total, JButton dispense, JButton cancel, VendingMachine vendo) {
+    public PaymentPanel(JTextField payment, JTextField total, JTextArea screen, JButton dispense, JButton cancel, VendingMachine vendo) {
 
         this.payment = payment;
         this.totalPrice = total;
+        this.screen = screen;
 
         this.cancel = cancel;
         cancel.addActionListener(this);
@@ -104,7 +106,6 @@ public class PaymentPanel extends JPanel implements ActionListener {
         JOptionPane.showMessageDialog(null, text, "Change", JOptionPane.INFORMATION_MESSAGE);
         
 
-       
     }
     
     public void actionPerformed(ActionEvent e) {
@@ -150,11 +151,12 @@ public class PaymentPanel extends JPanel implements ActionListener {
             boolean check = vendo.getMoneyCalc().checkUserMoney(Integer.parseInt(totalPrice.getText()));
             MoneyBox change = vendo.getMoneyCalc().produceChange(Integer.parseInt(totalPrice.getText()));
             
-            System.out.println(vendo.getMoneyCalc().getUserMoney().getTotal());
-
             try {
                 if (check) {
                     printReceipt(change);
+                    screen.setText("\t        Order: \n\n");
+                    screen.append("  Item\t\t            Price \n");
+                    totalPrice.setText("0");
                     payment.setText("Php 0.00");
                 }
                 else {
@@ -165,6 +167,8 @@ public class PaymentPanel extends JPanel implements ActionListener {
                         returnChange();
                         vendo.getMoneyCalc().resetUserMoney();
                         payment.setText("Php 0.00");
+                        screen.setText("\t        Order: \n\n");
+                        screen.append("  Item\t\t            Price \n");
                     }            
                 }
             }

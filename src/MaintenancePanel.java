@@ -511,7 +511,7 @@ public class MaintenancePanel extends JPanel implements ActionListener {
     
     }
 
-    private void updateStockValue () {
+    public void updateStockValue () {
 
         for (int i = 0; i < 10; i++) {
 
@@ -527,6 +527,10 @@ public class MaintenancePanel extends JPanel implements ActionListener {
                 ((SpinnerNumberModel)createdModel[i]).setMinimum(SpecialVendo.createdItems[i].getStock().size());
                 createdModel[i].setValue(SpecialVendo.createdItems[i].getStock().size());
    
+            }
+
+            if (i < 9) {
+                moneySpinner[i].setValue(vendo.getMoneyCalc().getVendoMoney().getCash(i).getQuantity());
             }
         }
     }
@@ -626,15 +630,19 @@ public class MaintenancePanel extends JPanel implements ActionListener {
         
         if (e.getSource() == sell) {
             mainteCardLayout.show(mainteCard, "Sellable");
+            updateStockValue();
         }
         if (e.getSource() == nonCre) {
             mainteCardLayout.show(mainteCard, "NonSellCreated");
+            updateStockValue();
         }
         if (e.getSource() == monSlo){
              mainteCardLayout.show(mainteCard, "MonSlo");
+             updateStockValue();
         }
         if (e.getSource() == regularB || e.getSource() == specB) {
             mainteCardLayout.show(mainteCard, "MonSlo");
+            updateStockValue();
         }
         if (e.getSource() == collectB) {
             MoneyBox profit = vendo.getMoneyCalc().getVendoMoney();
@@ -771,8 +779,8 @@ public class MaintenancePanel extends JPanel implements ActionListener {
 
         for (int i = 0; i < 9; i++) {
             if (e.getSource() == bAddMoney[i]) {
-                vendo.getMoneyCalc().getVendoMoney().getDenominations()[i].setQuantity((int)moneySpinner[i].getValue());
-                ((SpinnerNumberModel)moneyModel[i]).setMinimum( vendo.getMoneyCalc().getVendoMoney().getDenominations()[i].getQuantity());
+                vendo.getMoneyCalc().getVendoMoney().setDenom(i, (int)moneySpinner[i].getValue());
+                ((SpinnerNumberModel)moneyModel[i]).setMinimum( vendo.getMoneyCalc().getVendoMoney().getCash(i).getQuantity());
                 
                 JDialog message = new JDialog();
                 message.setTitle("Notice: ");

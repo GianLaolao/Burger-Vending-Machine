@@ -293,9 +293,7 @@ public class RegularPanel extends JPanel implements ActionListener {
 
                     updateSlots();  
                    
-                    total.setText("0");
                     order.clear();
-                    printScreen();
                 }   
             }
             catch (NumberFormatException v) {}

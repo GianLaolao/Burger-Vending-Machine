@@ -6,13 +6,6 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Initialize",
-            "request": "launch",
-            "mainClass": "Initialize",
-            "projectName": "CCProg3_MCO2_bc584358"
-        },
-        {
-            "type": "java",
             "name": "VendoGUI",
             "request": "launch",
             "mainClass": "VendoGUI",
@@ -20,37 +13,10 @@
         },
         {
             "type": "java",
-            "name": "SpecialGUI",
-            "request": "launch",
-            "mainClass": "SpecialGUI",
-            "projectName": "CCProg3_MCO2_bc584358"
-        },
-        {
-            "type": "java",
             "name": "Main",
             "request": "launch",
             "mainClass": "Main",
             "projectName": "CCProg3_MCO2_bc584358"
         },
-        {
-            "type": "java",
-            "name": "RegularGUI",
-            "request": "launch",
-            "mainClass": "RegularGUI",
-            "projectName": "CCProg3_MCO2_bc584358"
-        },
-        {
-            "type": "java",
-            "name": "Current File",
-            "request": "launch",
-            "mainClass": "${file}"
-        },
-        {
-            "type": "java",
-            "name": "Main",
-            "request": "launch",
-            "mainClass": "Main",
-            "projectName": "CCProg3_MCO_baf95a69"
-        }
     ]
 }

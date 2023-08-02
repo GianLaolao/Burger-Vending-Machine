@@ -820,7 +820,7 @@ public class SpecialPanel extends JPanel implements ActionListener {
                 }
             }
             catch (NumberFormatException v) {}
-            
+
             clearButtons();
             
         }

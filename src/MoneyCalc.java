@@ -22,7 +22,7 @@ public class MoneyCalc {
  */
     public boolean checkUserMoney(int price) {
 
-        if (price >= userMoney.getTotal())
+        if (price > userMoney.getTotal())
             return false;
         else if (userMoney.getTotal() - price > vendoMoney.getTotal()) 
             return false;

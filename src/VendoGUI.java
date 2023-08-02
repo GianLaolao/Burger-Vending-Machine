@@ -129,7 +129,7 @@ public class VendoGUI extends JFrame implements ActionListener{
         regPanel = new RegularPanel(cancel, dispense, special, mainte, screen, total, vendo);
         specPanel = new SpecialPanel(cancel, dispense, regular, mainte, screen, total, vendo);
         maintePanel = new MaintenancePanel(vendo);
-        paymentPanel = new PaymentPanel(payment, total, dispense, cancel, vendo);
+        paymentPanel = new PaymentPanel(payment, total, screen, dispense, cancel, vendo);
 
         card = new JPanel(new CardLayout());
         card.setBounds(30, 10, 400, 720);
@@ -299,6 +299,7 @@ public class VendoGUI extends JFrame implements ActionListener{
             frame.repaint();
 
             frame.add(maintePanel);
+            maintePanel.updateStockValue();
 
             frame.revalidate();
             frame.repaint();
