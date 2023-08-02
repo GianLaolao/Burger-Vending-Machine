@@ -3,7 +3,6 @@ import java.util.*;
 
 public class CreatedItem extends Item{
     
-    // private ArrayList<Item> ingredients = new ArrayList<>();
     private Map<Item, Integer> ingredients;
 
     /* initialize created item
@@ -18,10 +17,10 @@ public class CreatedItem extends Item{
         super(name, price, calories, path);
         this.ingredients = ingredients;
     }
-
-    // public ArrayList<Item> getIngredients() {
-    //     return ingredients;
-    // }
+    
+    public Map<Item, Integer> getIngredients() {
+        return ingredients;
+    }
 
     /* checks if there is enough stock of ingredients to create item in desired quantity
      * @param quantity the number of items
