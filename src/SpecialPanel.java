@@ -329,7 +329,7 @@ public class SpecialPanel extends JPanel implements ActionListener {
         ham.setBackground(Color.white);
         ham.addActionListener(this);
 
-        egg = new JRadioButton("Sunny Side ");
+        egg = new JRadioButton("Sunny Side Up Egg");
         egg.setFont(font2);
         egg.setFocusable(false);
         egg.setBackground(Color.white);
@@ -553,7 +553,7 @@ public class SpecialPanel extends JPanel implements ActionListener {
             calories += item.getCalories();
         }       
 
-        message += "Total Calories: " + calories + "\n";
+        message += "\nTotal Calories: " + calories + "\n";
         message += "\n\tTotal Price: " + Integer.toString(total);
         text.setText(message);
 
@@ -819,7 +819,8 @@ public class SpecialPanel extends JPanel implements ActionListener {
                             if (checkOrder()) {
                                 vendo.dispenseItem(burger.get(0));
                                 printOrder();
-                                clearButtons();       
+                                clearButtons();  
+                                update();    
                                 return true;
                             }
                             else {
@@ -838,6 +839,7 @@ public class SpecialPanel extends JPanel implements ActionListener {
                         if (checkOrder()) {
                             vendo.getOrder(burger);
                             printProcess();
+                            update();
                             return true;
                         }
                         else {
@@ -852,6 +854,8 @@ public class SpecialPanel extends JPanel implements ActionListener {
                         return false;
                     }
                 }   
+                else
+                    clearButtons();
             }
             catch (NumberFormatException v) {
                 JOptionPane.showMessageDialog(null, "Not enough Payment!", "Payment", JOptionPane.INFORMATION_MESSAGE);
