@@ -73,7 +73,7 @@ public class VendoGUI extends JFrame implements ActionListener{
         total.setFont(font1);
         total.setEditable(false);
         total.setFocusable(false);
-        total.setText("");
+        total.setText("0");
         total.setHorizontalAlignment(JTextField.CENTER);
 
         payment = new JTextField("Php 0.00");
